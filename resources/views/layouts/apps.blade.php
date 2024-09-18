@@ -107,10 +107,22 @@
                     </li>
                     <li class="nav-item {{ request()->routeIs('pimpinan.bbm') ? 'active' : '' }}">
                       <a href="{{ route('pimpinan.bbm') }}">
-                          <i class="fas fa-address-card"></i>
-                          <p style="font-size: 18px;">Pengajuan</p>
+                          <i class="fas fa-paper-plane"></i>
+                          <p style="font-size: 18px;">Pengajuan BBM</p>
                       </a>
-                  </li>
+                    </li>
+                    <li class="nav-item {{ request()->routeIs('pimpinan.atk') ? 'active' : '' }}">
+                      <a href="{{ route('pimpinan.atk') }}">
+                          <i class="fas fa-paper-plane"></i>
+                          <p style="font-size: 18px;">Pengajuan ATK</p>
+                      </a>
+                    </li>
+                    <li class="nav-item {{ request()->routeIs('laporan.index') ? 'active' : '' }}">
+                      <a href="{{ route('laporan.index') }}">
+                          <i class="fas fa-file-alt"></i>
+                          <p style="font-size: 18px;">Laporan Bulanan</p>
+                      </a>
+                  </li>                  
                     @endif
         
                     <!-- Hanya tampil untuk Admin -->

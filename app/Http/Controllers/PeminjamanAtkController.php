@@ -6,6 +6,8 @@ use App\Models\Atk;
 use App\Models\Barang;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class PeminjamanAtkController extends Controller
 {
@@ -32,6 +34,7 @@ class PeminjamanAtkController extends Controller
             'pegawai_id' => 'required|exists:pegawai,id',
             'barang_id' => 'required|exists:barang,id',
             'jumlah_barang' => 'required|integer',
+            'status' => 'Pengajuan',
         ]);
     
         // Temukan barang berdasarkan ID
@@ -66,6 +69,7 @@ class PeminjamanAtkController extends Controller
             'pegawai_id' => 'required|exists:pegawai,id',
             'barang_id' => 'required|exists:barang,id',
             'jumlah_barang' => 'required|integer|min:1',
+            'status' => 'Pengajuan',
         ]);
 
         // Gunakan parameter model yang sudah disuntikkan
@@ -95,4 +99,30 @@ class PeminjamanAtkController extends Controller
         $peminjaman_atk->delete();
         return redirect()->route('peminjaman_atk.index')->with('success', 'Data peminjaman ATK berhasil dihapus.');
     }
+    public function approve($id)
+    {
+        $atk = Atk::find($id);
+        $atk->status = 'Disetujui';
+        $atk->save();
+
+        return redirect()->route('pimpinan.atk')->with('success', 'Permintaan ATK disetujui');
+    }
+
+    public function indexForPimpinan()
+    {
+        // Ambil data atk dengan status 'Pengajuan' saja
+        $atk = Atk::where('status', 'Pengajuan')->get();
+
+        return view('pimpinan.atk', compact('atk'));
+    }
+
+    public function print($id)
+    {
+        $atk = Atk::findOrFail($id);
+
+        $pdf = Pdf::loadView('peminjaman_atk.print', compact('atk'));
+
+        return $pdf->download('permintaan_atk_' . $atk->id . '.pdf');
+    }
+
 }

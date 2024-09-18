@@ -21,6 +21,7 @@
                     <th>Pegawai</th>
                     <th>Barang</th>
                     <th>Jumlah</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -32,12 +33,18 @@
                     <td style=" font-size: 16px;">{{ $item->pegawai->nama }}</td>
                     <td style=" font-size: 16px;">{{ $item->barang->nama_barang }}</td>
                     <td style=" font-size: 16px;">{{ $item->jumlah_barang }}</td>
+                    <td style="font-size: 16px;">{{ $item->status }}</td>
                     <td>
-                        <a href="{{ route('peminjaman_atk.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                        @if($item->status === 'Disetujui')
+                            <a href="{{ route('peminjaman_atk.print', $item->id) }}" class="btn btn-info btn-sm">
+                                <i class="fa fa-print"></i> Cetak
+                            </a>
+                        @endif
+                        <a href="{{ route('peminjaman_atk.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('peminjaman_atk.destroy', $item->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Hapus</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                         </form>
                     </td>
                 </tr>

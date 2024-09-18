@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LaporanController;
 
 // Route::middleware(['guest'])->get('/', function () {
 //     return redirect()->route('login');
@@ -38,6 +39,7 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
 Route::middleware(['auth', 'check.level:opatk'])->group(function () {
     Route::resource('barang', BarangController::class);
     Route::resource('peminjaman_atk', PeminjamanAtkController::class);
+    Route::get('/atk/{id}/print', [PeminjamanAtkController::class, 'print'])->name('peminjaman_atk.print');
 });
 
 // Rute untuk opbbm
@@ -53,4 +55,8 @@ Route::middleware(['auth', 'check.level:pimpinan'])->group(function () {
     Route::resource('user', UserController::class);
     Route::get('/pimpinan/bbm', [BbmController::class, 'indexForPimpinan'])->name('pimpinan.bbm');
     Route::post('/bbm/{id}/approve', [BbmController::class, 'approve'])->name('bbm.approve');
+    Route::get('/pimpinan/atk', [PeminjamanAtkController::class, 'indexForPimpinan'])->name('pimpinan.atk');
+    Route::post('/atk/{id}/approve', [PeminjamanAtkController::class, 'approve'])->name('atk.approve');
+    Route::get('/pimpinan/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/pimpinan/laporan/download', [LaporanController::class, 'download'])->name('laporan.download');
 });

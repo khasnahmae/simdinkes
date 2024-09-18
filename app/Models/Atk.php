@@ -15,6 +15,7 @@ class Atk extends Model
         'pegawai_id',
         'jumlah_barang',
         'barang_id',
+        'status',
     ];
 
     public function barang()

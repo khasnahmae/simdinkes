@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pegawai_id'); 
             $table->unsignedBigInteger('barang_id'); 
             $table->integer('jumlah_barang');
+            $table->string('status')->default('Pengajuan');
             $table->foreign('pegawai_id')->references('id')->on('pegawai');
             $table->foreign('barang_id')->references('id')->on('barang');
             $table->timestamps();
