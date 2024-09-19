@@ -10,6 +10,11 @@
             {{ session('success') }}
         </div>
     @endif
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="table-responsive">
         <table
           id="basic-datatables"
@@ -33,11 +38,19 @@
                     <td style=" font-size: 16px;">{{ $item->pegawai->nama }}</td>
                     <td style=" font-size: 16px;">{{ $item->barang->nama_barang }}</td>
                     <td style=" font-size: 16px;">{{ $item->jumlah_barang }}</td>
-                    <td style="font-size: 16px;">{{ $item->status }}</td>
+                    <td>
+                        @if($item->status === 'Disetujui')
+                            <span class="badge bg-primary">Disetujui</span>
+                        @elseif ($item->status == 'ditolak')
+                            <span class="badge bg-danger">Ditolak</span>
+                        @else
+                            <span class="badge bg-warning">Pengajuan</span>
+                        @endif
+                    </td>
                     <td>
                         @if($item->status === 'Disetujui')
                             <a href="{{ route('peminjaman_atk.print', $item->id) }}" class="btn btn-info btn-sm">
-                                <i class="fa fa-print"></i> Cetak
+                                </i> Cetak
                             </a>
                         @endif
                         <a href="{{ route('peminjaman_atk.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>

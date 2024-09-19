@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UMPEG - DINKES TEGAL</title>
+    <title>SIOLA - DINKES TEGAL</title>
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -120,8 +120,8 @@
     <div class="container-login">
         <!-- Left Section: Login Form -->
         <div class="login-left">
-            <h2>Login SIMDINKES</h2>
-            <p>Sistem Manajemen Dinas Kesehatan Kota Tegal</p>
+            <h2>Login SIOLA</h2>
+            <p>Sistem Informasi Manajemen Dinas Kesehatan Kota Tegal</p>
 
             <!-- Error Message -->
             @if (session()->has('msgError'))

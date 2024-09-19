@@ -35,11 +35,19 @@
                     <td style=" font-size: 16px;">{{ $item->kendaraan->nopol }}</td>
                     <td style=" font-size: 16px;">{{ $item->nama_kendaraan }}</td>
                     <td style=" font-size: 16px;">{{ $item->nominal }}</td>
-                    <td style="font-size: 16px;">{{ $item->status }}</td>
+                    <td>
+                        @if($item->status === 'Disetujui')
+                            <span class="badge bg-primary">Disetujui</span>
+                        @elseif ($item->status == 'ditolak')
+                            <span class="badge bg-danger">Ditolak</span>
+                        @else
+                            <span class="badge bg-warning">Pengajuan</span>
+                        @endif
+                    </td>
                     <td>
                         @if($item->status === 'Disetujui')
                             <a href="{{ route('bbm.print', $item->id) }}" class="btn btn-info btn-sm">
-                                <i class="fa fa-print"></i> Cetak
+                                Cetak
                             </a>
                         @endif
                         <a href="{{ route('bbm.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>

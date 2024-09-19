@@ -35,7 +35,12 @@
                         <!-- Tombol untuk menyetujui pengajuan -->
                         <form action="{{ route('atk.approve', $item->id) }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-success">Setujui</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Setujui</button>
+                        </form>
+                        <!-- Tombol untuk menolak pengajuan -->
+                        <form action="{{ route('atk.reject', $item->id) }}" method="POST" style="display: inline-block;">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
                         </form>
                     </td>
                 </tr>

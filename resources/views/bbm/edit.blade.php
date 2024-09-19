@@ -10,7 +10,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="tanggal">Tanggal</label>
-                        <input type="date" name="tanggal" class="form-control" id="tanggal" value="{{ $bbm->tanggal }}" required>
+                        <input type="datetime-local" name="tanggal" class="form-control" id="tanggal" value="{{ $bbm->tanggal }}" required>
                     </div>
                 </div>
                 <div class="col-md-4">

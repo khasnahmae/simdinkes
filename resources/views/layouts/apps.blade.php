@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>UMPEG - DINKES TEGAL</title>
+    <title>SIOLA - DINKES TEGAL</title>
     <meta
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
       name="viewport"/>
@@ -230,15 +230,22 @@
           <nav
             class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
             <div class="container-fluid">
-              <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
+              <nav class="navbar navbar-header-left navbar-expand-lg navbar-form p-0 d-none d-lg-flex">
                 <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                   <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                       <div class="avatar-sm">
-                        <img
-                          src="{{ asset('images/profil3.jpg') }}"
-                          alt="..."
-                          class="avatar-img rounded-circle"/>
+                        @if(Auth::user()->level == 'admin')
+                            <img src="{{ asset('images/profil2.jpg') }}" alt="Admin Avatar" class="avatar-img rounded-circle"/>
+                        @elseif(Auth::user()->level == 'opatk')
+                            <img src="{{ asset('images/profil1.jpg') }}" alt="OpATK Avatar" class="avatar-img rounded-circle"/>
+                        @elseif(Auth::user()->level == 'opbbm')
+                            <img src="{{ asset('images/profil4.jpg') }}" alt="OpBBM Avatar" class="avatar-img rounded-circle"/>
+                        @elseif(Auth::user()->level == 'pimpinan')
+                            <img src="{{ asset('images/profil3.jpg') }}" alt="Pimpinan Avatar" class="avatar-img rounded-circle"/>
+                        @else
+                            <img src="{{ asset('images/default-avatar.jpg') }}" alt="Default Avatar" class="avatar-img rounded-circle"/>
+                        @endif
                       </div>
                       <span class="profile-username">
                         <span class="op-7" style="font-size: 20px">Hi,</span>
@@ -264,7 +271,7 @@
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-              <h4 class="page-title">Dinas Kesehatan Kota Tegal</h4>
+              {{-- <h4 class="page-title">Sistem Informasi Online Layanan Administrasi - Dinas Kesehatan Kota Tegal</h4> --}}
               {{-- <ul class="breadcrumbs">
                 <li class="nav-home">
                   <a href="#">

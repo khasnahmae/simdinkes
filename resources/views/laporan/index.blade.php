@@ -1,16 +1,15 @@
 @extends('layouts.apps')
-
 @section('content')
 <div class="container py-3">
-    <h4 class="card-title">Laporan Bulanan</h4>
-
-    <div class="d-flex justify-content-end mb-3">
+    <div class="container-fluid d-flex justify-content-between">
+        <h4 class="card-title">Laporan Bulanan</h4>
         <a href="{{ route('laporan.download') }}" class="btn btn-primary">Download PDF</a>
     </div>
 
     <!-- Tabel Laporan ATK -->
     <h5>Laporan Permintaan ATK Bulanan</h5>
-    <table class="table table-bordered">
+    <div class="table-responsive">
+        <table id="basic-datatables" class="display table table-striped table-hover">
         <thead>
             <tr>
                 <th>ID</th>
@@ -32,10 +31,12 @@
             @endforeach
         </tbody>
     </table>
+    </div>
 
     <!-- Tabel Laporan BBM -->
     <h5>Laporan Permintaan BBM Bulanan</h5>
-    <table class="table table-bordered">
+    <div class="table-responsive">
+        <table id="basic-datatables" class="display table table-striped table-hover">
         <thead>
             <tr>
                 <th>ID</th>
@@ -57,5 +58,6 @@
             @endforeach
         </tbody>
     </table>
+    </div>
 </div>
 @endsection

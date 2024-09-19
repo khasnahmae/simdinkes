@@ -124,5 +124,18 @@ class PeminjamanAtkController extends Controller
 
         return $pdf->download('permintaan_atk_' . $atk->id . '.pdf');
     }
+    public function reject($id)
+    {
+        $atk = Atk::find($id);
 
+        if ($atk) {
+            // Update status menjadi 'ditolak'
+            $atk->status = 'Ditolak';
+            $atk->save();
+
+            return redirect()->back()->with('success', 'Pengajuan ATK telah ditolak.');
+        }
+
+        return redirect()->back()->with('error', 'Pengajuan tidak ditemukan.');
+    }
 }

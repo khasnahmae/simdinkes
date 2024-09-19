@@ -59,4 +59,6 @@ Route::middleware(['auth', 'check.level:pimpinan'])->group(function () {
     Route::post('/atk/{id}/approve', [PeminjamanAtkController::class, 'approve'])->name('atk.approve');
     Route::get('/pimpinan/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/pimpinan/laporan/download', [LaporanController::class, 'download'])->name('laporan.download');
+    Route::post('/bbm/reject/{id}', [BbmController::class, 'reject'])->name('bbm.reject');
+    Route::post('/atk/reject/{id}', [PeminjamanAtkController::class, 'reject'])->name('atk.reject');
 });

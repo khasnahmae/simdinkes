@@ -99,6 +99,19 @@ class BbmController extends Controller
 
         return $pdf->download('permintaan_bbm_' . $bbm->id . '.pdf');
     }
+    public function reject($id)
+    {
+        $bbm = Bbm::find($id);
 
+        if ($bbm) {
+            // Update status menjadi 'ditolak'
+            $bbm->status = 'Ditolak';
+            $bbm->save();
+
+            return redirect()->back()->with('success', 'Pengajuan BBM telah ditolak.');
+        }
+
+        return redirect()->back()->with('error', 'Pengajuan tidak ditemukan.');
+    }
 
 }

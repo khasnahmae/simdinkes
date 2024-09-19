@@ -44,7 +44,6 @@
         </div>
             <button type="submit" class="btn btn-success">Simpan</button>
             <a href="{{ route('peminjaman_atk.index') }}" class="btn btn-secondary btn-border">Batal</a>
-
     </form>
 </div>
 @endsection
