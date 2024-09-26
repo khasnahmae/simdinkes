@@ -32,11 +32,12 @@ class PegawaiController extends Controller
         $request->validate([
             'nama' => 'required',
             'nip' => 'required',
+            'bidang' => 'required',
         ]);
 
         Pegawai::create($request->all());
 
-        return redirect()->route('pegawai.index')->with('success', 'Pegawai created successfully.');
+        return redirect()->route('pegawai.index')->with('success', 'Data Pegawai berhasil ditambahkan.');
     }
 
     /**
@@ -66,11 +67,12 @@ class PegawaiController extends Controller
         $request->validate([
             'nama' => 'required',
             'nip' => 'required',
+            'bidang' => 'required',
         ]);
 
         $pegawai->update($request->all());
 
-        return redirect()->route('pegawai.index')->with('success', 'Pegawai updated successfully.');
+        return redirect()->route('pegawai.index')->with('success', 'Data Pegawai telah diupdate.');
     }
 
     /**
@@ -81,7 +83,7 @@ class PegawaiController extends Controller
         $pegawai = Pegawai::findOrFail($id);
         $pegawai->delete();
 
-        return redirect()->route('pegawai.index')->with('success', 'Pegawai deleted successfully.');
+        return redirect()->route('pegawai.index')->with('success', 'Data Pegawai telah dihapus.');
     }
 
 }

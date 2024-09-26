@@ -120,9 +120,9 @@
     <div class="container-login">
         <!-- Left Section: Login Form -->
         <div class="login-left">
-            <h2>Login SIOLA</h2>
-            <p>Sistem Informasi Manajemen Dinas Kesehatan Kota Tegal</p>
-
+            <div style="text-align: center;">
+                <img src="{{ asset('images/siola.png') }}" alt="logo" style="width: 180px; height: auto; ">
+            </div>
             <!-- Error Message -->
             @if (session()->has('msgError'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -164,7 +164,7 @@
         <!-- Right Section: Welcome Text -->
         <div class="login-right">
             <img src="{{ asset('backend/assets/img/kaiadmin/logodinkes.png') }}" alt="logo">
-            <h3>Selamat Datang di SIMDINKES!</h3>
+            <h3>Selamat Datang di SIOLA!</h3>
             <p>Mari bersama membangun kesehatan masyarakat yang lebih baik dengan sistem yang terintegrasi.</p>
         </div>
     </div>
@@ -174,12 +174,16 @@
             var username = document.getElementById('username').value;
             var password = document.getElementById('password').value;
 
+            console.log('Username:', username);
+            console.log('Password:', password);
+
             if (username === "" || password === "") {
                 alert('Username atau Password tidak boleh kosong.');
                 return false;
             }
             return true;
         }
+
     </script>
 </body>
 

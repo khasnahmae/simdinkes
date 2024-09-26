@@ -2,55 +2,7 @@
 @section('content')
 <div class="container py-3">
     <div class="row">
-        <!-- Card Jumlah Pegawai -->
-        {{-- <div class="col-md-3">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Jumlah Pegawai</h5>
-                    <p class="card-text" style="font-size: 24px;">{{ $jumlahPegawai }}</p>
-                </div>
-            </div>
-        </div> --}}
-        
-        <!-- Card Jumlah Barang -->
-        {{-- <div class="col-md-3">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Jumlah Barang</h5>
-                    <p class="card-text" style="font-size: 24px;">{{ $jumlahBarang }}</p>
-                </div>
-            </div>
-        </div> --}}
-
-        <!-- Card Transaksi BBM Terbaru -->
-        {{-- <div class="col-md-3">
-            <div class="card text-white bg-warning mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Transaksi BBM Terbaru</h5>
-                    <p class="card-text" style="font-size: 16px;">
-                        Pegawai: {{ $transaksiBbmTerbaru->pegawai->nama }}<br>
-                        Kendaraan: {{ $transaksiBbmTerbaru->kendaraan->nopol }}<br>
-                        Nominal: Rp {{ number_format($transaksiBbmTerbaru->nominal, 2) }}
-                    </p>
-                </div>
-            </div>
-        </div> --}}
-
-        <!-- Card Peminjaman ATK Terbaru -->
-        {{-- <div class="col-md-3">
-            <div class="card text-white bg-danger mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Peminjaman ATK Terbaru</h5>
-                    <p class="card-text" style="font-size: 16px;">
-                        Pegawai: {{ $peminjamanAtkTerbaru->pegawai->nama }}<br>
-                        Barang: {{ $peminjamanAtkTerbaru->barang->nama_barang }}<br>
-                        Jumlah: {{ $peminjamanAtkTerbaru->jumlah_barang }}
-                    </p>
-                </div>
-            </div>
-        </div> --}}
-
-        <div id="carouselExampleCaptions" class="carousel slide">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000"> <!-- 10000 ms = 10 detik -->
             <div class="carousel-inner">
                 <!-- Slide 1 -->
                 <div class="carousel-item active">
@@ -113,11 +65,12 @@
                     @if($jadwalKadis->isEmpty())
                         <p class="card-text">Tidak ada jadwal mendatang.</p>
                     @else
+                    <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Tanggal</th>
-                                    <th>Waktu</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Selesai</th>
                                     <th>Keterangan</th>
                                     <th>Lokasi</th>
                                 </tr>
@@ -125,19 +78,212 @@
                             <tbody>
                                 @foreach($jadwalKadis as $jadwal)
                                     <tr>
-                                        <td>{{ $jadwal->tanggal }}</td>
-                                        <td>{{ $jadwal->waktu_mulai }} - {{ $jadwal->waktu_selesai }}</td>
+                                        <td>{{ $jadwal->tgl_mulai }}</td>
+                                        <td>{{ $jadwal->tgl_selesai }}</td>
                                         <td>{{ $jadwal->keterangan }}</td>
                                         <td>{{ $jadwal->lokasi }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
                     @endif
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-head-row">
+                        <div class="card-title">Statistik Permintaan BBM</div>
+                        <div class="card-tools">
+                            <a href="#" class="btn btn-label-success btn-round btn-sm me-2">
+                                <span class="btn-label">
+                                    <i class="fa fa-pencil"></i>
+                                </span>
+                                Export
+                            </a>
+                            <a href="#" class="btn btn-label-info btn-round btn-sm">
+                                <span class="btn-label">
+                                    <i class="fa fa-print"></i>
+                                </span>
+                                Print
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="min-height: 375px">
+                        <canvas id="statisticsChart"></canvas>
+                    </div>
+                    <div id="myChartLegend"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-head-row">
+                        <div class="card-title">Statistik Permintaan ATK</div>
+                        <div class="card-tools">
+                            <a href="#" class="btn btn-label-success btn-round btn-sm me-2">
+                                <span class="btn-label">
+                                    <i class="fa fa-pencil"></i>
+                                </span>
+                                Export
+                            </a>
+                            <a href="#" class="btn btn-label-info btn-round btn-sm">
+                                <span class="btn-label">
+                                    <i class="fa fa-print"></i>
+                                </span>
+                                Print
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="min-height: 375px">
+                        <canvas id="statisticsChartAtk"></canvas>
+                    </div>
+                    <div id="myChartLegend"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Widget 1: Total Pegawai -->
+        <div class="col-md-4">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-users text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="numbers">
+                                <p class="card-category">Total Pegawai</p>
+                                <h4 class="card-title">{{ $jumlahPegawai }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Widget 2: Total Permintaan BBM di Bulan Ini -->
+        <div class="col-md-4">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-gas-pump text-danger"></i>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="numbers">
+                                <p class="card-category">Total BBM Disetujui</p>
+                                <h4 class="card-title">Rp {{ number_format($totalBbm, 0, ',', '.') }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Widget 3: Total Permintaan ATK di Bulan Ini -->
+        <div class="col-md-4">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-boxes text-success"></i>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <div class="numbers">
+                                <p class="card-category">Total ATK Disetujui</p>
+                                <h4 class="card-title">{{ $totalAtk }} Barang</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx = document.getElementById('statisticsChart').getContext('2d');
+        var statisticsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], // Label bulan
+                datasets: @json($datasets) // Data untuk setiap kendaraan dengan warna yang berbeda
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        type: 'category',
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] // Sinkronisasi label
+                    }
+                }
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx = document.getElementById('statisticsChartAtk').getContext('2d');
+        var statisticsChartAtk = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], // Label bulan
+                datasets: @json($datasetsatk) // Data untuk setiap barang dengan warna yang berbeda
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: { // Konfigurasi khusus untuk radar chart
+                        angleLines: {
+                            display: false // Menghilangkan garis sudut
+                        },
+                        suggestedMin: 0, // Nilai minimal sumbu Y (di lingkaran)
+                        suggestedMax: 100, // Nilai maksimal sumbu Y (disesuaikan dengan data Anda)
+                        ticks: {
+                            display: false, // Menghilangkan angka pada sumbu lingkaran
+                        },
+                        pointLabels: {
+                            display: true,  // Menampilkan label pada setiap sudut (barang)
+                            font: {
+                                size: 12  // Ukuran font label
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,  // Menampilkan legend dataset (opsional)
+                    },
+                    tooltip: {
+                        enabled: true,  // Menampilkan tooltip saat mouse hover (opsional)
+                    }
+                }
+            }
+        });
+    });
+</script>
 @endsection
 

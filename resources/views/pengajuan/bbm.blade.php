@@ -26,13 +26,13 @@
             <tbody>
                 @foreach($bbm as $item)
                 <tr>
-                    <td style="font-size: 16px;">{{ $loop->iteration }}</td>
-                    <td style="font-size: 16px;">{{ $item->tanggal }}</td>
-                    <td style="font-size: 16px;">{{ $item->pegawai->nama }}</td>
-                    <td style="font-size: 16px;">{{ $item->kendaraan->nopol }}</td>
-                    <td style="font-size: 16px;">{{ $item->nama_kendaraan }}</td>
-                    <td style="font-size: 16px;">{{ $item->nominal }}</td>
-                    <td style="font-size: 16px;">{{ $item->status }}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->tanggal }}</td>
+                    <td>{{ $item->pegawai->nama }}</td>
+                    <td>{{ $item->kendaraan->nopol }}</td>
+                    <td>{{ $item->nama_kendaraan }}</td>
+                    <td>{{ $item->nominal }}</td>
+                    <td>{{ $item->status }}</td>
                     <td>
                         <!-- Tombol untuk menyetujui pengajuan -->
                         <form action="{{ route('bbm.approve', $item->id) }}" method="POST">

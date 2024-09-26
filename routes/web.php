@@ -5,13 +5,17 @@ use App\Http\Controllers\BbmController;
 use App\Http\Controllers\JadwalKadisController;
 use App\Http\Controllers\KendaraanController;
 use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\PeminjamanAtkController;
+use App\Http\Controllers\AtkController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\Tr_AtkController;
+use App\Http\Controllers\Tr_BbmController;
+use App\Models\Siswa;
 
 // Route::middleware(['guest'])->get('/', function () {
 //     return redirect()->route('login');
@@ -31,34 +35,40 @@ Route::middleware(['auth'])->group(function () {
 
 // Rute untuk admin
 Route::middleware(['auth', 'check.level:admin'])->group(function () {
+    Route::resource('user', UserController::class);
     Route::resource('pegawai', PegawaiController::class);
     Route::resource('jadis', JadwalKadisController::class);
-});
-
-// Rute untuk opatk
-Route::middleware(['auth', 'check.level:opatk'])->group(function () {
     Route::resource('barang', BarangController::class);
-    Route::resource('peminjaman_atk', PeminjamanAtkController::class);
-    Route::get('/atk/{id}/print', [PeminjamanAtkController::class, 'print'])->name('peminjaman_atk.print');
-});
-
-// Rute untuk opbbm
-Route::middleware(['auth', 'check.level:opbbm'])->group(function () {
     Route::resource('kendaraan', KendaraanController::class);
+    Route::resource('siswa', SiswaController::class);
+
+
+    Route::resource('atk', AtkController::class);
+    Route::get('/pengajuan/atk', [AtkController::class, 'pengajuan'])->name('atk.pengajuan');
+    Route::post('/atk/{id}/approve', [AtkController::class, 'approve'])->name('atk.approve');
+    Route::post('/atk/reject/{id}', [AtkController::class, 'reject'])->name('atk.reject');
+    Route::get('/atk/{id}/print', [AtkController::class, 'print'])->name('atk.print');
+
     Route::resource('bbm', BbmController::class);
     Route::get('/bbm/{id}/print', [BbmController::class, 'print'])->name('bbm.print');
-    
+    Route::get('/pengajuan/bbm', [BbmController::class, 'pengajuan'])->name('bbm.pengajuan');
+    Route::post('/bbm/{id}/approve', [BbmController::class, 'approve'])->name('bbm.approve');
+    Route::post('/bbm/reject/{id}', [BbmController::class, 'reject'])->name('bbm.reject');
+
+    Route::get('/rekap/atk', [LaporanController::class, 'atk'])->name('rekap.atk');
+    Route::get('/rekap/atk/download', [LaporanController::class, 'downloadatk'])->name('rekap.downloadatk');
+    Route::get('/rekap/bbm', [LaporanController::class, 'bbm'])->name('rekap.bbm');
+    Route::get('/rekap/bbm/download', [LaporanController::class, 'downloadbbm'])->name('rekap.downloadbbm');
+   // Rute untuk laporan detail
+    Route::get('/rekap/detailatk/{id}', [LaporanController::class, 'detailatk'])->name('rekap.detailatk');
+    Route::get('/rekap/detailbbm/{id}', [LaporanController::class, 'detailbbm'])->name('rekap.detailbbm');
+
+});
+// Rute untuk operator
+Route::middleware(['auth', 'check.level:operator'])->group(function () {
+    Route::resource('tr_atk', Tr_AtkController::class);
+    Route::resource('tr_bbm', Tr_BbmController::class);
+    Route::get('/tr_atk/{id}/print', [Tr_AtkController::class, 'print'])->name('tr_atk.print');
+
 });
 
-// Rute untuk pimpinan
-Route::middleware(['auth', 'check.level:pimpinan'])->group(function () {
-    Route::resource('user', UserController::class);
-    Route::get('/pimpinan/bbm', [BbmController::class, 'indexForPimpinan'])->name('pimpinan.bbm');
-    Route::post('/bbm/{id}/approve', [BbmController::class, 'approve'])->name('bbm.approve');
-    Route::get('/pimpinan/atk', [PeminjamanAtkController::class, 'indexForPimpinan'])->name('pimpinan.atk');
-    Route::post('/atk/{id}/approve', [PeminjamanAtkController::class, 'approve'])->name('atk.approve');
-    Route::get('/pimpinan/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-    Route::get('/pimpinan/laporan/download', [LaporanController::class, 'download'])->name('laporan.download');
-    Route::post('/bbm/reject/{id}', [BbmController::class, 'reject'])->name('bbm.reject');
-    Route::post('/atk/reject/{id}', [PeminjamanAtkController::class, 'reject'])->name('atk.reject');
-});

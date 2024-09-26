@@ -5,6 +5,11 @@
       <h4 class="card-title">Data Barang</h4>
         <a href="{{ route('barang.create') }}" class="btn btn-primary mb-3">Tambah Data Barang</a>
     </div>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
           <div class="table-responsive">
             <table
               id="basic-datatables"
@@ -20,15 +25,21 @@
               <tbody>
                 @foreach($barang as $brg)
                 <tr>
-                    <td style=" font-size: 16px;">{{  $loop->iteration  }}</td>
-                    <td style=" font-size: 16px;">{{ $brg->nama_barang }}</td>
-                    <td style=" font-size: 16px;">{{ $brg->stok }}</td>
+                    <td>{{  $loop->iteration  }}</td>
+                    <td>{{ $brg->nama_barang }}</td>
+                    <td>
+                      {{ $brg->stok }}
+                      <!-- Tampilkan peringatan jika stok hampir habis -->
+                      @if($brg->warning)
+                        <span class="badge badge-danger">Hampir Habis, Restok Segera!</span>
+                      @endif
+                    </td>
                     <td>
                         <a href="{{ route('barang.edit', $brg->id) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('barang.destroy', $brg->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger " onclick="return confirm('Apakah yakin ingin menghapus?')">Hapus</button>
+                            <button type="submit" class="btn btn-danger delete-button">Hapus</button>
                         </form>
                     </td>
                 </tr>

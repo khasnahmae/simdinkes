@@ -21,6 +21,7 @@
                     <th>Pegawai</th>
                     <th>Kendaraan</th>
                     <th>Nama Kendaraan</th>
+                    <th>Jenis BBM</th>
                     <th>Nominal</th>
                     <th>Status</th>
                     <th>Aksi</th>
@@ -29,16 +30,17 @@
             <tbody>
                 @foreach($bbm as $item)
                 <tr>
-                    <td style=" font-size: 16px;">{{ $loop->iteration }}</td>
-                    <td style=" font-size: 16px;">{{ $item->tanggal }}</td>
-                    <td style=" font-size: 16px;">{{ $item->pegawai->nama }}</td>
-                    <td style=" font-size: 16px;">{{ $item->kendaraan->nopol }}</td>
-                    <td style=" font-size: 16px;">{{ $item->nama_kendaraan }}</td>
-                    <td style=" font-size: 16px;">{{ $item->nominal }}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->tanggal }}</td>
+                    <td>{{ $item->pegawai->nama }}</td>
+                    <td>{{ $item->kendaraan->nopol }}</td>
+                    <td>{{ $item->nama_kendaraan }}</td>
+                    <td>{{ $item->jenis_bbm }}</td>
+                    <td>{{ $item->nominal }}</td>
                     <td>
                         @if($item->status === 'Disetujui')
                             <span class="badge bg-primary">Disetujui</span>
-                        @elseif ($item->status == 'ditolak')
+                        @elseif ($item->status == 'Ditolak')
                             <span class="badge bg-danger">Ditolak</span>
                         @else
                             <span class="badge bg-warning">Pengajuan</span>
@@ -50,12 +52,14 @@
                                 Cetak
                             </a>
                         @endif
-                        <a href="{{ route('bbm.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('bbm.destroy', $item->id) }}" method="POST" style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                        </form>
+                        @if($item->status === 'Pengajuan')
+                            <a href="{{ route('bbm.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('bbm.destroy', $item->id) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm delete-button">Hapus</button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

@@ -14,10 +14,12 @@ class Kendaraan extends Model
         'nopol',
         'nama_kendaraan',
         'jenis',
+        'tipe',
         'tahun',
         'warna',
         'no_rangka',
         'no_mesin',
+        'jenis_bbm',
     ];
 
     public function bbm()
@@ -35,5 +37,9 @@ class Kendaraan extends Model
     public function setWarnaAttribute($value)
     {
         $this->attributes['warna'] = ucwords(strtolower($value)); // Ubah huruf pertama menjadi kapital
+    }
+    public function setTipeAttribute($value)
+    {
+        $this->attributes['tipe'] = ucwords(strtolower($value)); // Ubah huruf pertama menjadi kapital
     }
 }

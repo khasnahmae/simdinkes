@@ -24,9 +24,7 @@
                             <label for="level">Level</label>
                             <select name="level" class="form-control" id="level" required>
                                 <option value="admin">Admin</option>
-                                <option value="opatk">Operator ATK</option>
-                                <option value="opbbm">Operator BBM</option>
-                                <option value="pimpinan">Pimpinan</option>
+                                <option value="operator">Operator</option>
                             </select>
                         </div>
                     </div>

@@ -5,6 +5,11 @@
       <h4 class="card-title">Data Kendaraan</h4>
         <a href="{{ route('kendaraan.create') }}" class="btn btn-primary mb-3">Tambah Data Kendaraan</a>
     </div>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
           <div class="table-responsive">
             <table
               id="basic-datatables"
@@ -15,30 +20,35 @@
                     <th>Nomor Polisi</th>
                     <th>Nama Kendaraan</th>
                     <th>Jenis</th>
+                    <th>Tipe</th>
                     <th>Tahun</th>
                     <th>Warna</th>
                     <th>No Rangka</th>
                     <th>No Mesin</th>
+                    <th>Jenis BBM</th>
                     <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 @foreach($kendaraan as $knd)
                 <tr>
-                    <td style=" font-size: 16px;">{{  $loop->iteration  }}</td>
-                    <td style=" font-size: 16px;">{{ $knd->nopol }}</td>
-                    <td style=" font-size: 16px;">{{ $knd->nama_kendaraan }}</td>
-                    <td style=" font-size: 16px;">{{ $knd->jenis }}</td>
-                    <td style=" font-size: 16px;">{{ $knd->tahun }}</td>
-                    <td style=" font-size: 16px;">{{ $knd->warna }}</td>
-                    <td style=" font-size: 16px;">{{ $knd->no_rangka }}</td>
-                    <td style=" font-size: 16px;">{{ $knd->no_mesin }}</td>
+                    <td>{{  $loop->iteration  }}</td>
+                    <td>{{ $knd->nopol }}</td>
+                    <td>{{ $knd->nama_kendaraan }}</td>
+                    <td>{{ $knd->jenis }}</td>
+                    <td>{{ $knd->tipe }}</td>
+                    <td>{{ $knd->tahun }}</td>
+                    <td>{{ $knd->warna }}</td>
+                    <td>{{ $knd->no_rangka }}</td>
+                    <td>{{ $knd->no_mesin }}</td>
+                    <td>{{ $knd->jenis_bbm }}</td>
+
                     <td>
                         <a href="{{ route('kendaraan.edit', $knd->id) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('kendaraan.destroy', $knd->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger " onclick="return confirm('Apakah yakin ingin menghapus?')">Hapus</button>
+                            <button type="submit" class="btn btn-danger delete-button">Hapus</button>
                         </form>
                     </td>
                 </tr>

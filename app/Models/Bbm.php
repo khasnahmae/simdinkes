@@ -15,6 +15,7 @@ class Bbm extends Model
         'pegawai_id',
         'nopol',
         'nama_kendaraan',
+        'jenis_bbm',
         'nominal',
         'status',
     ];

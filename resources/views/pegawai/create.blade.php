@@ -18,6 +18,12 @@
                         <input type="text" name="nip" class="form-control" id="nip" required>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="bidang">Bidang</label>
+                        <input type="text" name="bidang" class="form-control" id="bidang" required>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group justify-content-start">

@@ -8,20 +8,14 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="tanggal">Tanggal</label>
-                            <input type="date" name="tanggal" class="form-control" required>
+                            <label for="tgl_mulai">Tanggal Mulai</label>
+                            <input type="date" name="tgl_mulai" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="waktu_mulai">Waktu Mulai</label>
-                            <input type="time" name="waktu_mulai" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="waktu_selesai">Waktu Selesai</label>
-                            <input type="time" name="waktu_selesai" class="form-control" required>
+                            <label for="tgl_selesai">Tanggal Selesai</label>
+                            <input type="date" name="tgl_selesai" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-md-4">

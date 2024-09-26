@@ -33,15 +33,17 @@ class KendaraanController extends Controller
             'nopol' => 'required|unique:kendaraan',
             'nama_kendaraan' => 'required',
             'jenis' => 'required',
+            'tipe' => 'required',
             'tahun' => 'required',
             'warna' => 'required',
             'no_rangka' => 'required',
             'no_mesin' => 'required',
+            'jenis_bbm' => 'required|string',
         ]);
 
         Kendaraan::create($request->all());
 
-        return redirect()->route('kendaraan.index')->with('success', 'Kendaraan created successfully.');
+        return redirect()->route('kendaraan.index')->with('success', 'Data Kendaraan berhasil ditambahkan.');
     }
 
     /**
@@ -72,15 +74,17 @@ class KendaraanController extends Controller
             'nopol' => 'required|unique:kendaraan,nopol,'.$id,
             'nama_kendaraan' => 'required',
             'jenis' => 'required',
+            'tipe' => 'required',
             'tahun' => 'required',
             'warna' => 'required',
             'no_rangka' => 'required',
             'no_mesin' => 'required',
+            'jenis_bbm' => 'required|string',
         ]);
 
         $kendaraan->update($request->all());
 
-        return redirect()->route('kendaraan.index')->with('success', 'Kendaraan updated successfully.');
+        return redirect()->route('kendaraan.index')->with('success', 'Data Kendaraan telah diupdate.');
     }
 
     /**
@@ -91,6 +95,6 @@ class KendaraanController extends Controller
         $kendaraan = Kendaraan::findOrFail($id);
         $kendaraan->delete();
 
-        return redirect()->route('kendaraan.index')->with('success', 'Kendaraan deleted successfully.');
+        return redirect()->route('kendaraan.index')->with('success', 'Data Kendaraan telah dihapus.');
     }
 }

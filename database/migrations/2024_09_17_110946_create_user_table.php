@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('username');
             $table->string('password');
-            $table->enum('level', ['admin', 'opatk', 'opbbm', 'pimpinan'])->default('admin');
+            $table->enum('level', ['admin', 'operator'])->default('operator');
             $table->rememberToken();
             $table->timestamps();
         });

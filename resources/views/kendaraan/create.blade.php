@@ -26,6 +26,12 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
+                        <label for="tipe">Tipe</label>
+                        <input type="text" name="tipe" class="form-control" id="tipe" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
                         <label for="tahun">Tahun</label>
                         <input type="text" name="tahun" class="form-control" id="tahun" required>
                     </div>
@@ -46,6 +52,12 @@
                     <div class="form-group">
                         <label for="no_mesin">No Mesin</label>
                         <input type="text" name="no_mesin" class="form-control" id="no_mesin" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="jenis_bbm">Jenis BBM</label>
+                        <input type="text" name="jenis_bbm" class="form-control" id="jenis_bbm" required>
                     </div>
                 </div>
             </div>

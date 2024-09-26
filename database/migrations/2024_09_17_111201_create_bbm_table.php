@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('nama_kendaraan');
             $table->double('nominal', 15, 2);
             $table->string('status')->default('Pengajuan');
+            $table->string('jenis_bbm');
             $table->foreign('nopol')->references('id')->on('kendaraan');
-            $table->foreign('pegawai_id')->references('id')->on('pegawai');
+            $table->foreign('pegawai_id')->references('id')->on('pegawai'); 
             $table->timestamps();
         });
     }

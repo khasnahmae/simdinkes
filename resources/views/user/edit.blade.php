@@ -25,9 +25,7 @@
                         <label for="level">Level</label>
                         <select name="level" class="form-control" id="level" required>
                             <option value="admin" {{ $user->level == 'admin' ? 'selected' : '' }}>Admin</option>
-                            <option value="opatk" {{ $user->level == 'opatk' ? 'selected' : '' }}>Operator ATK</option>
-                            <option value="opbbm" {{ $user->level == 'opbbm' ? 'selected' : '' }}>Operator BBM</option>
-                            <option value="pimpinan" {{ $user->level == 'pimpinan' ? 'selected' : '' }}>Pimpinan</option>
+                            <option value="operator" {{ $user->level == 'operator' ? 'selected' : '' }}>Operator</option>
                         </select>
                     </div>
                 </div>

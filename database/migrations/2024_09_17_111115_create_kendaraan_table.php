@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('warna');
             $table->string('no_rangka');
             $table->string('no_mesin');
+            $table->string('jenis_bbm');
             $table->timestamps();
         });
     }

@@ -30,18 +30,16 @@ class JadwalKadisController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tanggal' => 'required|date',
+            'tgl_mulai' => 'required|date',
+            'tgl_selesai' => 'required|date',
             'keterangan' => 'required',
-            'waktu_mulai' => 'required',
-            'waktu_selesai' => 'required',
             'lokasi' => 'required',
         ]);
 
         JadwalKadis::create([
-            'tanggal' => $request->tanggal,
+            'tgl_mulai' => $request->tgl_mulai,
+            'tgl_selesai' => $request->tgl_selesai,
             'keterangan' => $request->keterangan,
-            'waktu_mulai' => $request->waktu_mulai,
-            'waktu_selesai' => $request->waktu_selesai,
             'lokasi' => $request->lokasi,
         ]);
 
@@ -71,19 +69,17 @@ class JadwalKadisController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'tanggal' => 'required|date',
+            'tgl_mulai' => 'required|date',
+            'tgl_selesai' => 'required|date',
             'keterangan' => 'required',
-            'waktu_mulai' => 'required',
-            'waktu_selesai' => 'required',
             'lokasi' => 'required',
         ]);
 
         $jadwal_kadis = JadwalKadis::findOrFail($id);
         $jadwal_kadis->update([
-            'tanggal' => $request->tanggal,
+            'tgl_mulai' => $request->tgl_mulai,
+            'tgl_selesai' => $request->tgl_selesai,
             'keterangan' => $request->keterangan,
-            'waktu_mulai' => $request->waktu_mulai,
-            'waktu_selesai' => $request->waktu_selesai,
             'lokasi' => $request->lokasi,
         ]);
 

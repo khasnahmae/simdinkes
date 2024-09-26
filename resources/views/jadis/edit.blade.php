@@ -9,20 +9,14 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="tanggal">Tanggal</label>
-                            <input type="date" name="tanggal" class="form-control" value="{{ $jadwal_kadis->tanggal }}" required>
+                            <label for="tgl_mulai">Tanggal Mulai</label>
+                            <input type="date" name="tgl_mulai" class="form-control" value="{{ $jadwal_kadis->tgl_mulai }}" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="waktu_mulai">Waktu Mulai</label>
-                            <input type="text" name="waktu_mulai" class="form-control" value="{{ $jadwal_kadis->waktu_mulai }}" required>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="waktu_selesai">Waktu Selesai</label>
-                            <input type="text" name="waktu_selesai" class="form-control" value="{{ $jadwal_kadis->waktu_selesai }}" required>
+                            <label for="tgl_selesai">Tanggal Selesai</label>
+                            <input type="date" name="tgl_selesai" class="form-control" value="{{ $jadwal_kadis->tgl_selesai }}" required>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -39,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success" id="alert_demo_3_3" >Update</button>
+            <button type="submit" class="btn btn-success" id="alert_demo_3_4" >Update</button>
             <a href="{{ route('jadis.index') }}" class="btn btn-secondary btn-border">Batal</a>
         </form>
     </div>

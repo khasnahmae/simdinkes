@@ -13,6 +13,16 @@ class BarangController extends Controller
     public function index()
     {
         $barang = Barang::orderBy('nama_barang', 'asc')->get();
+        $batasMinimum = 5;
+
+        // Cek stok barang yang di bawah atau sama dengan batas minimum
+        foreach ($barang as $brg) {
+            if ($brg->stok <= $batasMinimum) {
+                $brg->warning = true; // Tambahkan property 'warning' jika stok hampir habis
+            } else {
+                $brg->warning = false;
+            }
+        }
         return view('barang.index', compact('barang'));
     }
 
@@ -36,7 +46,7 @@ class BarangController extends Controller
 
         Barang::create($request->all());
 
-        return redirect()->route('barang.index')->with('success', 'Barang created successfully.');
+        return redirect()->route('barang.index')->with('success', 'Data Barang berhasil ditambahkan.');
     }
 
     /**
@@ -70,7 +80,7 @@ class BarangController extends Controller
 
         $barang->update($request->all());
 
-        return redirect()->route('barang.index')->with('success', 'Barang updated successfully.');
+        return redirect()->route('barang.index')->with('success', 'Data Barang telah diupdate.');
     }
 
     /**
@@ -81,6 +91,6 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id);
         $barang->delete();
 
-        return redirect()->route('barang.index')->with('success', 'Barang deleted successfully.');
+        return redirect()->route('barang.index')->with('success', 'Data Barang telah dihapus.');
     }
 }

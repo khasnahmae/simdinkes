@@ -25,12 +25,12 @@
             <tbody>
                 @foreach($atk as $item)
                 <tr>
-                    <td style="font-size: 16px;">{{ $loop->iteration }}</td>
-                    <td style="font-size: 16px;">{{ $item->tanggal }}</td>
-                    <td style="font-size: 16px;">{{ $item->pegawai->nama }}</td>
-                    <td style="font-size: 16px;">{{ $item->barang->nama_barang }}</td>
-                    <td style="font-size: 16px;">{{ $item->jumlah_barang }}</td>
-                    <td style="font-size: 16px;">{{ $item->status }}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->tanggal }}</td>
+                    <td>{{ $item->pegawai->nama }}</td>
+                    <td>{{ $item->barang->nama_barang }}</td>
+                    <td>{{ $item->jumlah_barang }}</td>
+                    <td>{{ $item->status }}</td>
                     <td>
                         <!-- Tombol untuk menyetujui pengajuan -->
                         <form action="{{ route('atk.approve', $item->id) }}" method="POST">

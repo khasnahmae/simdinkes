@@ -27,6 +27,12 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
+                        <label for="tipe">Tipe</label>
+                        <input type="text" name="tipe" class="form-control" id="tipe" value="{{ $kendaraan->tipe }}" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
                         <label for="tahun">Tahun</label>
                         <input type="text" name="tahun" class="form-control" id="tahun" value="{{ $kendaraan->tahun }}" required>
                     </div>
@@ -49,10 +55,16 @@
                         <input type="text" name="no_mesin" class="form-control" id="no_mesin" value="{{ $kendaraan->no_mesin }}" required>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="jenis_bbm">Jenis BBM</label>
+                        <input type="text" name="jenis_bbm" class="form-control" id="jenis_bbm" value="{{ $kendaraan->jenis_bbm }}" required>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-group justify-content-start">
-            <button type="submit" class="btn btn-success" id="alert_demo_3_3">Update</button>
+            <button type="submit" class="btn btn-success" id="alert_demo_3_4">Update</button>
             <a href="{{ route('kendaraan.index') }}" class="btn btn-secondary btn-border">Batal</a>
         </div>
     </form>

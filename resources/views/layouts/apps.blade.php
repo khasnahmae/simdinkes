@@ -11,8 +11,11 @@
       rel="icon"
       href="{{ asset('backend/assets/img/kaiadmin/favicon.ico') }}"
       type="image/x-icon"/> --}}
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+      {{-- @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"); --}}
       <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+      {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7xA5ef0TfveGkAI9ntgQJcKn7F5I6EG5Q0n" crossorigin="anonymous"> --}}
 
     <!-- Fonts and icons -->
     <script src="{{ asset('backend/assets/js/plugin/webfont/webfont.min.js') }}"></script>
@@ -39,9 +42,21 @@
           object-fit: cover; /* Agar gambar tetap proporsional */
       }
 
-        .carousel-item img {
-            filter: brightness(50%); /* Mengatur kecerahan gambar agar overlay lebih efektif */
-        }
+      .carousel-item img {
+          filter: brightness(50%); /* Mengatur kecerahan gambar agar overlay lebih efektif */
+      }
+      .card-stats {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .icon-big {
+        font-size: 3em;
+    }
+
     </style>
 
     <!-- CSS Files -->
@@ -59,7 +74,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="white">
-            <a href="index.html" class="logo">
+            <a href="#" class="logo">
               <img
                 src="{{ asset('backend/assets/img/kaiadmin/logodinkes.png') }}"
                 alt="navbar brand"
@@ -87,7 +102,7 @@
                     <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
                         <a href="/dashboard" class="{{ request()->is('dashboard') ? '' : 'collapsed' }}" aria-expanded="{{ request()->is('dashboard') ? 'true' : 'false' }}">
                             <i class="fas fa-home"></i>
-                            <p style="font-size: 18px;">Dashboard</p>
+                            <p>Dashboard</p>
                         </a>
                     </li>
                     <li class="nav-section">
@@ -96,101 +111,138 @@
                         </span>
                         <h4 class="text-section">MENU</h4>
                     </li>
-                    
-                    <!-- Hanya tampil untuk Pimpinan -->
-                    @if(Auth::user()->level == 'pimpinan')
-                    <li class="nav-item {{ request()->is('user') ? 'active' : '' }}">
-                        <a href="/user">
-                            <i class="fas fa-address-card"></i>
-                            <p style="font-size: 18px;">User</p>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ request()->routeIs('pimpinan.bbm') ? 'active' : '' }}">
-                      <a href="{{ route('pimpinan.bbm') }}">
-                          <i class="fas fa-paper-plane"></i>
-                          <p style="font-size: 18px;">Pengajuan BBM</p>
-                      </a>
-                    </li>
-                    <li class="nav-item {{ request()->routeIs('pimpinan.atk') ? 'active' : '' }}">
-                      <a href="{{ route('pimpinan.atk') }}">
-                          <i class="fas fa-paper-plane"></i>
-                          <p style="font-size: 18px;">Pengajuan ATK</p>
-                      </a>
-                    </li>
-                    <li class="nav-item {{ request()->routeIs('laporan.index') ? 'active' : '' }}">
-                      <a href="{{ route('laporan.index') }}">
-                          <i class="fas fa-file-alt"></i>
-                          <p style="font-size: 18px;">Laporan Bulanan</p>
-                      </a>
-                  </li>                  
-                    @endif
         
                     <!-- Hanya tampil untuk Admin -->
                     @if(Auth::user()->level == 'admin')
+                    <li class="nav-item {{ request()->is('siswa') ? 'active' : '' }}">
+                      <a href="/siswa">
+                          <i class="fas fa-user-graduate"></i>
+                          <p>Siswa</p>
+                      </a>
+                    </li>
+                    <li class="nav-item {{ request()->is('user') ? 'active' : '' }}">
+                      <a href="/user">
+                          <i class="fas fa-address-card"></i>
+                          <p>User</p>
+                      </a>
+                    </li>
                     <li class="nav-item {{ request()->is('pegawai') ? 'active' : '' }}">
                         <a href="/pegawai">
                             <i class="fas fa-users"></i>
-                            <p style="font-size: 18px;">Pegawai</p>
+                            <p>Pegawai</p>
                         </a>
                     </li>
-                    @endif
-        
-                    <!-- Hanya tampil untuk Opatk -->
-                    @if(Auth::user()->level == 'opatk')
+                    <li class="nav-item {{ request()->is('jadis') ? 'active' : '' }}">
+                      <a href="/jadis">
+                          <i class="far fa-calendar-alt"></i>
+                          <p>Jadwal Kadis</p>
+                      </a>
+                    </li>
                     <li class="nav-item {{ request()->is('barang') ? 'active' : '' }}">
                         <a href="/barang">
                             <i class="fas fa-box-open"></i>
-                            <p style="font-size: 18px;">Barang</p>
+                            <p>Barang</p>
                         </a>
                     </li>
-                    @endif
-        
-                    <!-- Hanya tampil untuk Opbbm -->
-                    @if(Auth::user()->level == 'opbbm')
                     <li class="nav-item {{ request()->is('kendaraan') ? 'active' : '' }}">
-                        <a href="/kendaraan">
-                            <i class="fas fa-car-alt"></i>
-                            <p style="font-size: 18px;">Kendaraan</p>
-                        </a>
+                      <a href="/kendaraan">
+                          <i class="fas fa-car-alt"></i>
+                          <p>Kendaraan</p>
+                      </a>
+                  </li>
+                    <li class="nav-item {{ request()->routeIs('pengajuan.atk') ? 'active' : '' }}">
+                      <a href="/pengajuan/atk">
+                          <i class="fas fa-arrow-down"></i>
+                          <p>Permintaan ATK
+                            @if($pendingAtkCount > 0)
+                              <span class="badge badge-danger">{{ $pendingAtkCount }}</span>
+                            @endif
+                          </p>
+                      </a>
                     </li>
+                    <li class="nav-item {{ request()->routeIs('pengajuan.bbm') ? 'active' : '' }}">
+                      <a href="/pengajuan/bbm">
+                          <i class="fas fa-arrow-down"></i>
+                          <p>Permintaan BBM
+                            @if($pendingBbmCount > 0)
+                                <span class="badge badge-danger">{{ $pendingBbmCount }}</span>
+                            @endif
+                          </p>
+                      </a>
+                    </li>
+                    <li class="nav-item {{ request()->is('rekap/atk') || request()->is('rekap/bbm') ? 'active' : '' }}">
+                      <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                          <i class="fas fa-file-alt"></i>
+                          <p>Rekap Permintaan</p>
+                          <span class="caret"></span>
+                      </a>
+                      <div class="collapse {{ request()->is('rekap/atk') || request()->is('rekap/bbm') ? 'show' : '' }}" id="sidebarLayouts">
+                          <ul class="nav nav-collapse">
+                              <li class="{{ request()->is('rekap/atk') ? 'active' : '' }}">
+                                  <a href="/rekap/atk">
+                                      <span class="sub-item">ATK</span>
+                                  </a>
+                              </li>
+                              <li class="{{ request()->is('rekap/bbm') ? 'active' : '' }}">
+                                  <a href="/rekap/bbm">
+                                      <span class="sub-item">BBM</span>
+                                  </a>
+                              </li>
+                          </ul>
+                      </div>
+                    </li>
+                    <li class="nav-item {{ request()->is('atk') || request()->is('bbm') ? 'active' : '' }}">
+                      <a data-bs-toggle="collapse" href="#base">
+                          <i class="fas fa-cart-plus"></i>
+                          <p>Transaksi</p>
+                          <span class="caret"></span>
+                      </a>
+                      <div class="collapse {{ request()->is('atk') || request()->is('bbm') ? 'show' : '' }}" id="base">
+                          <ul class="nav nav-collapse">
+                              <li class="{{ request()->is('atk') ? 'active' : '' }}">
+                                  <a href="/atk">
+                                      <span class="sub-item">ATK</span>
+                                  </a>
+                              </li>
+                              <li class="{{ request()->is('bbm') ? 'active' : '' }}">
+                                  <a href="/bbm">
+                                      <span class="sub-item">BBM</span>
+                                  </a>
+                              </li>
+                          </ul>
+                      </div>
+                    </li>
+                    {{-- <li class="nav-item {{ request()->routeIs('laporan.index') ? 'active' : '' }}">
+                      <a href="{{ route('laporan.index') }}">
+                          <i class="fas fa-file-alt"></i>
+                          <p>Rekap Permintaan</p>
+                      </a>
+                    </li> --}}
                     @endif
         
-                    <!-- Hanya tampil untuk Admin -->
-                    @if(Auth::user()->level == 'admin')
-                    <li class="nav-item {{ request()->is('jadis') ? 'active' : '' }}">
-                        <a href="/jadis">
-                            <i class="far fa-calendar-alt"></i>
-                            <p style="font-size: 18px;">Jadwal Kadis</p>
-                        </a>
-                    </li>
-                    @endif
-        
-                    <!-- Menu Transaksi untuk Opatk dan Opbbm -->
-                    @if(Auth::user()->level == 'opatk' || Auth::user()->level == 'opbbm')
-                    <li class="nav-item {{ request()->is('peminjaman_atk') || request()->is('bbm') ? 'active' : '' }}">
-                        <a data-bs-toggle="collapse" href="#charts">
-                            <i class="fas fa-cart-plus"></i>
-                            <p style="font-size: 18px;">Transaksi</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse {{ request()->is('peminjaman_atk') || request()->is('bbm') ? 'show' : '' }}" id="charts">
-                            <ul class="nav nav-collapse">
-                                @if(Auth::user()->level == 'opatk')
-                                <li class="{{ request()->is('peminjaman_atk') ? 'active' : '' }}">
-                                    <a href="/peminjaman_atk">
-                                        <span class="sub-item">ATK</span>
-                                    </a>
-                                </li>
-                                @endif
-                                @if(Auth::user()->level == 'opbbm')
-                                <li class="{{ request()->is('bbm') ? 'active' : '' }}">
-                                    <a href="/bbm">
-                                        <span class="sub-item">BBM</span>
-                                    </a>
-                                </li>
-                                @endif
-                            </ul>
-                        </div>
+                    <!-- Menu Transaksi untuk Operator -->
+                    {{-- @if(Auth::user()->level == 'operator') --}}
+                    @if(Auth::user()->level == 'operator')
+                    <li class="nav-item {{ request()->is('tr_atk') || request()->is('tr_bbm') ? 'active' : '' }}">
+                      <a data-bs-toggle="collapse" href="#base">
+                          <i class="fas fa-cart-plus"></i>
+                          <p>Transaksi</p>
+                          <span class="caret"></span>
+                      </a>
+                      <div class="collapse {{ request()->is('tr_atk') || request()->is('tr_bbm') ? 'show' : '' }}" id="base">
+                          <ul class="nav nav-collapse">
+                              <li class="{{ request()->is('tr_atk') ? 'active' : '' }}">
+                                  <a href="/tr_atk">
+                                      <span class="sub-item">ATK</span>
+                                  </a>
+                              </li>
+                              <li class="{{ request()->is('tr_bbm') ? 'active' : '' }}">
+                                  <a href="/tr_bbm">
+                                      <span class="sub-item">BBM</span>
+                                  </a>
+                              </li>
+                          </ul>
+                      </div>
                     </li>
                     @endif
                 </ul>
@@ -237,25 +289,21 @@
                       <div class="avatar-sm">
                         @if(Auth::user()->level == 'admin')
                             <img src="{{ asset('images/profil2.jpg') }}" alt="Admin Avatar" class="avatar-img rounded-circle"/>
-                        @elseif(Auth::user()->level == 'opatk')
-                            <img src="{{ asset('images/profil1.jpg') }}" alt="OpATK Avatar" class="avatar-img rounded-circle"/>
-                        @elseif(Auth::user()->level == 'opbbm')
-                            <img src="{{ asset('images/profil4.jpg') }}" alt="OpBBM Avatar" class="avatar-img rounded-circle"/>
-                        @elseif(Auth::user()->level == 'pimpinan')
+                        @elseif(Auth::user()->level == 'operator')
                             <img src="{{ asset('images/profil3.jpg') }}" alt="Pimpinan Avatar" class="avatar-img rounded-circle"/>
                         @else
                             <img src="{{ asset('images/default-avatar.jpg') }}" alt="Default Avatar" class="avatar-img rounded-circle"/>
                         @endif
                       </div>
                       <span class="profile-username">
-                        <span class="op-7" style="font-size: 20px">Hi,</span>
+                        <span class="op-7" style="font-size: 18px">Hi,</span>
                         <span class="fw-bold" style="font-size: 20px">{{ Auth::user()->username }}</span>
                       </span>
                     </a>
                   </li>
                 </ul>
               </nav>
-              <div class="navbar-nav ms-auto">
+              <div class="navbar-nav ms-auto me-3">
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-danger">
@@ -315,6 +363,7 @@
         </footer>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--   Core JS Files   -->
     <script src="{{ asset('backend/assets/js/core/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/core/popper.min.js') }}"></script>
@@ -437,7 +486,7 @@
           togglePassword.classList.add('d-none');
         }
       });
-    </script>
+    </script>   
 
     <script>
       var SweetAlert2Demo = (function () {
@@ -465,38 +514,37 @@
             });
           });
 
-          $("#alert_demo_7").click(function (e) {
-            swal({
-              title: "Are you sure?",
-              text: "You won't be able to revert this!",
-              type: "warning",
-              buttons: {
-                confirm: {
-                  text: "Yes, delete it!",
-                  className: "btn btn-success",
-                },
-                cancel: {
-                  visible: true,
-                  className: "btn btn-danger",
-                },
-              },
-            }).then((Delete) => {
-              if (Delete) {
-                swal({
-                  title: "Deleted!",
-                  text: "Your file has been deleted.",
-                  type: "success",
-                  buttons: {
-                    confirm: {
-                      className: "btn btn-success",
-                    },
-                  },
-                });
-              } else {
-                swal.close();
-              }
+          $(".delete-button").click(function (e) {
+            var form = $(this).closest("form"); // Mengambil form terdekat
+            e.preventDefault(); // Mencegah aksi form langsung dieksekusi
+
+            Swal.fire({
+                title: "Yakin ingin menghapus?",
+                text: "Data yang sudah terhapus tidak bisa kembali lagi!",
+                icon: "warning",
+                showCancelButton: true, // Menampilkan tombol Cancel
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Tidak, batal!',
+                buttonsStyling: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika pengguna mengklik tombol 'Yes, delete it!', submit form penghapusan
+                    form.submit(); // Aksi submit akan berjalan hanya setelah konfirmasi
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    // Jika pengguna mengklik 'No, cancel!', tidak terjadi apapun
+                    Swal.fire({
+                        title: 'Dibatalkan',
+                        text: 'Data kamu aman :)',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+                }
             });
-          });
+        });
+        
         };
         return {
             //== Init
@@ -511,6 +559,7 @@
         SweetAlert2Demo.init();
       });
     </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   </body>
 </html>

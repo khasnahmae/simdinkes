@@ -11,10 +11,9 @@ class JadwalKadis extends Model
     protected $table = 'jadwal_kadis';
 
     protected $fillable = [
-        'tanggal',
+        'tgl_mulai',
+        'tgl_selesai',
         'keterangan',
-        'waktu_mulai',
-        'waktu_selesai',
         'lokasi',
     ];
     public function setLokasiAttribute($value)

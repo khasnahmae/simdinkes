@@ -13,6 +13,7 @@ class Pegawai extends Model
     protected $fillable = [
         'nama',
         'nip',
+        'bidang',
     ];
 
     public function atk()
@@ -24,6 +25,10 @@ class Pegawai extends Model
         return $this->hasMany(Bbm::class);
     }
     public function setNamaAttribute($value)
+    {
+        $this->attributes['nama'] = ucwords(strtolower($value)); // Ubah huruf pertama menjadi kapital
+    }
+    public function setBidangAttribute($value)
     {
         $this->attributes['nama'] = ucwords(strtolower($value)); // Ubah huruf pertama menjadi kapital
     }
