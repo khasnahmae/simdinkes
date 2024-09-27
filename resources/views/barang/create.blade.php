@@ -21,8 +21,8 @@
             </div>
         </div>
         <div class="form-group justify-content-start">
-            <button type="submit" class="btn btn-success" id="alert_demo_3_3">Simpan</button>
-            <a href="{{ route('barang.index') }}" class="btn btn-secondary btn-border">Batal</a>
+            <button type="submit" class="btn btn-success btn-sm" id="alert_demo_3_3">Simpan</button>
+            <a href="{{ route('barang.index') }}" class="btn btn-secondary btn-sm btn-border">Batal</a>
         </div>
     </form>
 </div>

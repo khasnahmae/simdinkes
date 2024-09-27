@@ -1,11 +1,11 @@
 @extends('layouts.apps')
 @section('content')
-<div class="container py-3">
-    <div class="container-fluid  justify-content-between">
-        <h4 class="card-title mb-3">Rekap Permintaan BBM</h4>
-        <form action="{{ route('rekap.bbm') }}" method="GET" class="mb-3">
+<div class="container">
+    <div class="container-fluid  justify-content-between card-header">
+        <h4 class="card-title">Rekap Permintaan BBM</h4>
+        <form action="{{ route('rekap.bbm') }}" method="GET">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <select name="month" class="form-control">
                         @for ($m = 1; $m <= 12; $m++)
                             <option value="{{ $m }}" {{ $m == old('month', date('m')) ? 'selected' : '' }}>
@@ -14,7 +14,7 @@
                         @endfor
                     </select>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <select name="year" class="form-control">
                         @for ($y = date('Y'); $y >= 2000; $y--)
                             <option value="{{ $y }}" {{ $y == old('year', date('Y')) ? 'selected' : '' }}>
@@ -23,13 +23,15 @@
                         @endfor
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary">Tampilkan</button>
-                    <a href="{{ route('rekap.downloadbbm', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-success">Download</a>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-sm">Tampilkan</button>
+                    <a href="{{ route('rekap.downloadbbm', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-info btn-sm"><i class="bi bi-filetype-pdf me-1"></i>PDF</a>
+                    <a href="{{ route('rekap.excelbbm', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel-fill me-1"></i>Excel</a>
                 </div>
             </div>
         </form>
     </div>
+    <div class="card-body">
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover">
         <thead>
@@ -54,5 +56,6 @@
         </tbody>
         </table>
     </div>
+</div>
 </div>
 @endsection

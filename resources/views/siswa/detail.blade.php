@@ -13,28 +13,28 @@
                     <table cellspacing="0" cellpadding="10" class="table table-hover">
                         <tbody>
                             <tr>
-                                <th style=" font-size: 16px;"><strong>NIM</strong></th>
-                                <td style=" font-size: 16px;">{{ $siswa->nim }}</td>
+                                <th><strong>NIM</strong></th>
+                                <td>{{ $siswa->nim }}</td>
                             </tr>
                             <tr>
-                                <th style=" font-size: 16px;"><strong>Kelas</strong></th>
-                                <td style=" font-size: 16px;">{{ $siswa->kelas }}</td>
+                                <th><strong>Kelas</strong></th>
+                                <td>{{ $siswa->kelas }}</td>
                             </tr>
                             <tr>
-                                <th style=" font-size: 16px;"><strong>Semester</strong></th>
-                                <td style=" font-size: 16px;">{{ $siswa->semester }}</td>
+                                <th><strong>Semester</strong></th>
+                                <td>{{ $siswa->semester }}</td>
                             </tr>
                             <tr>
-                                <th style=" font-size: 16px;"><strong>Sekolah</strong></th>
-                                <td style=" font-size: 16px;">{{ $siswa->sekolah }}</td>
+                                <th><strong>Sekolah</strong></th>
+                                <td>{{ $siswa->sekolah }}</td>
                             </tr>
                             <tr>
-                                <th style=" font-size: 16px;"><strong>Tanggal Mulai PKL</strong></th>
-                                <td style=" font-size: 16px;">{{ $siswa->tgl_mulai_pkl }}</td>
+                                <th><strong>Tanggal Mulai PKL</strong></th>
+                                <td>{{ $siswa->tgl_mulai_pkl }}</td>
                             </tr>
                             <tr>
-                                <th style=" font-size: 16px;"><strong>Tanggal Selesai PKL</strong></th>
-                                <td style=" font-size: 16px;">{{ $siswa->tgl_selesai_pkl }}</td>
+                                <th><strong>Tanggal Selesai PKL</strong></th>
+                                <td>{{ $siswa->tgl_selesai_pkl }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -50,7 +50,7 @@
     </div>
         {{-- Tombol kembali ke daftar siswa --}}
         <div class="mb-3">
-            <a href="{{ route('siswa.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('siswa.index') }}" class="btn btn-secondary btn-sm">Kembali</a>
     </div>
 </div>
 @endsection

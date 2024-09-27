@@ -1,7 +1,7 @@
 @extends('layouts.apps')
 @section('content')
-<div class="container py-3">
-    <div class="container-fluid d-flex justify-content-between">
+<div class="container">
+    <div class="container-fluid d-flex justify-content-between card-header">
         <h4 class="card-title">Data Pengajuan BBM</h4>
     </div>
     @if(session('success'))
@@ -9,6 +9,7 @@
             {{ session('success') }}
         </div>
     @endif
+    <div class="card-body">
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover">
             <thead>
@@ -50,5 +51,6 @@
             </tbody>
         </table>
     </div>
+</div>
 </div>
 @endsection

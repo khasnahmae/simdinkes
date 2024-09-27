@@ -1,15 +1,16 @@
 @extends('layouts.apps')
 @section('content')
-<div class="container py-3">
-    <div class="container-fluid d-flex justify-content-between">
+<div class="container">
+    <div class="container-fluid d-flex justify-content-between card-header">
       <h4 class="card-title">Jadwal Kadis</h4>
-        <a href="{{ route('jadis.create') }}" class="btn btn-primary mb-3">Tambah Jadwal Kadis</a>
+        <a href="{{ route('jadis.create') }}" class="btn btn-primary">Tambah Jadwal Kadis</a>
     </div>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
+    <div class="card-body">
           <div class="table-responsive">
             <table
               id="basic-datatables"
@@ -33,18 +34,19 @@
                     <td>{{ $jadwal->keterangan }}</td>
                     <td>{{ $jadwal->lokasi }}</td>
                     <td>
-                        <a href="{{ route('jadis.edit', $jadwal->id) }}" class="btn btn-warning">Edit</a>
+                        <a href="{{ route('jadis.edit', $jadwal->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('jadis.destroy', $jadwal->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger delete-button">Hapus</button>
+                            <button type="submit" class="btn btn-danger btn-sm delete-button">Hapus</button>
                         </form>
                     </td>
                 </tr>
                 @endforeach
               </tbody>
         </table>
-    </div>      
+    </div> 
+  </div>     
 </div>
 @endsection
 

@@ -10,11 +10,7 @@ class Pegawai extends Model
     use HasFactory;
     protected $table = 'pegawai';
 
-    protected $fillable = [
-        'nama',
-        'nip',
-        'bidang',
-    ];
+    protected $fillable = ['nama', 'nip', 'bidang']; 
 
     public function atk()
     {
@@ -30,6 +26,6 @@ class Pegawai extends Model
     }
     public function setBidangAttribute($value)
     {
-        $this->attributes['nama'] = ucwords(strtolower($value)); // Ubah huruf pertama menjadi kapital
+        $this->attributes['bidang'] = ucwords(strtolower($value)); // Ubah huruf pertama menjadi kapital
     }
 }

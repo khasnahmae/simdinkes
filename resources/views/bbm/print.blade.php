@@ -10,6 +10,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            width: 100%;
         }
         table {
             width: 100%;
@@ -28,8 +29,12 @@
         th {
             background-color: #f2f2f2;
         }
-        h4 {
-            text-align: left; /* Menjaga judul rata kiri */
+        .header-table {
+            width: 100%;
+        }
+        .header-table td {
+            padding: 0;
+            vertical-align: top;
         }
         .footer {
             display: flex; /* Menggunakan flexbox untuk footer */
@@ -61,11 +66,19 @@
 </head>
 <body>
     <div class="container">
-            <h4>PERMINTAAN BBM <br> DINAS KESEHATAN KOTA TEGAL</h4>
+        <table class="header-table" style="border: none;">
+            <tr style="border: none;">
+                <td style="text-align: left; border: none;">
+                    <h4>PERMINTAAN BBM <br> DINAS KESEHATAN KOTA TEGAL</h4>
+                </td>
+                <td style="text-align: center; border: none;">
+                    <h4>{{ $bbm->id }}</h4>
+                </td>
+            </tr>
+        </table>
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Kendaraan</th>
                         <th>Jenis BBM</th>
                         <th>Nominal</th>
@@ -74,7 +87,6 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ $bbm->id }}</td>
                         <td>{{ $bbm->kendaraan->nopol }}</td>
                         <td>{{ $bbm->kendaraan->jenis_bbm }}</td>
                         <td>Rp {{ number_format($bbm->nominal, 2) }}</td>
@@ -91,12 +103,14 @@
                 <div class="col">
                     <h5>Mengetahui <br> Kassubag/Kasie <br> 
                         <img src="{{ public_path('storage/img/ttd1.png') }}" alt="Tanda Tangan" style="width: auto; height: 80px; display: block; "> <br>
+                        Sandi <br>
                         ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )
                     </h5>
                 </div>
                 <div class="col">
-                    <h5 style="text-align: left;">Tegal, {{ $bbm->tanggal }} <br> Disetujui <br> 
+                    <h5>Tegal, {{ $bbm->tanggal }} <br> Disetujui <br> 
                         <img src="{{ public_path('storage/img/foto4.jpeg') }}" alt="Tanda Tangan" style="width: 120px; height: auto; display: block; "> <br>
+                        Windi <br>
                         ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )
                     </h5>
                 </div>

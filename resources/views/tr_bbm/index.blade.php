@@ -1,15 +1,16 @@
 @extends('layouts.apps')
 @section('content')
-<div class="container py-3">
-    <div class="container-fluid d-flex justify-content-between">
+<div class="container">
+    <div class="container-fluid d-flex justify-content-between card-header">
         <h4 class="card-title">Data Permintaan BBM</h4>
-        <a href="{{ route('tr_bbm.create') }}" class="btn btn-primary mb-3">Tambah Permintaan BBM</a>
+        <a href="{{ route('tr_bbm.create') }}" class="btn btn-primary">Tambah Permintaan BBM</a>
     </div>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
+    <div class="card-body">
     <div class="table-responsive">
         <table
           id="basic-datatables"
@@ -66,5 +67,6 @@
             </tbody>
         </table>
     </div>
+</div>
 </div>
 @endsection

@@ -114,45 +114,50 @@
         
                     <!-- Hanya tampil untuk Admin -->
                     @if(Auth::user()->level == 'admin')
-                    <li class="nav-item {{ request()->is('siswa') ? 'active' : '' }}">
-                      <a href="/siswa">
-                          <i class="fas fa-user-graduate"></i>
-                          <p>Siswa</p>
+                    <li class="nav-item {{ request()->is('siswa') || request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('barang') || request()->is('kendaraan') ? 'active' : '' }}">
+                      <a data-bs-toggle="collapse" href="#formsDataMaster">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Data Master</p>
+                        <span class="caret"></span>
                       </a>
+                      <div class="collapse {{ request()->is('siswa') || request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('barang') || request()->is('kendaraan') ? 'show' : '' }}" id="formsDataMaster">
+                        <ul class="nav nav-collapse">
+                          <li class="{{ request()->is('siswa') ? 'active' : '' }}">
+                            <a href="/siswa">
+                              <span class="sub-item">Siswa</span>
+                            </a>
+                          </li>
+                          <li class="{{ request()->is('user') ? 'active' : '' }}">
+                            <a href="/user">
+                              <span class="sub-item">User</span>
+                            </a>
+                          </li>
+                          <li class="{{ request()->is('pegawai') ? 'active' : '' }}">
+                            <a href="/pegawai">
+                              <span class="sub-item">Pegawai</span>
+                            </a>
+                          </li>
+                          <li class="{{ request()->is('jadis') ? 'active' : '' }}">
+                            <a href="/jadis">
+                              <span class="sub-item">Jadwal Kadis</span>
+                            </a>
+                          </li>
+                          <li class="{{ request()->is('barang') ? 'active' : '' }}">
+                            <a href="/barang">
+                              <span class="sub-item">Barang</span>
+                            </a>
+                          </li>
+                          <li class="{{ request()->is('kendaraan') ? 'active' : '' }}">
+                            <a href="/kendaraan">
+                              <span class="sub-item">Kendaraan</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </li>
-                    <li class="nav-item {{ request()->is('user') ? 'active' : '' }}">
-                      <a href="/user">
-                          <i class="fas fa-address-card"></i>
-                          <p>User</p>
-                      </a>
-                    </li>
-                    <li class="nav-item {{ request()->is('pegawai') ? 'active' : '' }}">
-                        <a href="/pegawai">
-                            <i class="fas fa-users"></i>
-                            <p>Pegawai</p>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ request()->is('jadis') ? 'active' : '' }}">
-                      <a href="/jadis">
-                          <i class="far fa-calendar-alt"></i>
-                          <p>Jadwal Kadis</p>
-                      </a>
-                    </li>
-                    <li class="nav-item {{ request()->is('barang') ? 'active' : '' }}">
-                        <a href="/barang">
-                            <i class="fas fa-box-open"></i>
-                            <p>Barang</p>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ request()->is('kendaraan') ? 'active' : '' }}">
-                      <a href="/kendaraan">
-                          <i class="fas fa-car-alt"></i>
-                          <p>Kendaraan</p>
-                      </a>
-                  </li>
-                    <li class="nav-item {{ request()->routeIs('pengajuan.atk') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('pengajuan/atk') ? 'active' : '' }}">
                       <a href="/pengajuan/atk">
-                          <i class="fas fa-arrow-down"></i>
+                        <i class="fas fa-box-open"></i>
                           <p>Permintaan ATK
                             @if($pendingAtkCount > 0)
                               <span class="badge badge-danger">{{ $pendingAtkCount }}</span>
@@ -160,9 +165,9 @@
                           </p>
                       </a>
                     </li>
-                    <li class="nav-item {{ request()->routeIs('pengajuan.bbm') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('pengajuan/bbm') ? 'active' : '' }}">
                       <a href="/pengajuan/bbm">
-                          <i class="fas fa-arrow-down"></i>
+                        <i class="fas fa-car-alt"></i>
                           <p>Permintaan BBM
                             @if($pendingBbmCount > 0)
                                 <span class="badge badge-danger">{{ $pendingBbmCount }}</span>
@@ -192,12 +197,12 @@
                       </div>
                     </li>
                     <li class="nav-item {{ request()->is('atk') || request()->is('bbm') ? 'active' : '' }}">
-                      <a data-bs-toggle="collapse" href="#base">
+                      <a data-bs-toggle="collapse" href="#formsTransaksi">
                           <i class="fas fa-cart-plus"></i>
                           <p>Transaksi</p>
                           <span class="caret"></span>
                       </a>
-                      <div class="collapse {{ request()->is('atk') || request()->is('bbm') ? 'show' : '' }}" id="base">
+                      <div class="collapse {{ request()->is('atk') || request()->is('bbm') ? 'show' : '' }}" id="formsTransaksi">
                           <ul class="nav nav-collapse">
                               <li class="{{ request()->is('atk') ? 'active' : '' }}">
                                   <a href="/atk">
@@ -212,12 +217,6 @@
                           </ul>
                       </div>
                     </li>
-                    {{-- <li class="nav-item {{ request()->routeIs('laporan.index') ? 'active' : '' }}">
-                      <a href="{{ route('laporan.index') }}">
-                          <i class="fas fa-file-alt"></i>
-                          <p>Rekap Permintaan</p>
-                      </a>
-                    </li> --}}
                     @endif
         
                     <!-- Menu Transaksi untuk Operator -->
@@ -344,9 +343,9 @@
                 <div class="col-md-12">
                   <div class="card card-round">
                     <div class="card-header">
-                      <div class="card-head-row">
+                      {{-- <div class="card-head-row"> --}}
                         @yield('content')
-                      </div>
+                      {{-- </div> --}}
                     </div>
                   </div>
                 </div>
@@ -406,6 +405,7 @@
     <script src="{{ asset('backend/assets/js/kaiadmin.min.js') }}"></script>
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <script src="{{ asset('backend/assets/js/setting-demo2.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

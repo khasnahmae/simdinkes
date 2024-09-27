@@ -24,6 +24,21 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('operator123'),
                 'level' => 'operator',
             ],
+            [
+                'username' => 'sandi',
+                'password' => bcrypt('sandi123'),
+                'level' => 'admin',
+            ],
+            [
+                'username' => 'lisa',
+                'password' => bcrypt('lisa123'),
+                'level' => 'admin',
+            ],
+            [
+                'username' => 'rahma',
+                'password' => bcrypt('rahma123'),
+                'level' => 'admin',
+            ],
         ]);
     }
 }

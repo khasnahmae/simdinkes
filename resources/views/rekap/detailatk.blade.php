@@ -1,10 +1,11 @@
 @extends('layouts.apps')
 
 @section('content')
-<div class="container py-3">
-    <div class="container-fluid  justify-content-between">
-        <h4 class="card-title mb-3">Detail Transaksi</h4>
+<div class="container">
+    <div class="container-fluid  justify-content-between card-header">
+        <h4 class="card-title">Detail Transaksi</h4>
     </div>
+    <div class="card-body">
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover">
         <thead>
@@ -26,7 +27,8 @@
             @endforeach
         </tbody>
         </table>
-        <a href="{{ route('rekap.atk') }}" class="btn btn-primary mt-3">Kembali</a>
+        <a href="{{ route('rekap.atk') }}" class="btn btn-primary btn-sm mt-3">Kembali</a>
     </div>
+</div>
 </div>
 @endsection

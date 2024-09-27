@@ -1,9 +1,9 @@
 @extends('layouts.apps')
 @section('content')
-<div class="container py-3">
-    <div class="container-fluid  justify-content-between">
-        <h4 class="card-title mb-3">Rekap Permintaan ATK</h4>
-        <form action="{{ route('rekap.atk') }}" method="GET" class="mb-3">
+<div class="container">
+    <div class="container-fluid  justify-content-between card-header">
+        <h4 class="card-title">Rekap Permintaan ATK</h4>
+        <form action="{{ route('rekap.atk') }}" method="GET">
             <div class="row">
                 <div class="col-md-3">
                     <select name="month" class="form-control">
@@ -24,14 +24,14 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-primary ">Tampilkan</button>
-                    <a href="{{ route('rekap.downloadatk', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-success"><i class="bi bi-filetype-pdf me-1"></i>PDF</a>
-                    <a href="{{ route('rekap.excelatk', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-success "><i class="bi bi-file-earmark-excel-fill me-1"></i></i>Excel</a>
+                    <button type="submit" class="btn btn-primary btn-sm">Tampilkan</button>
+                    <a href="{{ route('rekap.downloadatk', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-info btn-sm"><i class="bi bi-filetype-pdf me-1"></i>PDF</a>
+                    <a href="{{ route('rekap.excelatk', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel-fill me-1"></i>Excel</a>
                 </div>
             </div>
         </form>
     </div>
-
+    <div class="card-body">
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover">
         <thead>
@@ -56,5 +56,6 @@
         </tbody>
         </table>
     </div>
+</div>
 </div>
 @endsection

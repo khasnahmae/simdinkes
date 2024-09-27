@@ -57,8 +57,11 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
 
     Route::get('/rekap/atk', [LaporanController::class, 'atk'])->name('rekap.atk');
     Route::get('/rekap/atk/download', [LaporanController::class, 'downloadatk'])->name('rekap.downloadatk');
+    Route::get('rekap/atk/excelatk', [LaporanController::class, 'excelatk'])->name('rekap.excelatk');
     Route::get('/rekap/bbm', [LaporanController::class, 'bbm'])->name('rekap.bbm');
     Route::get('/rekap/bbm/download', [LaporanController::class, 'downloadbbm'])->name('rekap.downloadbbm');
+    Route::get('rekap/bbm/excelatk', [LaporanController::class, 'excelbbm'])->name('rekap.excelbbm');
+
    // Rute untuk laporan detail
     Route::get('/rekap/detailatk/{id}', [LaporanController::class, 'detailatk'])->name('rekap.detailatk');
     Route::get('/rekap/detailbbm/{id}', [LaporanController::class, 'detailbbm'])->name('rekap.detailbbm');

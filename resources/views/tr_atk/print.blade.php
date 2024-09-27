@@ -8,6 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            width: 100%;
         }
         table {
             width: 100%;
@@ -26,8 +27,12 @@
         th {
             background-color: #f2f2f2;
         }
-        h4 {
-            text-align: left; /* Menjaga judul rata kiri */
+        .header-table {
+            width: 100%;
+        }
+        .header-table td {
+            padding: 0;
+            vertical-align: top;
         }
         .footer {
             display: flex; /* Menggunakan flexbox untuk footer */
@@ -59,11 +64,19 @@
 </head>
 <body>
     <div class="container">
-        <h4>PERMINTAAN ATK <br> DINAS KESEHATAN KOTA TEGAL</h4>
+        <table class="header-table" style="border: none;">
+            <tr style="border: none;">
+                <td style="text-align: left; border: none;">
+                    <h4>PERMINTAAN ATK <br> DINAS KESEHATAN KOTA TEGAL</h4>
+                </td>
+                <td style="text-align: center; border: none;">
+                    <h4>{{ $atk->id }}</h4>
+                </td>
+            </tr>
+        </table>              
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Barang</th>
                     <th>Jumlah Barang</th>
                     <th>Pegawai</th>
@@ -71,7 +84,6 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ $atk->id }}</td>
                     <td>{{ $atk->barang->nama_barang }}</td>
                     <td>{{ $atk->jumlah_barang }}</td>
                     <td>{{ $atk->pegawai->nama }}</td>
@@ -82,22 +94,27 @@
             <div class="col">
                 <h5>Yang meminta</h5>
                 <br><br>
-                <h5>( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )</h5>
+                <h5>{{ Auth::user()->username }} <br> ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )</h5>
             </div>
             <div class="col">
                 <h5>Mengetahui <br> Kassubag/Kasie <br> 
                     <img src="{{ public_path('storage/img/ttd1.png') }}" alt="Tanda Tangan" style="width: auto; height: 80px; display: block; "> <br>
+                        Sandi <br>
                     ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )
                 </h5>
             </div>
             <div class="col">
-                <h5 style="text-align: left;">Tegal, {{ $atk->tanggal }} <br> Disetujui <br> 
+                <h5>Tegal, {{ $atk->tanggal }} <br> Disetujui <br> 
                     <img src="{{ public_path('storage/img/foto4.jpeg') }}" alt="Tanda Tangan" style="width: 120px; height: auto; display: block; "> <br>
+                        Windi <br>
                     ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )
                 </h5>
             </div>
-        </div>                       
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        </div>  
+    </div>                     
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>   
 </body>
 </html>
+

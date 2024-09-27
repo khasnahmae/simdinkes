@@ -29,13 +29,19 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
-            'nama' => 'required',
-            'nip' => 'required',
-            'bidang' => 'required',
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|string|max:255',
+            'bidang' => 'required|string|max:255',
         ]);
-
-        Pegawai::create($request->all());
+    
+        // Menyimpan data ke dalam tabel pegawai
+        Pegawai::create([
+            'nama' => $request->input('nama'),
+            'nip' => $request->input('nip'),
+            'bidang' => $request->input('bidang'),
+        ]);
 
         return redirect()->route('pegawai.index')->with('success', 'Data Pegawai berhasil ditambahkan.');
     }

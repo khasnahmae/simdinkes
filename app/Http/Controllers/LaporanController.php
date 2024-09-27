@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanController extends Controller
 {
@@ -67,6 +68,76 @@ class LaporanController extends Controller
          return $pdf->download($fileName);
 
     }
+
+    public function excelatk(Request $request)
+    {
+        $month = $request->input('month', date('m'));
+        $year = $request->input('year', date('Y'));
+
+        // Ambil data yang sama untuk diunduh
+        $rekapAtk = Atk::where('status', 'disetujui')
+                        ->whereMonth('tanggal', $month)
+                        ->whereYear('tanggal', $year)
+                        ->get();
+
+        // Nama file
+        $fileName = "rekap_bulanan_atk_{$month}_{$year}.csv";
+
+        // Set header untuk download file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+
+        // Membuat file CSV
+        $output = fopen('php://output', 'w');
+        
+        // Menambahkan header kolom
+        fputcsv($output, ['ID','Tanggal', 'Nama Barang', 'Jumlah', 'Pegawai']);
+
+        // Menambahkan data
+        foreach ($rekapAtk as $atk) {
+            fputcsv($output, [$atk->id, $atk->tanggal, $atk->barang->nama_barang, $atk->jumlah_barang, $atk->pegawai->nama]);
+        }
+
+        fclose($output);
+        exit();
+        
+    }
+
+    public function excelbbm(Request $request)
+    {
+        $month = $request->input('month', date('m'));
+        $year = $request->input('year', date('Y'));
+
+        // Ambil data yang sama untuk diunduh
+        $rekapBbm = Bbm::where('status', 'disetujui')
+                        ->whereMonth('tanggal', $month)
+                        ->whereYear('tanggal', $year)
+                        ->get();
+
+        // Nama file
+        $fileName = "rekap_bulanan_bbm_{$month}_{$year}.csv";
+
+        // Set header untuk download file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+
+        // Membuat file CSV
+        $output = fopen('php://output', 'w');
+        
+        // Menambahkan header kolom
+        fputcsv($output, ['ID','Tanggal', 'Kendaraan', 'Nominal', 'Pegawai']);
+
+        // Menambahkan data
+        foreach ($rekapBbm as $bbm) {
+            fputcsv($output, [$bbm->id, $bbm->tanggal, $bbm->kendaraan->nama_kendaraan, $bbm->nominal, $bbm->pegawai->nama]);
+        }
+
+        fclose($output);
+        exit();
+        
+    }
+    
+
     public function downloadbbm(Request $request)
     {
         $month = $request->input('month', date('m'));

@@ -30,8 +30,8 @@
                     </div>
                 </div>
             </div>        
-                <button type="submit" class="btn btn-success" id="alert_demo_3_3">Simpan</button>
-                <a href="{{ route('user.index') }}" class="btn btn-secondary btn-border">Batal</a>
+                <button type="submit" class="btn btn-success btn-sm" id="alert_demo_3_3">Simpan</button>
+                <a href="{{ route('user.index') }}" class="btn btn-secondary btn-sm btn-border">Batal</a>
             </form>
         </div>
 @endsection

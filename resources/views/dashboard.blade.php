@@ -1,65 +1,12 @@
 @extends('layouts.apps')
 @section('content')
 <div class="container py-3">
-    <div class="row">
-        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000"> <!-- 10000 ms = 10 detik -->
-            <div class="carousel-inner">
-                <!-- Slide 1 -->
-                <div class="carousel-item active">
-                    <img src="{{ asset('images/foto1.jpg') }}" class="d-block w-100" alt="Peringatan Hari Kesehatan Dunia">
-                    <div class="carousel-caption d-none d-md-block">
-                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
-                        <h5 style=" font-size: 24px;">Peringatan Hari Kesehatan Dunia</h5>
-                        <p style=" font-size: 16px;">Ikuti acara peringatan Hari Kesehatan Dunia pada 7 April 2024. Tema tahun ini adalah 'Kesehatan Mental untuk Semua'.</p>
-                    </div>
-                </div>
-                <!-- Slide 2 -->
-                <div class="carousel-item">
-                    <img src="{{ asset('images/foto2.jpg') }}" class="d-block w-100" alt="Pelatihan Kesehatan Masyarakat">
-                    <div class="carousel-caption d-none d-md-block">
-                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
-                        <h5 style=" font-size: 24px;">Pelatihan Kesehatan Masyarakat</h5>
-                        <p style=" font-size: 16px;">Pelatihan untuk tenaga medis pada 15 Mei 2024. Pendaftaran masih dibuka!</p>
-                    </div>
-                </div>
-                <!-- Slide 3 -->
-                <div class="carousel-item">
-                    <img src="{{ asset('images/foto3.webp') }}" class="d-block w-100" alt="Pemeriksaan Kesehatan Gratis">
-                    <div class="carousel-caption d-none d-md-block">
-                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
-                        <h5 style=" font-size: 24px;">Pemeriksaan Kesehatan Gratis</h5>
-                        <p style=" font-size: 16px;">Jangan lewatkan pemeriksaan kesehatan gratis di Puskesmas Tegal pada 22 Juni 2024.</p>
-                    </div>
-                </div>
-                <!-- Slide 4 -->
-                <div class="carousel-item">
-                    <img src="{{ asset('images/foto4.jpeg') }}" class="d-block w-100" alt="Sosialisasi Vaksinasi">
-                    <div class="carousel-caption d-none d-md-block">
-                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
-                        <h5 style=" font-size: 24px;">Sosialisasi Vaksinasi</h5>
-                        <p style=" font-size: 16px;">Sosialisasi mengenai pentingnya vaksinasi untuk anak-anak pada 30 Juli 2024.</p>
-                    </div>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    
-    </div>
-
-
     <!-- Jadwal Kadis -->
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-3">
                 <div class="card-header">
-                    <h5 class="card-title">Jadwal Kadis Mendatang</h5>
+                    <div class="card-title">Jadwal Kadis Mendatang</div>
                 </div>
                 <div class="card-body">
                     @if($jadwalKadis->isEmpty())
@@ -116,7 +63,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="chart-container" style="min-height: 375px">
+                    <div class="chart-container" style="min-height: 300px">
                         <canvas id="statisticsChart"></canvas>
                     </div>
                     <div id="myChartLegend"></div>
@@ -145,7 +92,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="chart-container" style="min-height: 375px">
+                    <div class="chart-container" style="min-height: 250px">
                         <canvas id="statisticsChartAtk"></canvas>
                     </div>
                     <div id="myChartLegend"></div>
@@ -156,68 +103,120 @@
     
     <div class="row">
         <!-- Widget 1: Total Pegawai -->
-        <div class="col-md-4">
-            <div class="card card-stats">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="icon-big text-center">
-                                <i class="fas fa-users text-primary"></i>
-                            </div>
-                        </div>
-                        <div class="col-7">
-                            <div class="numbers">
-                                <p class="card-category">Total Pegawai</p>
-                                <h4 class="card-title">{{ $jumlahPegawai }}</h4>
-                            </div>
-                        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="card card-stats card-primary card-round">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-5">
+                    <div class="icon-big text-center">
+                      <i class="fas fa-users"></i>
                     </div>
+                  </div>
+                  <div class="col-7 col-stats">
+                    <div class="numbers">
+                      <p class="card-category">Total Pegawai</p>
+                      <h4 class="card-title">{{ $jumlahPegawai }}</h4>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
         </div>
     
         <!-- Widget 2: Total Permintaan BBM di Bulan Ini -->
-        <div class="col-md-4">
-            <div class="card card-stats">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="icon-big text-center">
-                                <i class="fas fa-gas-pump text-danger"></i>
-                            </div>
-                        </div>
-                        <div class="col-7">
-                            <div class="numbers">
-                                <p class="card-category">Total BBM Disetujui</p>
-                                <h4 class="card-title">Rp {{ number_format($totalBbm, 0, ',', '.') }}</h4>
-                            </div>
-                        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="card card-stats card-info card-round">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-5">
+                    <div class="icon-big text-center">
+                        <i class="fas fa-gas-pump text-danger"></i>
                     </div>
+                  </div>
+                  <div class="col-7 col-stats">
+                    <div class="numbers">
+                      <p class="card-category">BBM Disetujui</p>
+                      <h4 class="card-title">Rp {{ number_format($totalBbm, 0, ',', '.') }}</h4>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
         </div>
     
         <!-- Widget 3: Total Permintaan ATK di Bulan Ini -->
-        <div class="col-md-4">
-            <div class="card card-stats">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="icon-big text-center">
-                                <i class="fas fa-boxes text-success"></i>
-                            </div>
-                        </div>
-                        <div class="col-7">
-                            <div class="numbers">
-                                <p class="card-category">Total ATK Disetujui</p>
-                                <h4 class="card-title">{{ $totalAtk }} Barang</h4>
-                            </div>
-                        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="card card-stats card-secondary card-round">
+            <div class="card-body">
+                <div class="row">
+                <div class="col-5">
+                    <div class="icon-big text-center">
+                        <i class="fas fa-boxes text-success"></i>
+                    </div>
+                </div>
+                <div class="col-7 col-stats">
+                    <div class="numbers">
+                    <p class="card-category">ATK Disetujui</p>
+                    <h4 class="card-title">{{ $totalAtk }} Barang</h4>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    <div class="row">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000"> <!-- 10000 ms = 10 detik -->
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <img src="{{ asset('images/foto1.jpg') }}" class="d-block w-100" alt="Peringatan Hari Kesehatan Dunia">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
+                        <h5 style=" font-size: 18px;">Peringatan Hari Kesehatan Dunia</h5>
+                        <p style=" font-size: 12px;">Ikuti acara peringatan Hari Kesehatan Dunia pada 7 April 2024. Tema tahun ini adalah 'Kesehatan Mental untuk Semua'.</p>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <img src="{{ asset('images/foto2.jpg') }}" class="d-block w-100" alt="Pelatihan Kesehatan Masyarakat">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
+                        <h5 style=" font-size: 18px;">Pelatihan Kesehatan Masyarakat</h5>
+                        <p style=" font-size: 12px;">Pelatihan untuk tenaga medis pada 15 Mei 2024. Pendaftaran masih dibuka!</p>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <img src="{{ asset('images/foto3.webp') }}" class="d-block w-100" alt="Pemeriksaan Kesehatan Gratis">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
+                        <h5 style=" font-size: 18px;">Pemeriksaan Kesehatan Gratis</h5>
+                        <p style=" font-size: 12px;">Jangan lewatkan pemeriksaan kesehatan gratis di Puskesmas Tegal pada 22 Juni 2024.</p>
+                    </div>
+                </div>
+                <!-- Slide 4 -->
+                <div class="carousel-item">
+                    <img src="{{ asset('images/foto4.jpeg') }}" class="d-block w-100" alt="Sosialisasi Vaksinasi">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
+                        <h5 style=" font-size: 18px;">Sosialisasi Vaksinasi</h5>
+                        <p style=" font-size: 12px;">Sosialisasi mengenai pentingnya vaksinasi untuk anak-anak pada 30 Juli 2024.</p>
                     </div>
                 </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
+    
     </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
