@@ -2,7 +2,7 @@
 @section('content')
 <div class="container py-3">
     <h4 class="card-title">Edit Permintaan BBM</h4>
-    <form action="{{ route('bbm.update', $bbm->id) }}" method="POST">
+    <form action="{{ route('bbm.update', $bbm->uuid) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="container-fluid py-3">

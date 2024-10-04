@@ -60,18 +60,18 @@ class BarangController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $uuid)
     {
-        $barang = Barang::findOrFail($id);
+        $barang = Barang::where('uuid', $uuid)->firstOrFail();
         return view('barang.edit', compact('barang'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $uuid)
     {
-        $barang = Barang::findOrFail($id);
+        $barang = Barang::where('uuid', $uuid)->firstOrFail();
 
         $request->validate([
             'nama_barang' => 'required',
@@ -86,9 +86,9 @@ class BarangController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
-        $barang = Barang::findOrFail($id);
+        $barang = Barang::where('uuid', $uuid)->firstOrFail();
         $barang->delete();
 
         return redirect()->route('barang.index')->with('success', 'Data Barang telah dihapus.');

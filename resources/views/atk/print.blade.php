@@ -94,7 +94,7 @@
             <div class="col">
                 <h5>Yang meminta</h5>
                 <br><br>
-                <h5>{{ Auth::user()->username }} <br> ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )</h5>
+                <h5>{{ $atk->pegawai->nama }} <br> ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )</h5>
             </div>
             <div class="col">
                 <h5>Mengetahui <br> Kassubag/Kasie <br> 

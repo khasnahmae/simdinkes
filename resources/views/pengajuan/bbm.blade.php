@@ -36,12 +36,12 @@
                     <td>{{ $item->status }}</td>
                     <td>
                         <!-- Tombol untuk menyetujui pengajuan -->
-                        <form action="{{ route('bbm.approve', $item->id) }}" method="POST">
+                        <form action="{{ route('bbm.approve', $item->uuid) }}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-primary btn-sm">Setujui</button>
                         </form>
                         <!-- Tombol untuk menolak pengajuan -->
-                        <form action="{{ route('bbm.reject', $item->id) }}" method="POST" style="display: inline-block;">
+                        <form action="{{ route('bbm.reject', $item->uuid) }}" method="POST" style="display: inline-block;">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
                         </form>

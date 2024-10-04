@@ -30,8 +30,8 @@
                     <td>{{ $ssw->nama }}</td>
                     <td>{{ $ssw->sekolah }}</td>
                     <td>
-                        <a href="{{ route('siswa.edit', $ssw->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="{{ route('siswa.show', $ssw->id) }}" class="btn btn-info btn-sm">Detail</a>
+                        <a href="{{ route('siswa.edit', $ssw->uuid) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ route('siswa.show', $ssw->uuid) }}" class="btn btn-info btn-sm">Detail</a>
                         <form action="{{ route('siswa.destroy', $ssw->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')

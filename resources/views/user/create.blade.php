@@ -25,6 +25,7 @@
                             <select name="level" class="form-control" id="level" required>
                                 <option value="admin">Admin</option>
                                 <option value="operator">Operator</option>
+                                <option value="pemimpin">Pemimpin</option>
                             </select>
                         </div>
                     </div>

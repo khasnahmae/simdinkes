@@ -39,6 +39,7 @@ class KendaraanController extends Controller
             'no_rangka' => 'required',
             'no_mesin' => 'required',
             'jenis_bbm' => 'required|string',
+            'bbm_limit' => 'required|numeric',
         ]);
 
         Kendaraan::create($request->all());
@@ -57,21 +58,21 @@ class KendaraanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $uuid)
     {
-        $kendaraan = Kendaraan::findOrFail($id);
+        $kendaraan = Kendaraan::where('uuid', $uuid)->firstOrFail();
         return view('kendaraan.edit', compact('kendaraan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $uuid)
     {
-        $kendaraan = Kendaraan::findOrFail($id);
+        $kendaraan = Kendaraan::where('uuid', $uuid)->firstOrFail();
 
         $request->validate([
-            'nopol' => 'required|unique:kendaraan,nopol,'.$id,
+            'nopol' => 'required|unique:kendaraan,nopol,'.$kendaraan->id,
             'nama_kendaraan' => 'required',
             'jenis' => 'required',
             'tipe' => 'required',
@@ -80,6 +81,8 @@ class KendaraanController extends Controller
             'no_rangka' => 'required',
             'no_mesin' => 'required',
             'jenis_bbm' => 'required|string',
+            'bbm_limit' => 'required|numeric',
+
         ]);
 
         $kendaraan->update($request->all());
@@ -90,9 +93,9 @@ class KendaraanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
-        $kendaraan = Kendaraan::findOrFail($id);
+        $kendaraan = Kendaraan::where('uuid', $uuid)->firstOrFail();
         $kendaraan->delete();
 
         return redirect()->route('kendaraan.index')->with('success', 'Data Kendaraan telah dihapus.');

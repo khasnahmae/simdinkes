@@ -30,8 +30,8 @@
                     <td>{{ $user->username }}</td>
                     <td>{{ $user->level }}</td>
                     <td>
-                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('user.edit', $user->uuid) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('user.destroy', $user->uuid) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger delete-button btn-sm">Hapus</button>

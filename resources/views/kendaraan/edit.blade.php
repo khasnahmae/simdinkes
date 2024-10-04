@@ -2,7 +2,7 @@
 @section('content')
 <div class="container py-3">
     <h4 class="card-title">Tambah Data Kendaraan</h4>
-    <form action="{{ route('kendaraan.update', $kendaraan->id) }}" method="POST">
+    <form action="{{ route('kendaraan.update', $kendaraan->uuid) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="container-fluid py-3">
@@ -23,6 +23,12 @@
                     <div class="form-group">
                         <label for="jenis">Jenis</label>
                         <input type="text" name="jenis" class="form-control" id="jenis" value="{{ $kendaraan->jenis }}" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="bbm_limit">Limit Bbm</label>
+                        <input type="number" name="bbm_limit" class="form-control" id="bbm_limit" step="0.01" value="{{ $kendaraan->bbm_limit }}" required>
                     </div>
                 </div>
                 <div class="col-md-4">

@@ -49,7 +49,7 @@
                     <td>{{ $item->total_permintaan }}</td>
                     <td>{{ $item->total_jumlah }}</td>
                     <td>
-                        <a href="{{ route('rekap.detailatk', ['id' => $item->barang_id]) }}" class="btn btn-info btn-sm">Detail</a>
+                        <a href="{{ route('rekap.detailatk', ['uuid' => $item->barang_id]) }}" class="btn btn-info btn-sm">Detail</a>
                     </td>
                 </tr>
             @endforeach

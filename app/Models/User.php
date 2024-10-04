@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'username',
         'password',
         'level',
+        'uuid',
     ];
 
 
@@ -43,6 +45,23 @@ class User extends Authenticatable
     public function verifyPassword($password)
     {
         return password_verify($password, $this->password);
+    }
+    // Memastikan UUID otomatis terisi saat membuat model baru
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = (string) Str::uuid(); // Generate UUID
+            }
+        });
+    }
+
+    // Pastikan UUID menjadi primary key yang dipakai untuk routing
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
     
 

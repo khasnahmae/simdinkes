@@ -2,7 +2,7 @@
 @section('content')
 <div class="container py-3">
     <h4 class="card-title">Tambah Data Barang</h4>
-    <form action="{{ route('barang.update', $barang->id) }}" method="POST">
+    <form action="{{ route('barang.update', $barang->uuid) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="container-fluid py-3">

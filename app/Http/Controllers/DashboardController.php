@@ -20,23 +20,23 @@ class DashboardController extends Controller
 
         $currentMonth = Carbon::now()->month;
         $totalBbm = Bbm::whereMonth('tanggal', $currentMonth)
-                        ->where('status', 'disetujui')  // Sesuaikan dengan field 'status'
+                        ->where('status', 'Disetujui Pimpinan')  // Sesuaikan dengan field 'status'
                         ->sum('nominal');
 
         // Total permintaan ATK yang disetujui di bulan ini
         $totalAtk = Atk::whereMonth('tanggal', $currentMonth)
-                        ->where('status', 'disetujui')  
+                        ->where('status', 'Disetujui Pimpinan')  
                         ->sum('jumlah_barang');
 
 
-        // Ambil data BBM yang disetujui per bulan per kendaraan
+        // Ambil data BBM yang Disetujui Pimpinan per bulan per kendaraan
         $bbmPerKendaraan = DB::table('bbm')
             ->select(
                 DB::raw('MONTH(tanggal) as bulan'),
                 'nama_kendaraan',
                 DB::raw('SUM(nominal) as total_nominal')
             )
-            ->where('status', 'disetujui')
+            ->where('status', 'Disetujui Pimpinan')
             ->groupBy('bulan', 'nama_kendaraan')
             ->orderBy('bulan')
             ->get();
@@ -93,7 +93,7 @@ class DashboardController extends Controller
                 'barang.nama_barang',  // Ambil nama barang
                 DB::raw('SUM(atk.jumlah_barang) as total_barang')
             )
-            ->where('atk.status', 'disetujui')
+            ->where('atk.status', 'Disetujui Pimpinan')
             ->groupBy('bulan', 'barang.nama_barang')
             ->orderBy('bulan')
             ->get();

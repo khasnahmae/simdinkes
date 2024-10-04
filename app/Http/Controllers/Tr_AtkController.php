@@ -57,20 +57,23 @@ class Tr_AtkController extends Controller
             'jumlah_barang' => $request->jumlah_barang,
             'status' => 'Pengajuan',
             'tanggal' => now(), // Menyimpan tanggal saat ini
+            'uuid' => (string) \Illuminate\Support\Str::uuid(), // Tambahkan UUID
         ]);
     
         return redirect()->route('tr_atk.index')->with('success', 'Data permintaan ATK berhasil ditambahkan, stok barang telah dikurangi.');
     }
 
-    public function edit(Atk $atk)
+    public function edit(string $uuid)
     {
+        $atk = Atk::where('uuid', $uuid)->firstOrFail();
         $pegawai = Pegawai::all();
         $barang = Barang::all();
         return view('tr_atk.edit', compact('atk', 'pegawai', 'barang'));
     }
 
-    public function update(Request $request, Atk $atk)
+    public function update(Request $request, Atk $uuid)
     {
+        $atk = Atk::where('uuid', $uuid)->firstOrFail();
         $request->validate([
             'pegawai_id' => 'required|exists:pegawai,id',
             'barang_id' => 'required|exists:barang,id',
@@ -105,8 +108,9 @@ class Tr_AtkController extends Controller
         }
     }
 
-    public function destroy(Atk $atk)
+    public function destroy(string $uuid)
     {
+        $atk = Atk::where('uuid', $uuid)->firstOrFail();
         // Temukan barang yang terkait dengan transaksi
         $barang = Barang::findOrFail($atk->barang_id);
 
@@ -119,9 +123,9 @@ class Tr_AtkController extends Controller
 
         return redirect()->route('tr_atk.index')->with('success', 'Data permintaan ATK berhasil dihapus, stok barang telah diperbarui.');
     }
-    public function print($id)
+    public function print($uuid)
     {
-        $atk = Atk::findOrFail($id);
+        $atk = Atk::where('uuid', $uuid)->firstOrFail();
 
         $pdf = Pdf::loadView('tr_atk.print', compact('atk'));
 

@@ -32,8 +32,8 @@
                     <td>{{ $item->nip}}</td>
                     <td>{{ $item->bidang }}</td>
                     <td>
-                        <a href="{{ route('pegawai.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('pegawai.destroy', $item->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('pegawai.edit', $item->uuid) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('pegawai.destroy', $item->uuid) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm delete-button">Hapus</button>

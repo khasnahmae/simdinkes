@@ -57,16 +57,18 @@ class Tr_BbmController extends Controller
     }
 
     // Menampilkan form untuk mengedit data BBM
-    public function edit(Bbm $bbm)
+    public function edit(string $uuid)
     {
+        $bbm = Bbm::where('uuid', $uuid)->firstOrFail();
         $pegawai = Pegawai::orderBy('nama', 'asc')->get();
         $kendaraan = Kendaraan::orderBy('nopol', 'asc')->get();
         return view('tr_bbm.edit', compact('bbm', 'pegawai', 'kendaraan'));
     }
 
     // Memperbarui data BBM
-    public function update(Request $request, Bbm $bbm)
+    public function update(Request $request, string $uuid)
     {
+        $bbm = Bbm::where('uuid', $uuid)->firstOrFail();
         $request->validate([
             'pegawai_id' => 'required|exists:pegawai,id',
             'nopol' => 'required|exists:kendaraan,id',
@@ -87,15 +89,16 @@ class Tr_BbmController extends Controller
     }
 
     // Menghapus data BBM
-    public function destroy(Bbm $bbm)
+    public function destroy(string $uuid)
     {
+        $bbm = Bbm::where('uuid', $uuid)->firstOrFail();
         $bbm->delete();
 
         return redirect()->route('tr_bbm.index')->with('success', 'Permintaan BBM berhasil dihapus.');
     }
-    public function print($id)
+    public function print($uuid)
     {
-        $bbm = Bbm::findOrFail($id);
+        $bbm = Bbm::where('uuid', $uuid)->firstOrFail();
 
         $pdf = Pdf::loadView('tr_bbm.print', compact('bbm'));
 

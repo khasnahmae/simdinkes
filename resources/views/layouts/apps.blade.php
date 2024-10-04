@@ -16,7 +16,6 @@
       <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
       {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7xA5ef0TfveGkAI9ntgQJcKn7F5I6EG5Q0n" crossorigin="anonymous"> --}}
-
     <!-- Fonts and icons -->
     <script src="{{ asset('backend/assets/js/plugin/webfont/webfont.min.js') }}"></script>
     <script>
@@ -41,7 +40,6 @@
           height: 300px; /* Sesuaikan dengan tinggi yang diinginkan */
           object-fit: cover; /* Agar gambar tetap proporsional */
       }
-
       .carousel-item img {
           filter: brightness(50%); /* Mengatur kecerahan gambar agar overlay lebih efektif */
       }
@@ -52,18 +50,14 @@
         padding: 15px;
         margin-bottom: 20px;
     }
-
     .icon-big {
         font-size: 3em;
     }
-
     </style>
-
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/plugins.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/kaiadmin.min.css') }}" />
-
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/demo.css') }}" />
   </head>
@@ -76,11 +70,10 @@
           <div class="logo-header" data-background-color="white">
             <a href="#" class="logo">
               <img
-                src="{{ asset('backend/assets/img/kaiadmin/logodinkes.png') }}"
+                src="{{ asset('images/siola2.png') }}"
                 alt="navbar brand"
-                class="navbar-brand"
-                height="35"/>
-                <span class="logo-text ms-2">DINKES TEGAL</span>
+                class="navbar-brand" style="width: 100px; height: auto;"/>
+                {{-- <span class="logo-text">DINKES TEGAL</span> --}}
             </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
@@ -111,7 +104,28 @@
                         </span>
                         <h4 class="text-section">MENU</h4>
                     </li>
-        
+                    @if(Auth::user()->level == 'pemimpin')
+                    <li class="nav-item {{ request()->is('pengajuan/atkpimpinan') ? 'active' : '' }}">
+                      <a href="/pengajuan/atkpimpinan">
+                        <i class="fas fa-box-open"></i>
+                          <p>Persetujuan ATK
+                            @if($pendingAtkCount2 > 0)
+                              <span class="badge badge-danger">{{ $pendingAtkCount2 }}</span>
+                            @endif
+                          </p>
+                      </a>
+                    </li>
+                    <li class="nav-item {{ request()->is('pengajuan/bbmpimpinan') ? 'active' : '' }}">
+                      <a href="/pengajuan/bbmpimpinan">
+                        <i class="fas fa-box-open"></i>
+                          <p>Persetujuan Bbm
+                            @if($pendingBbmCount2 > 0)
+                              <span class="badge badge-danger">{{ $pendingBbmCount2 }}</span>
+                            @endif
+                          </p>
+                      </a>
+                    </li>
+                    @endif
                     <!-- Hanya tampil untuk Admin -->
                     @if(Auth::user()->level == 'admin')
                     <li class="nav-item {{ request()->is('siswa') || request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('barang') || request()->is('kendaraan') ? 'active' : '' }}">
@@ -158,7 +172,7 @@
                     <li class="nav-item {{ request()->is('pengajuan/atk') ? 'active' : '' }}">
                       <a href="/pengajuan/atk">
                         <i class="fas fa-box-open"></i>
-                          <p>Permintaan ATK
+                          <p>Persetujuan ATK
                             @if($pendingAtkCount > 0)
                               <span class="badge badge-danger">{{ $pendingAtkCount }}</span>
                             @endif
@@ -168,7 +182,7 @@
                     <li class="nav-item {{ request()->is('pengajuan/bbm') ? 'active' : '' }}">
                       <a href="/pengajuan/bbm">
                         <i class="fas fa-car-alt"></i>
-                          <p>Permintaan BBM
+                          <p>Persetujuan BBM
                             @if($pendingBbmCount > 0)
                                 <span class="badge badge-danger">{{ $pendingBbmCount }}</span>
                             @endif
@@ -218,7 +232,6 @@
                       </div>
                     </li>
                     @endif
-        
                     <!-- Menu Transaksi untuk Operator -->
                     {{-- @if(Auth::user()->level == 'operator') --}}
                     @if(Auth::user()->level == 'operator')
@@ -247,10 +260,8 @@
                 </ul>
             </div>
         </div>
-        
       </div>
       <!-- End Sidebar -->
-
       <div class="main-panel">
         <div class="main-header">
           <div class="main-header-logo">
@@ -287,11 +298,11 @@
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                       <div class="avatar-sm">
                         @if(Auth::user()->level == 'admin')
-                            <img src="{{ asset('images/profil2.jpg') }}" alt="Admin Avatar" class="avatar-img rounded-circle"/>
+                            <img src="{{ asset('images/profil3.jpg') }}" alt="Admin Avatar" class="avatar-img rounded-circle"/>
                         @elseif(Auth::user()->level == 'operator')
-                            <img src="{{ asset('images/profil3.jpg') }}" alt="Pimpinan Avatar" class="avatar-img rounded-circle"/>
+                            <img src="{{ asset('images/profil4.jpg') }}" alt="Pimpinan Avatar" class="avatar-img rounded-circle"/>
                         @else
-                            <img src="{{ asset('images/default-avatar.jpg') }}" alt="Default Avatar" class="avatar-img rounded-circle"/>
+                            <img src="{{ asset('images/profil3.jpg') }}" alt="Default Avatar" class="avatar-img rounded-circle"/>
                         @endif
                       </div>
                       <span class="profile-username">
@@ -314,7 +325,6 @@
           </nav>
           <!-- End Navbar -->
         </div>
-
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
@@ -367,38 +377,27 @@
     <script src="{{ asset('backend/assets/js/core/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/core/bootstrap.min.js') }}"></script>
-
     <!-- jQuery Scrollbar -->
     <script src="{{ asset('backend/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
-
     <!-- Chart JS -->
     <script src="{{ asset('backend/assets/js/plugin/chart.js/chart.min.js') }}"></script>
-
     <!-- jQuery Sparkline -->
     <script src="{{ asset('backend/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
-
     <!-- Chart Circle -->
     <script src="{{ asset('backend/assets/js/plugin/chart-circle/circles.min.js') }}"></script>
-
     <!-- Datatables -->
     <script src="{{ asset('backend/assets/js/plugin/datatables/datatables.min.js') }}"></script>
-
     <!-- Bootstrap Notify -->
     <script src="{{ asset('backend/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
-
     <!-- jQuery Vector Maps -->
     <script src="{{ asset('backend/assets/js/plugin/jsvectormap/jsvectormap.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/plugin/jsvectormap/world.js') }}"></script>
-
     <!-- Google Maps Plugin -->
     <script src="{{ asset('backend/assets/js/plugin/gmaps/gmaps.js') }}"></script>
-
     <!-- Sweet Alert -->
     <script src="{{ asset('backend/assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
-
     <!-- Kaiadmin JS -->
     <script src="{{ asset('backend/assets/js/kaiadmin.min.js') }}"></script>
-
     <!-- Datatables -->
     <script src="{{ asset('backend/assets/js/plugin/datatables/datatables.min.js') }}"></script>
     <!-- Kaiadmin JS -->
@@ -426,12 +425,10 @@
                   .appendTo($(column.footer()).empty())
                   .on("change", function () {
                     var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
                     column
                       .search(val ? "^" + val + "$" : "", true, false)
                       .draw();
                   });
-
                 column
                   .data()
                   .unique()
@@ -444,15 +441,12 @@
               });
           },
         });
-
         // Add Row
         $("#add-row").DataTable({
           pageLength: 5,
         });
-
         var action =
           '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
         $("#addRowButton").click(function () {
           $("#add-row")
             .dataTable()
@@ -466,18 +460,15 @@
         });
       });
     </script>
-
     <script>
       const passwordInput = document.querySelector('#password');
       const togglePassword = document.querySelector('#togglePassword');
-
       // Fungsi untuk toggle tampilan password
       togglePassword.addEventListener('click', function () {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
         this.classList.toggle('fa-eye-slash');
       });
-
       // Fungsi untuk menampilkan ikon saat input password diisi
       passwordInput.addEventListener('input', function () {
         if (this.value.length > 0) {
@@ -487,7 +478,6 @@
         }
       });
     </script>   
-
     <script>
       var SweetAlert2Demo = (function () {
         //== Demos
@@ -502,7 +492,6 @@
               },
             });
           });
-
           $("#alert_demo_3_4").click(function (e) {
             swal("Berhasil!", "Data berhasil diubah!", {
               icon: "success",
@@ -513,11 +502,9 @@
               },
             });
           });
-
           $(".delete-button").click(function (e) {
             var form = $(this).closest("form"); // Mengambil form terdekat
             e.preventDefault(); // Mencegah aksi form langsung dieksekusi
-
             Swal.fire({
                 title: "Yakin ingin menghapus?",
                 text: "Data yang sudah terhapus tidak bisa kembali lagi!",
@@ -544,7 +531,6 @@
                 }
             });
         });
-        
         };
         return {
             //== Init
@@ -553,13 +539,11 @@
             },
           };
         })();
-
       //== Class Initialization
       jQuery(document).ready(function () {
         SweetAlert2Demo.init();
       });
     </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   </body>
 </html>

@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Pegawai extends Model
 {
     use HasFactory;
     protected $table = 'pegawai';
 
-    protected $fillable = ['nama', 'nip', 'bidang']; 
+    protected $fillable = ['nama', 'nip', 'bidang','uuid']; 
 
     public function atk()
     {
@@ -27,5 +28,22 @@ class Pegawai extends Model
     public function setBidangAttribute($value)
     {
         $this->attributes['bidang'] = ucwords(strtolower($value)); // Ubah huruf pertama menjadi kapital
+    }
+    // Memastikan UUID otomatis terisi saat membuat model baru
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = (string) Str::uuid(); // Generate UUID
+            }
+        });
+    }
+
+    // Pastikan UUID menjadi primary key yang dipakai untuk routing
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
 }

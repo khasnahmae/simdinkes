@@ -56,8 +56,8 @@
                             <button type="submit" data-bs-toggle="tooltip" title="Hapus" class="btn btn-link btn-danger delete-button"></button>
                         </form>
                       </div> --}}
-                        <a href="{{ route('kendaraan.edit', $knd->id) }}" class="btn btn-link btn-info" data-bs-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
-                        <form action="{{ route('kendaraan.destroy', $knd->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('kendaraan.edit', $knd->uuid) }}" class="btn btn-link btn-info" data-bs-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
+                        <form action="{{ route('kendaraan.destroy', $knd->uuid) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-link btn-danger delete-button" data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-times"></i></button>

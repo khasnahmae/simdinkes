@@ -43,17 +43,18 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::resource('siswa', SiswaController::class);
 
 
-    Route::resource('atk', AtkController::class);
+    Route::resource('atk', AtkController::class)->parameters(['atk' => 'uuid']);
     Route::get('/pengajuan/atk', [AtkController::class, 'pengajuan'])->name('atk.pengajuan');
-    Route::post('/atk/{id}/approve', [AtkController::class, 'approve'])->name('atk.approve');
-    Route::post('/atk/reject/{id}', [AtkController::class, 'reject'])->name('atk.reject');
-    Route::get('/atk/{id}/print', [AtkController::class, 'print'])->name('atk.print');
+    Route::post('/atk/{uuid}/approve', [AtkController::class, 'approveByKasie'])->name('atk.approve');
+    Route::post('/atk/reject/{uuid}', [AtkController::class, 'reject'])->name('atk.reject');
+    Route::get('/atk/{uuid}/print', [AtkController::class, 'print'])->name('atk.print');
 
-    Route::resource('bbm', BbmController::class);
-    Route::get('/bbm/{id}/print', [BbmController::class, 'print'])->name('bbm.print');
+    Route::resource('bbm', BbmController::class)->parameters(['bbm' => 'uuid']);
+    Route::get('/bbm/{uuid}/print', [BbmController::class, 'print'])->name('bbm.print');
     Route::get('/pengajuan/bbm', [BbmController::class, 'pengajuan'])->name('bbm.pengajuan');
-    Route::post('/bbm/{id}/approve', [BbmController::class, 'approve'])->name('bbm.approve');
-    Route::post('/bbm/reject/{id}', [BbmController::class, 'reject'])->name('bbm.reject');
+    Route::post('/bbm/{uuid}/approve', [BbmController::class, 'approveByKasie'])->name('bbm.approve');
+    Route::post('/bbm/reject/{uuid}', [BbmController::class, 'reject'])->name('bbm.reject');
+
 
     Route::get('/rekap/atk', [LaporanController::class, 'atk'])->name('rekap.atk');
     Route::get('/rekap/atk/download', [LaporanController::class, 'downloadatk'])->name('rekap.downloadatk');
@@ -63,15 +64,25 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::get('rekap/bbm/excelatk', [LaporanController::class, 'excelbbm'])->name('rekap.excelbbm');
 
    // Rute untuk laporan detail
-    Route::get('/rekap/detailatk/{id}', [LaporanController::class, 'detailatk'])->name('rekap.detailatk');
-    Route::get('/rekap/detailbbm/{id}', [LaporanController::class, 'detailbbm'])->name('rekap.detailbbm');
+    Route::get('/rekap/detailatk/{uuid}', [LaporanController::class, 'detailatk'])->name('rekap.detailatk');
+    Route::get('/rekap/detailbbm/{uuid}', [LaporanController::class, 'detailbbm'])->name('rekap.detailbbm');
 
 });
 // Rute untuk operator
 Route::middleware(['auth', 'check.level:operator'])->group(function () {
     Route::resource('tr_atk', Tr_AtkController::class);
     Route::resource('tr_bbm', Tr_BbmController::class);
-    Route::get('/tr_atk/{id}/print', [Tr_AtkController::class, 'print'])->name('tr_atk.print');
+    Route::get('/tr_atk/{uuid}/print', [Tr_AtkController::class, 'print'])->name('tr_atk.print');
+    Route::get('/tr_bbm/{uuid}/print', [Tr_BbmController::class, 'print'])->name('tr_bbm.print');
 
 });
+Route::middleware(['auth', 'check.level:pemimpin'])->group(function () {
+    Route::post('/atk/{uuid}/approve2', [AtkController::class, 'approveByPimpinan'])->name('atk.approve2');
+    Route::post('/atk/reject2/{uuid}', [AtkController::class, 'rejectByPimpinan'])->name('atk.reject2');
+    Route::get('/pengajuan/atkpimpinan', [AtkController::class, 'pengajuanPimpinan'])->name('atk.pengajuan2');
+    Route::get('/pengajuan/bbmpimpinan', [BbmController::class, 'pengajuanPimpinan'])->name('bbm.pengajuan2');
+    Route::post('/bbm/{uuid}/approve2', [BbmController::class, 'approveByPimpinan'])->name('bbm.approve2');
+    Route::post('/bbm/reject2/{uuid}', [BbmController::class, 'rejectByPimpinan'])->name('bbm.reject2');
+});
+
 

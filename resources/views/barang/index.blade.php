@@ -36,8 +36,8 @@
                       @endif
                     </td>
                     <td>
-                        <a href="{{ route('barang.edit', $brg->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('barang.destroy', $brg->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('barang.edit', $brg->uuid) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('barang.destroy', $brg->uuid) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm delete-button">Hapus</button>

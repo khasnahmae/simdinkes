@@ -26,6 +26,12 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
+                        <label for="bbm_limit">Limit Bbm</label>
+                        <input type="number" name="bbm_limit" class="form-control" id="bbm_limit" step="0.01" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
                         <label for="tipe">Tipe</label>
                         <input type="text" name="tipe" class="form-control" id="tipe" required>
                     </div>

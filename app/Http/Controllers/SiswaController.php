@@ -59,6 +59,8 @@ class SiswaController extends Controller
             'tgl_mulai_pkl' => $request->tgl_mulai_pkl,
             'tgl_selesai_pkl' => $request->tgl_selesai_pkl,
             'foto' => $filename,
+            'uuid' => (string) \Illuminate\Support\Str::uuid(), // Tambahkan UUID
+
         ]);
 
         // Redirect ke halaman index dengan pesan sukses
@@ -68,25 +70,25 @@ class SiswaController extends Controller
     /**
      * Menampilkan detail siswa
      */
-    public function show($id)
+    public function show($uuid)
     {
-        $siswa = Siswa::findOrFail($id);
+        $siswa = Siswa::where('uuid', $uuid)->firstOrFail();
         return view('siswa.detail', compact('siswa'));
     }
 
     /**
      * Menampilkan form untuk edit data siswa
      */
-    public function edit($id)
+    public function edit($uuid)
     {
-        $siswa = Siswa::findOrFail($id);
+        $siswa = Siswa::where('uuid', $uuid)->firstOrFail();
         return view('siswa.edit', compact('siswa'));
     }
 
     /**
      * Update data siswa yang sudah ada
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
         // Validasi input
         $request->validate([
@@ -100,7 +102,7 @@ class SiswaController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:1024',
         ]);
 
-        $siswa = Siswa::findOrFail($id);
+        $siswa = Siswa::where('uuid', $uuid)->firstOrFail();
 
         // Jika ada file foto baru, hapus foto lama dan simpan yang baru
         if ($request->hasFile('foto')) {
@@ -131,9 +133,9 @@ class SiswaController extends Controller
     /**
      * Menghapus data siswa
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $siswa = Siswa::findOrFail($id);
+        $siswa = Siswa::where('uuid', $uuid)->firstOrFail();
 
         // Hapus foto jika ada
         if ($siswa->foto) {

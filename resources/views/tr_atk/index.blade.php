@@ -42,23 +42,27 @@
                     <td>{{ $item->jumlah_barang }}</td>
                     <td>{{ $item->barang->stok }}</td>
                     <td>
-                        @if($item->status === 'Disetujui')
-                            <span class="badge bg-primary">Disetujui</span>
+                        @if($item->status === 'Disetujui Kasie')
+                            <span class="badge bg-primary">Disetujui Kasie</span>
+                        @elseif ($item->status == 'Disetujui Pimpinan')
+                            <span class="badge bg-success">Disetujui Pimpinan</span>
                         @elseif ($item->status == 'Ditolak')
                             <span class="badge bg-danger">Ditolak</span>
+                        @elseif ($item->status == 'Ditolak oleh Pimpinan')
+                            <span class="badge bg-danger">Ditolak Pimpinan</span>
                         @else
                             <span class="badge bg-warning">Pengajuan</span>
                         @endif
                     </td>
                     <td>
-                        @if($item->status === 'Disetujui')
-                            <a href="{{ route('tr_atk.print', $item->id) }}" class="btn btn-info btn-sm">
+                        @if($item->status === 'Disetujui Pimpinan')
+                            <a href="{{ route('tr_atk.print', $item->uuid) }}" class="btn btn-info btn-sm">
                                 </i> Cetak
                             </a>
                         @endif
                         @if($item->status === 'Pengajuan')
-                            <a href="{{ route('tr_atk.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                            <form action="{{ route('tr_atk.destroy', $item->id) }}" method="POST" style="display:inline-block;">
+                            <a href="{{ route('tr_atk.edit', $item->uuid) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('tr_atk.destroy', $item->uuid) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm  delete-button">Hapus</button>

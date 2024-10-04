@@ -49,7 +49,7 @@
                     <td>{{ $item->total_transaksi }}</td>
                     <td>{{ $item->total_nominal }}</td>
                     <td>
-                        <a href="{{ route('rekap.detailbbm', ['id' => $item->nopol]) }}" class="btn btn-info btn-sm">Detail</a>
+                        <a href="{{ route('rekap.detailbbm', ['uuid' => $item->nopol]) }}" class="btn btn-info btn-sm">Detail</a>
                     </td>
                 </tr>
             @endforeach

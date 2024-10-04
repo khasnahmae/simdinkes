@@ -55,20 +55,23 @@ class AtkController extends Controller
             'jumlah_barang' => $request->jumlah_barang,
             'status' => 'Pengajuan',
             'tanggal' => now(), // Menyimpan tanggal saat ini
+            'uuid' => (string) \Illuminate\Support\Str::uuid(), // Tambahkan UUID
         ]);
     
         return redirect()->route('atk.index')->with('success', 'Data permintaan ATK berhasil ditambahkan, stok barang telah dikurangi.');
     }
 
-    public function edit(Atk $atk)
+    public function edit(string $uuid)
     {
+        $atk = Atk::where('uuid', $uuid)->firstOrFail();
         $pegawai = Pegawai::all();
         $barang = Barang::all();
         return view('atk.edit', compact('atk', 'pegawai', 'barang'));
     }
 
-    public function update(Request $request, Atk $atk)
+    public function update(Request $request, string $uuid)
     {
+        $atk = Atk::where('uuid', $uuid)->firstOrFail();
         $request->validate([
             'pegawai_id' => 'required|exists:pegawai,id',
             'barang_id' => 'required|exists:barang,id',
@@ -103,8 +106,10 @@ class AtkController extends Controller
         }
     }
 
-    public function destroy(Atk $atk)
+    public function destroy(string $uuid)
     {
+        $atk = Atk::where('uuid', $uuid)->firstOrFail(); // Menggunakan UUID
+
         // Temukan barang yang terkait dengan transaksi
         $barang = Barang::findOrFail($atk->barang_id);
 
@@ -117,17 +122,38 @@ class AtkController extends Controller
 
         return redirect()->route('atk.index')->with('success', 'Data permintaan ATK berhasil dihapus, stok barang telah diperbarui.');
     }
-    public function approve($id)
+
+    public function approveByKasie(string $uuid)
     {
         if (auth()->user()->level !== 'admin') {
             return redirect()->back()->with('error', 'Unauthorized access');
         }
-        $atk = Atk::find($id);
-        $atk->status = 'Disetujui';
+        $atk = Atk::where('uuid', $uuid)->firstOrFail(); // Menggunakan UUID
+        $atk->status = 'Disetujui Kasie';
         $atk->save();
 
-        return redirect()->route('atk.pengajuan')->with('success', 'Permintaan ATK disetujui');
+        return redirect()->route('atk.pengajuan')->with('success', 'Permintaan ATK disetujui Kasie');
     }
+    public function approveByPimpinan(string $uuid)
+    {
+        $atk = Atk::where('uuid', $uuid)->firstOrFail();
+
+        // Cek apakah user level pemimpin
+        if (auth()->user()->level !== 'pemimpin') {
+            return redirect()->back()->with('error', 'Unauthorized access');
+        }
+
+        // Pastikan sudah disetujui oleh Kasie terlebih dahulu
+        if ($atk->status === 'Disetujui Kasie') {
+            $atk->status = 'Disetujui Pimpinan';
+            $atk->save();
+
+            return redirect()->route('atk.pengajuan2')->with('success', 'Permintaan ATK disetujui oleh Pimpinan.');
+        }
+
+        return redirect()->back()->with('error', 'Permintaan belum disetujui oleh Kasie.');
+    }
+
 
     public function pengajuan()
     {
@@ -139,21 +165,35 @@ class AtkController extends Controller
 
         return view('pengajuan.atk', compact('atk'));
     }
-
-    public function print($id)
+    public function pengajuanPimpinan()
     {
-        $atk = Atk::findOrFail($id);
+        // Cek apakah user level pemimpin
+        if (auth()->user()->level !== 'pemimpin') {
+            return redirect()->back()->with('error', 'Unauthorized access');
+        }
+
+        // Ambil data ATK yang sudah disetujui oleh Kasie
+        $atk = Atk::where('status', 'Disetujui Kasie')->get();
+
+        return view('pengajuan.atkpimpinan', compact('atk'));
+    }
+
+
+    public function print(string $uuid)
+    {
+        $atk = Atk::where('uuid', $uuid)->firstOrFail(); // Menggunakan UUID
 
         $pdf = Pdf::loadView('atk.print', compact('atk'));
 
-        return $pdf->download('permintaan_atk_' . $atk->id . '.pdf');
+        return $pdf->download('permintaan_atk_' . $atk->uuid . '.pdf'); // Anda bisa menggunakan uuid untuk nama file
     }
-    public function reject($id)
+
+    public function reject(string $uuid)
     {
         if (auth()->user()->level !== 'admin') {
             return redirect()->back()->with('error', 'Unauthorized access');
         }
-        $atk = Atk::find($id);
+        $atk = Atk::where('uuid', $uuid)->firstOrFail(); // Menggunakan UUID
 
         if ($atk) {
             // Update status menjadi 'ditolak'
@@ -165,4 +205,21 @@ class AtkController extends Controller
 
         return redirect()->back()->with('error', 'Permintaan tidak ditemukan.');
     }
+    public function rejectByPimpinan(string $uuid)
+    {
+        $atk = Atk::where('uuid', $uuid)->firstOrFail();
+
+        // Cek apakah user level pemimpin
+        if (auth()->user()->level !== 'pemimpin') {
+            return redirect()->back()->with('error', 'Unauthorized access');
+        }
+
+        // Ubah status menjadi "Ditolak"
+        $atk->status = 'Ditolak oleh Pimpinan';
+        $atk->save();
+
+        return redirect()->back()->with('success', 'Permintaan ATK ditolak oleh Pimpinan.');
+    }
+
+
 }

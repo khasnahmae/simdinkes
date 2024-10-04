@@ -2,7 +2,7 @@
 @section('content')
 <div class="container py-3">
     <h4 class="card-title">Edit User</h4>
-    <form action="{{ route('user.update', $user->id) }}" method="POST">
+    <form action="{{ route('user.update', $user->uuid) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="container-fluid py-3">
@@ -26,6 +26,7 @@
                         <select name="level" class="form-control" id="level" required>
                             <option value="admin" {{ $user->level == 'admin' ? 'selected' : '' }}>Admin</option>
                             <option value="operator" {{ $user->level == 'operator' ? 'selected' : '' }}>Operator</option>
+                            <option value="pemimpin" {{ $user->level == 'pemimpin' ? 'selected' : '' }}>Pemimpin</option>
                         </select>
                     </div>
                 </div>

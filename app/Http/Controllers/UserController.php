@@ -40,6 +40,8 @@ class UserController extends Controller
             'username' => $request->username,
             'password' => bcrypt($request->input('password')),
             'level' => $request->level,
+            'uuid' => (string) \Illuminate\Support\Str::uuid(), // Tambahkan UUID
+
         ]);
 
         return redirect()->route('user.index')->with('success', 'Data User berhasil ditambahkan.');
@@ -56,24 +58,24 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $uuid)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('uuid', $uuid)->firstOrFail();
         return view('user.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $uuid)
     {
         $request->validate([
             'username' => 'required|string|max:255',
             'password' => 'nullable|string|min:6',
-            'level' => 'required|string|in:admin,operator',
+            'level' => 'required|string|in:admin,operator,pemimpin',
         ]);
 
-        $user = User::findOrFail($id);
+        $user = User::where('uuid', $uuid)->firstOrFail();
         $user->update([
             'username' => $request->input('username'),
             'level' => $request->input('level'),
@@ -86,9 +88,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('uuid', $uuid)->firstOrFail();
         $user->delete();
 
         return redirect()->route('user.index')->with('success', 'Data User telah dihapus.');

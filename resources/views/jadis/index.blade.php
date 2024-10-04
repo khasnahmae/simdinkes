@@ -34,8 +34,8 @@
                     <td>{{ $jadwal->keterangan }}</td>
                     <td>{{ $jadwal->lokasi }}</td>
                     <td>
-                        <a href="{{ route('jadis.edit', $jadwal->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('jadis.destroy', $jadwal->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('jadis.edit', $jadwal->uuid) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('jadis.destroy', $jadwal->uuid) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm delete-button">Hapus</button>

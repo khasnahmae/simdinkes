@@ -41,6 +41,8 @@ class PegawaiController extends Controller
             'nama' => $request->input('nama'),
             'nip' => $request->input('nip'),
             'bidang' => $request->input('bidang'),
+            'uuid' => (string) \Illuminate\Support\Str::uuid(), // Tambahkan UUID
+
         ]);
 
         return redirect()->route('pegawai.index')->with('success', 'Data Pegawai berhasil ditambahkan.');
@@ -57,18 +59,18 @@ class PegawaiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $uuid)
     {
-        $pegawai = Pegawai::findOrFail($id);
+        $pegawai = Pegawai::where('uuid', $uuid)->firstOrFail();
         return view('pegawai.edit', compact('pegawai'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $uuid)
     {
-        $pegawai = Pegawai::findOrFail($id);
+        $pegawai = Pegawai::where('uuid', $uuid)->firstOrFail();
 
         $request->validate([
             'nama' => 'required',
@@ -84,9 +86,9 @@ class PegawaiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
-        $pegawai = Pegawai::findOrFail($id);
+        $pegawai = Pegawai::where('uuid', $uuid)->firstOrFail();
         $pegawai->delete();
 
         return redirect()->route('pegawai.index')->with('success', 'Data Pegawai telah dihapus.');

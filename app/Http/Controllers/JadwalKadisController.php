@@ -41,6 +41,8 @@ class JadwalKadisController extends Controller
             'tgl_selesai' => $request->tgl_selesai,
             'keterangan' => $request->keterangan,
             'lokasi' => $request->lokasi,
+            'uuid' => (string) \Illuminate\Support\Str::uuid(), // Tambahkan UUID
+
         ]);
 
         return redirect()->route('jadis.index')->with('success', 'Jadwal Kadis berhasil ditambahkan.');
@@ -57,16 +59,16 @@ class JadwalKadisController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $uuid)
     {
-        $jadwal_kadis = JadwalKadis::findOrFail($id);
+        $jadwal_kadis = JadwalKadis::where('uuid', $uuid)->firstOrFail();
         return view('jadis.edit', compact('jadwal_kadis'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $uuid)
     {
         $request->validate([
             'tgl_mulai' => 'required|date',
@@ -75,7 +77,7 @@ class JadwalKadisController extends Controller
             'lokasi' => 'required',
         ]);
 
-        $jadwal_kadis = JadwalKadis::findOrFail($id);
+        $jadwal_kadis = JadwalKadis::where('uuid', $uuid)->firstOrFail();
         $jadwal_kadis->update([
             'tgl_mulai' => $request->tgl_mulai,
             'tgl_selesai' => $request->tgl_selesai,
@@ -89,9 +91,9 @@ class JadwalKadisController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
-        $jadwal_kadis = JadwalKadis::findOrFail($id);
+        $jadwal_kadis = JadwalKadis::where('uuid', $uuid)->firstOrFail();
         $jadwal_kadis->delete();
 
         return redirect()->route('jadis.index')->with('success', 'Jadwal Kadis berhasil dihapus.');

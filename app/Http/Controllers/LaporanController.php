@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Atk;
 use App\Models\Bbm;
+use App\Models\Kendaraan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Log;
 
 
 use Illuminate\Http\Request;
@@ -21,7 +24,7 @@ class LaporanController extends Controller
 
         // Ambil data permintaan ATK yang disetujui
         $rekapAtk = Atk::select('barang_id', DB::raw('count(*) as total_permintaan'), DB::raw('sum(jumlah_barang) as total_jumlah'))
-                        ->where('status', 'disetujui')
+                        ->where('status', 'Disetujui Pimpinan')
                         ->whereMonth('tanggal', $month)
                         ->whereYear('tanggal', $year)
                         ->groupBy('barang_id')
@@ -38,14 +41,53 @@ class LaporanController extends Controller
 
         // Ambil data permintaan BBM yang disetujui
         $rekapBbm = Bbm::select('nopol', DB::raw('count(*) as total_transaksi'), DB::raw('sum(nominal) as total_nominal'))
-                        ->where('status', 'disetujui')
+                        ->where('status', 'Disetujui Pimpinan')
                         ->whereMonth('tanggal', $month)
                         ->whereYear('tanggal', $year)
                         ->groupBy('nopol')
                         ->get();
 
+                        // foreach ($rekapBbm as $item) {
+                        //     // Ambil kendaraan berdasarkan ID yang tersimpan di database
+                        //     $kendaraan = Kendaraan::find($item->nopol); // Menggunakan ID yang tersimpan
+                    
+                        //     if ($kendaraan) {
+                        //         if ($kendaraan->bbm_limit && $item->total_nominal >= $kendaraan->bbm_limit) {
+                        //             // Log kondisi untuk memastikan kondisi terpenuhi
+                        //             Log::info("Mengirim notifikasi untuk kendaraan: " . $kendaraan->nopol);
+                        //             $this->sendWhatsappNotification($kendaraan);
+                        //         } else {
+                        //             Log::info("Kendaraan " . $kendaraan->nopol . " belum mencapai batas anggaran.");
+                        //         }
+                        //     } else {
+                        //         Log::warning("Kendaraan dengan ID " . $item->nopol . " tidak ditemukan.");
+                        //     }
+                        // }
+                    
         return view('rekap.bbm', compact('rekapBbm', 'month', 'year'));
     }
+
+    // public function sendWhatsappNotification($kendaraan)
+    // {
+    //     try {
+    //         $sid = env('TWILIO_SID');
+    //         $token = env('TWILIO_AUTH_TOKEN');
+    //         $twilio = new Client($sid, $token);
+            
+    //         $message = "Kendaraan dengan nomor polisi " . $kendaraan->nopol . " telah mencapai batas maksimal anggaran BBM.";
+            
+    //         $twilio->messages->create(
+    //             'whatsapp:+6288706608471', // Nomor tujuan (format: whatsapp:+62...)
+    //             [
+    //                 'from' => 'whatsapp:' .  env('TWILIO_PHONE_NUMBER'),
+    //                 'body' => $message
+    //             ]
+    //         );
+    //     } catch (\Exception $e) {
+    //         Log::error("Gagal mengirim pesan WhatsApp: " . $e->getMessage());
+    //     }
+    // }
+
 
     public function downloadatk(Request $request)
     {
@@ -56,7 +98,7 @@ class LaporanController extends Controller
         $monthName = date('F', mktime(0, 0, 0, $month, 1)); // Contoh: Januari
 
         // Ambil data yang sama untuk diunduh
-        $rekapAtk = Atk::where('status', 'disetujui')
+        $rekapAtk = Atk::where('status', 'Disetujui Pimpinan')
                         ->whereMonth('tanggal', $month)
                         ->whereYear('tanggal', $year)
                         ->get();
@@ -75,7 +117,7 @@ class LaporanController extends Controller
         $year = $request->input('year', date('Y'));
 
         // Ambil data yang sama untuk diunduh
-        $rekapAtk = Atk::where('status', 'disetujui')
+        $rekapAtk = Atk::where('status', 'Disetujui Pimpinan')
                         ->whereMonth('tanggal', $month)
                         ->whereYear('tanggal', $year)
                         ->get();
@@ -109,7 +151,7 @@ class LaporanController extends Controller
         $year = $request->input('year', date('Y'));
 
         // Ambil data yang sama untuk diunduh
-        $rekapBbm = Bbm::where('status', 'disetujui')
+        $rekapBbm = Bbm::where('status', 'Disetujui Pimpinan')
                         ->whereMonth('tanggal', $month)
                         ->whereYear('tanggal', $year)
                         ->get();
@@ -125,11 +167,11 @@ class LaporanController extends Controller
         $output = fopen('php://output', 'w');
         
         // Menambahkan header kolom
-        fputcsv($output, ['ID','Tanggal', 'Kendaraan', 'Nominal', 'Pegawai']);
+        fputcsv($output, ['ID','Tanggal','Nomor Polisi', 'Kendaraan', 'Nominal', 'Pegawai']);
 
         // Menambahkan data
         foreach ($rekapBbm as $bbm) {
-            fputcsv($output, [$bbm->id, $bbm->tanggal, $bbm->kendaraan->nama_kendaraan, $bbm->nominal, $bbm->pegawai->nama]);
+            fputcsv($output, [$bbm->id, $bbm->tanggal, $bbm->kendaraan->nopol, $bbm->kendaraan->nama_kendaraan, $bbm->nominal, $bbm->pegawai->nama]);
         }
 
         fclose($output);
@@ -146,7 +188,7 @@ class LaporanController extends Controller
         // Mengubah angka bulan menjadi nama bulan
         $monthName = date('F', mktime(0, 0, 0, $month, 1)); // Contoh: Januari
 
-        $rekapBbm = Bbm::where('status', 'disetujui')
+        $rekapBbm = Bbm::where('status', 'Disetujui Pimpinan')
                         ->whereMonth('tanggal', $month)
                         ->whereYear('tanggal', $year)
                         ->get();
@@ -158,18 +200,18 @@ class LaporanController extends Controller
         return $pdf->download($fileName);
     }
 
-    public function detailatk($id)
+    public function detailatk($uuid)
     {
-        $atkDetails = Atk::where('barang_id', $id)
-                        ->where('status', 'disetujui')
+        $atkDetails = Atk::where('barang_id', $uuid)
+                        ->where('status', 'Disetujui Pimpinan')
                         ->get();
 
         return view('rekap.detailatk', compact('atkDetails'));
     }
-    public function detailbbm($id)
+    public function detailbbm($uuid)
     {
-        $bbmDetails = Bbm::where('nopol', $id)
-                        ->where('status', 'disetujui')
+        $bbmDetails = Bbm::where('nopol', $uuid)
+                        ->where('status', 'Disetujui Pimpinan')
                         ->get();
 
         return view('rekap.detailbbm', compact('bbmDetails'));
