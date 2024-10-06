@@ -12,7 +12,7 @@ class JadwalKadisController extends Controller
      */
     public function index()
     {
-        $jadwal_kadis = JadwalKadis::all();
+        $jadwal_kadis = JadwalKadis::orderBy('created_at', 'desc')->get(); // Mengurutkan data berdasarkan tanggal pembuatan, yang terbaru di atas
         return view('jadis.index', compact('jadwal_kadis'));
     }
 

@@ -69,11 +69,11 @@
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="white">
             <a href="#" class="logo">
-              <img
+              {{-- <img
                 src="{{ asset('images/siola2.png') }}"
                 alt="navbar brand"
-                class="navbar-brand" style="width: 100px; height: auto;"/>
-                {{-- <span class="logo-text">DINKES TEGAL</span> --}}
+                class="navbar-brand" style="width: 100px; height: auto;"/> --}}
+                <h4 class="logo-text">DINKES TEGAL</h4>
             </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
@@ -289,65 +289,94 @@
             <!-- End Logo Header -->
           </div>
           <!-- Navbar Header -->
-          <nav
-            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+          <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
             <div class="container-fluid">
               <nav class="navbar navbar-header-left navbar-expand-lg navbar-form p-0 d-none d-lg-flex">
                 <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                  <li class="nav-item topbar-user dropdown hidden-caret">
-                    <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
-                      <div class="avatar-sm">
-                        @if(Auth::user()->level == 'admin')
-                            <img src="{{ asset('images/profil3.jpg') }}" alt="Admin Avatar" class="avatar-img rounded-circle"/>
-                        @elseif(Auth::user()->level == 'operator')
-                            <img src="{{ asset('images/profil4.jpg') }}" alt="Pimpinan Avatar" class="avatar-img rounded-circle"/>
-                        @else
-                            <img src="{{ asset('images/profil3.jpg') }}" alt="Default Avatar" class="avatar-img rounded-circle"/>
-                        @endif
-                      </div>
-                      <span class="profile-username">
-                        <span class="op-7" style="font-size: 18px">Hi,</span>
-                        <span class="fw-bold" style="font-size: 20px">{{ Auth::user()->username }}</span>
-                      </span>
-                    </a>
+                  <li>
+                    <img src="{{ asset('images/siola2.png') }}" alt="navbar brand" class="navbar-brand" style="width: 150px; height: auto;"/>
                   </li>
                 </ul>
               </nav>
               <div class="navbar-nav ms-auto me-3">
-                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                <li class="nav-item topbar-user dropdown hidden-caret">
+                  <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
+                    <div class="avatar-sm">
+                      @if(Auth::user()->level == 'admin')
+                          <img src="{{ asset('images/profil3.jpg') }}" alt="Admin Avatar" class="avatar-img rounded-circle"/>
+                      @elseif(Auth::user()->level == 'operator')
+                          <img src="{{ asset('images/profil4.jpg') }}" alt="Pimpinan Avatar" class="avatar-img rounded-circle"/>
+                      @else
+                          <img src="{{ asset('images/profil3.jpg') }}" alt="Default Avatar" class="avatar-img rounded-circle"/>
+                      @endif
+                    </div>
+                    <span class="profile-username">
+                      <span class="op-7" style="font-size: 18px">Hi,</span>
+                      <span class="fw-bold" style="font-size: 20px">{{ Auth::user()->username }}</span>
+                    </span>
+                  </a>
+                </li>
+                @if(auth()->user()->level == 'admin' || auth()->user()->level == 'pemimpin')
+                <li class="nav-item topbar-icon dropdown hidden-caret me-3">
+                  <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bell"></i>
+                    <span class="notification">{{ $notifications->where('is_read', false)->count() }}</span>
+                  </a>
+                  <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+                    <li>
+                      <div class="dropdown-title">
+                        You have {{ $notifications->where('is_read', false)->count() }} new notifications
+                      </div>
+                    </li>
+                    <li>
+                      <div class="notif-scroll scrollbar-outer">
+                        <div class="notif-center">
+                          <a href="#">
+                            <div class="ms-4">
+                              {{-- <i class="fa fa-user-plus"></i> --}}
+                            </div>
+                            <div class="notif-center">
+                              @foreach($notifications as $notification)
+                                  <div class="notif-content">
+                                      <span class="block">{{ $notification->title }}</span>
+                                      <span class="block">{{ $notification->message }}</span>
+                                      <span class="time">{{ $notification->created_at->diffForHumans() }}</span>
+          
+                                      @if(!$notification->is_read)
+                                          <button class="btn btn-link mark-as-read" data-id="{{ $notification->id }}" style="color: blue; text-decoration: underline;">
+                                              Tandai Baca
+                                          </button>
+                                      @endif
+                                  </div>
+                              @endforeach
+                          </div>
+                          </a>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <a class="see-all" href="javascript:void(0);" >See all notifications<i class="fa fa-angle-right"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                @endif
+                <li>
+                  <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-danger">
                         <i class="fa fa-sign-out-alt"></i> Logout
                     </button>
-                </form>
+                  </form>
+                </li>
             </div>
-            </div>
+          </div>
           </nav>
           <!-- End Navbar -->
         </div>
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-              {{-- <h4 class="page-title">Sistem Informasi Online Layanan Administrasi - Dinas Kesehatan Kota Tegal</h4> --}}
-              {{-- <ul class="breadcrumbs">
-                <li class="nav-home">
-                  <a href="#">
-                    <i class="icon-home"></i>
-                  </a>
-                </li>
-                <li class="separator">
-                  <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                  <a href="#">Pages</a>
-                </li>
-                <li class="separator">
-                  <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                  <a href="#">Starter Page</a>
-                </li>
-              </ul> --}}
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -544,6 +573,30 @@
         SweetAlert2Demo.init();
       });
     </script>
+    <script>
+        $(document).on('click', '.mark-as-read', function() {
+          var notificationId = $(this).data('id');
+          
+          $.ajax({
+              url: '/notifications/' + notificationId + '/read',
+              type: 'POST',
+              data: {
+                  _token: '{{ csrf_token() }}'
+              },
+              success: function(response) {
+                  if (response.success) {
+                      // Sembunyikan notifikasi yang telah dibaca
+                      location.reload(); // Bisa diganti dengan memperbarui DOM tanpa reload halaman
+                  }
+              },
+              error: function(xhr) {
+                  console.error(xhr.responseText);
+              }
+          });
+      });
+
+    </script>
+  
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </body>
 </html>

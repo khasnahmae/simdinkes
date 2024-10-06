@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Tr_AtkController;
 use App\Http\Controllers\Tr_BbmController;
@@ -86,3 +87,4 @@ Route::middleware(['auth', 'check.level:pemimpin'])->group(function () {
 });
 
 
+Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');

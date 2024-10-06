@@ -15,9 +15,15 @@ class Tr_BbmController extends Controller
      */
     public function index()
     {
-        $bbm = Bbm::with(['pegawai', 'kendaraan'])->get();
+        $bbm = Bbm::with(['pegawai', 'kendaraan'])
+            ->where('pegawai_id', auth()->id()) // Menampilkan hanya data yang dibuat oleh user yang sedang login
+            ->orderBy('created_at', 'desc') // Mengurutkan data berdasarkan tanggal pembuatan, yang terbaru di atas
+            ->get();
+    
         return view('tr_bbm.index', compact('bbm'));
     }
+    
+
 
     // Menampilkan form untuk membuat BBM baru
     public function create()

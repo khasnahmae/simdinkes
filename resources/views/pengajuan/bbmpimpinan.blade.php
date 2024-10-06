@@ -4,11 +4,26 @@
     <div class="container-fluid d-flex justify-content-between card-header">
         <h4 class="card-title">Data Pengajuan BBM</h4>
     </div>
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+    <!-- Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Berhasil</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ session('success') }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
         </div>
-    @endif
+    </div>
+
     <div class="card-body">
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover">
@@ -32,7 +47,7 @@
                     <td>{{ $item->pegawai->nama }}</td>
                     <td>{{ $item->kendaraan->nopol }}</td>
                     <td>{{ $item->nama_kendaraan }}</td>
-                    <td>{{ $item->nominal }}</td>
+                    <td>Rp {{ number_format($item->nominal, 2) }}</td>
                     <td>{{ $item->status }}</td>
                     <td>
                         <!-- Tombol untuk menyetujui pengajuan -->
@@ -53,4 +68,16 @@
     </div>
 </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: '{{ session('success') }}',
+                confirmButtonText: 'OK'
+            });
+        @endif
+    </script>
 @endsection

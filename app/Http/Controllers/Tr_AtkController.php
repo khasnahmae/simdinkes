@@ -15,7 +15,11 @@ class Tr_AtkController extends Controller
      */
     public function index()
     {
-        $atk = Atk::with(['pegawai', 'barang'])->get();
+        $atk = Atk::with(['pegawai', 'barang'])
+            ->where('pegawai_id', auth()->id()) // Menampilkan hanya data yang dibuat oleh user yang sedang login
+            ->orderBy('created_at', 'desc') // Mengurutkan data berdasarkan tanggal pembuatan, yang terbaru di atas
+            ->get();
+
         return view('tr_atk.index', compact('atk'));
     }
 

@@ -13,7 +13,7 @@ class BarangController extends Controller
     public function index()
     {
         $barang = Barang::orderBy('nama_barang', 'asc')->get();
-        $batasMinimum = 5;
+        $batasMinimum = 50;
 
         // Cek stok barang yang di bawah atau sama dengan batas minimum
         foreach ($barang as $brg) {

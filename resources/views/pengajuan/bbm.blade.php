@@ -32,7 +32,7 @@
                     <td>{{ $item->pegawai->nama }}</td>
                     <td>{{ $item->kendaraan->nopol }}</td>
                     <td>{{ $item->nama_kendaraan }}</td>
-                    <td>{{ $item->nominal }}</td>
+                    <td>Rp {{ number_format($item->nominal, 2) }}</td>
                     <td>{{ $item->status }}</td>
                     <td>
                         <!-- Tombol untuk menyetujui pengajuan -->

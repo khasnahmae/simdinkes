@@ -47,7 +47,7 @@
                 <tr>
                     <td>{{ $item->kendaraan->nopol }}</td>
                     <td>{{ $item->total_transaksi }}</td>
-                    <td>{{ $item->total_nominal }}</td>
+                    <td>Rp {{ number_format($item->total_nominal, 2) }}</td>
                     <td>
                         <a href="{{ route('rekap.detailbbm', ['uuid' => $item->nopol]) }}" class="btn btn-info btn-sm">Detail</a>
                     </td>

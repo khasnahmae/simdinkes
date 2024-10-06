@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Atk;
 use App\Models\Bbm;
+use App\Models\Notification;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,11 @@ class ViewServiceProvider extends ServiceProvider
                 ->with('pendingAtkCount2', $pendingAtkCount2)
                 ->with('pendingBbmCount2', $pendingBbmCount2)
                  ->with('pendingBbmCount', $pendingBbmCount);
+
+
+            $notifications = Notification::orderBy('created_at', 'desc')->get();
+    
+            $view->with('notifications', $notifications);
         });
     }
 }

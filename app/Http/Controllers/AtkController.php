@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Atk;
 use App\Models\Barang;
+use App\Models\Notification;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -13,7 +14,9 @@ class AtkController extends Controller
 {
     public function index()
     {
-        $atk = Atk::with(['pegawai', 'barang'])->get();
+        $atk = Atk::with(['pegawai', 'barang'])
+        ->orderBy('created_at', 'desc') // Mengurutkan data berdasarkan tanggal pembuatan, yang terbaru di atas
+        ->get();
         return view('atk.index', compact('atk'));
     }
 
@@ -148,7 +151,25 @@ class AtkController extends Controller
             $atk->status = 'Disetujui Pimpinan';
             $atk->save();
 
-            return redirect()->route('atk.pengajuan2')->with('success', 'Permintaan ATK disetujui oleh Pimpinan.');
+            $batasMinimum = 50;
+
+            $barang = Barang::find($atk->barang_id);
+
+            if ($barang->stok < $batasMinimum) {
+
+                $message = "Stok {$barang->nama_barang} mencapai batas minimum yaitu Tersisa {$barang->stok} !";
+
+                Notification::create([
+                    'title' => 'Permintaan ATK Disetujui',
+                    'message' => $message,
+                    'is_read' => false,
+                ]);
+            } else {
+                return redirect()->route('atk.pengajuan2')->with('success', "Permintaan ATK disetujui oleh Pimpinan.Stok {$barang->nama_barang} yaitu {$barang->stok}");
+            }
+
+            // return redirect()->route('atk.pengajuan2')->with('success', 'Permintaan ATK disetujui oleh Pimpinan.');
+            session()->flash('success', "Stok  {$barang->nama_barang} mencapai batas minimum yaitu Tersisa {$barang->stok} !");
         }
 
         return redirect()->back()->with('error', 'Permintaan belum disetujui oleh Kasie.');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bbm;
 use App\Models\Pegawai;
 use App\Models\Kendaraan;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Twilio\Rest\Client;
@@ -16,7 +17,9 @@ class BbmController extends Controller
     // Menampilkan daftar BBM
     public function index()
     {
-        $bbm = Bbm::with(['pegawai', 'kendaraan'])->get();
+        $bbm = Bbm::with(['pegawai', 'kendaraan'])
+        ->orderBy('created_at', 'desc') // Mengurutkan data berdasarkan tanggal pembuatan, yang terbaru di atas
+        ->get();
         return view('bbm.index', compact('bbm'));
     }
 
@@ -108,6 +111,8 @@ class BbmController extends Controller
 
         return redirect()->route('bbm.pengajuan')->with('success', 'Permintaan BBM disetujui');
     }
+    
+
     public function approveByPimpinan(string $uuid)
     {
         if (auth()->user()->level !== 'pemimpin') {
@@ -121,55 +126,58 @@ class BbmController extends Controller
             $bbm->save();
 
             // Hitung total nominal untuk kendaraan ini yang disetujui oleh pimpinan
-            $totalNominal = Bbm::where('nopol', $bbm->nopol) // gunakan ID kendaraan
+            $totalNominal = Bbm::where('nopol', $bbm->nopol)
                 ->where('status', 'Disetujui Pimpinan')
+                ->where('created_at', '>=', now()->subMonths(1)) // Data dalam 6 bulan terakhir
                 ->sum('nominal');
 
             // Ambil kendaraan berdasarkan ID
-            $kendaraan = Kendaraan::find($bbm->nopol); // Menggunakan ID
+            $kendaraan = Kendaraan::find($bbm->nopol);
 
             if ($kendaraan) {
-                // Cek apakah total nominal sudah melebihi limit
-                if ($kendaraan->bbm_limit && $totalNominal >= $kendaraan->bbm_limit) {
-                    Log::info("Mengirim notifikasi untuk kendaraan: " . $kendaraan->nopol);
-                    $this->sendWhatsappNotification($kendaraan);
-                    // $this->sendEmailNotification($kendaraan, $totalNominal);
-                } else {
-                    Log::info("Kendaraan " . $kendaraan->nopol . " belum mencapai batas anggaran.");
-                }
+                // Hitung sisa limit
+                $sisaLimit = $kendaraan->bbm_limit - $totalNominal;
+
+                // Buat pesan notifikasi
+                $message = "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sebesar Rp " . number_format($bbm->nominal, 2, ',', '.') . ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.');
+
+                // Simpan notifikasi ke database
+                Notification::create([
+                    'title' => 'Permintaan BBM Disetujui', // Judul notifikasi
+                    'message' => $message,
+                    'is_read' => false,
+                ]);
             } else {
-                Log::warning("Kendaraan dengan ID " . $bbm->nopol . " tidak ditemukan.");
+                Log::warning("Kendaraan dengan ID {$bbm->nopol} tidak ditemukan.");
             }
 
-            return redirect()->route('bbm.pengajuan2')->with('success', 'Permintaan BBM disetujui oleh Pimpinan.');
+            session()->flash('success', "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sebesar Rp " . number_format($bbm->nominal, 2, ',', '.') . ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.') ."");
         }
 
         return redirect()->back()->with('error', 'Permintaan belum disetujui oleh Kasie.');
     }
 
-
-
-    public function sendWhatsappNotification($kendaraan)
-    {
-        try {
-            $sid = env('TWILIO_SID');
-            $token = env('TWILIO_AUTH_TOKEN');
-            $twilio = new Client($sid, $token);
+    // public function sendWhatsappNotification($kendaraan)
+    // {
+    //     try {
+    //         $sid = env('TWILIO_SID');
+    //         $token = env('TWILIO_AUTH_TOKEN');
+    //         $twilio = new Client($sid, $token);
             
-            $message = "Kendaraan dengan nomor polisi " . $kendaraan->nopol . " telah mencapai batas maksimal anggaran BBM.";
+    //         $message = "Kendaraan dengan nomor polisi " . $kendaraan->nopol . " telah mencapai batas maksimal anggaran BBM.";
             
-            $twilio->messages->create(
-                'whatsapp:+6288706608471', // Nomor tujuan (format: whatsapp:+62...)
-                [
-                    'from' => 'whatsapp:' .  env('TWILIO_PHONE_NUMBER'),
-                    'body' => $message
-                ]
-            );
-            Log::info("Notifikasi WhatsApp dikirim untuk kendaraan: " . $kendaraan->nopol);
-        } catch (\Exception $e) {
-            Log::error("Gagal mengirim pesan WhatsApp: " . $e->getMessage());
-        }
-    }
+    //         $twilio->messages->create(
+    //             'whatsapp:+6288706608471', // Nomor tujuan (format: whatsapp:+62...)
+    //             [
+    //                 'from' => 'whatsapp:' .  env('TWILIO_PHONE_NUMBER'),
+    //                 'body' => $message
+    //             ]
+    //         );
+    //         Log::info("Notifikasi WhatsApp dikirim untuk kendaraan: " . $kendaraan->nopol);
+    //     } catch (\Exception $e) {
+    //         Log::error("Gagal mengirim pesan WhatsApp: " . $e->getMessage());
+    //     }
+    // }
 
     // public function sendEmailNotification($kendaraan, $totalNominal)
     // {

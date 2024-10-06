@@ -24,7 +24,7 @@
                     <td>{{ $detail->tanggal }}</td>
                     <td>{{ $detail->pegawai->nama }}</td>
                     <td>{{ $detail->kendaraan->nopol }}</td>
-                    <td>{{ $detail->nominal }}</td>
+                    <td>Rp {{ number_format($detail->nominal, 2) }}</td>
                 </tr>
             @endforeach
         </tbody>

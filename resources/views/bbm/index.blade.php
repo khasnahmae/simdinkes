@@ -37,7 +37,7 @@
                     <td>{{ $item->kendaraan->nopol }}</td>
                     <td>{{ $item->nama_kendaraan }}</td>
                     <td>{{ $item->jenis_bbm }}</td>
-                    <td>{{ $item->nominal }}</td>
+                    <td>Rp {{ number_format($item->nominal, 2) }}</td>
                     <td>
                         @if($item->status === 'Disetujui Kasie')
                             <span class="badge bg-primary">Disetujui Kasie</span>
