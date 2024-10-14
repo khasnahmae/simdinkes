@@ -50,7 +50,7 @@
     </div>
         {{-- Tombol kembali ke daftar siswa --}}
         <div class="mb-3">
-            <a href="{{ route('siswa.index') }}" class="btn btn-secondary btn-sm">Kembali</a>
+            <a href="{{ route('siswa.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
     </div>
 </div>
 @endsection

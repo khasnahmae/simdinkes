@@ -46,7 +46,7 @@
             </div>
         </div>
             <button type="submit" class="btn btn-success btn-sm" id="alert_demo_3_4">Update</button>
-            <a href="{{ route('atk.index') }}" class="btn btn-secondary btn-border btn-sm">Batal</a>
+            <a href="{{ route('atk.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
         </form>
 </div>
 @endsection

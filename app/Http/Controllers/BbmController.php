@@ -147,14 +147,22 @@ class BbmController extends Controller
                     'message' => $message,
                     'is_read' => false,
                 ]);
+
+                if ($sisaLimit > 0) {
+                    // Jika sisa limit masih tersedia
+                    session()->flash('success', "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sebesar Rp " . number_format($bbm->nominal, 2, ',', '.') . ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.'));
+                } else {
+                    // Jika sisa limit sudah habis atau melebihi limit
+                    session()->flash('warning', "Kendaraan dengan nopol {$kendaraan->nopol} telah melebihi limit BBM. Sisa limit sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.') . ". Perhatikan penggunaan BBM lebih lanjut.");
+                }
             } else {
                 Log::warning("Kendaraan dengan ID {$bbm->nopol} tidak ditemukan.");
             }
-
-            session()->flash('success', "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sebesar Rp " . number_format($bbm->nominal, 2, ',', '.') . ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.') ."");
+        } else {
+            return redirect()->back()->with('error', 'Permintaan belum disetujui oleh Kasie.');
         }
-
-        return redirect()->back()->with('error', 'Permintaan belum disetujui oleh Kasie.');
+    
+        return redirect()->back();
     }
 
     // public function sendWhatsappNotification($kendaraan)
@@ -233,6 +241,51 @@ class BbmController extends Controller
         $pdf = Pdf::loadView('bbm.print', compact('bbm'));
 
         return $pdf->download('permintaan_bbm_' . $bbm->id . '.pdf');
+    }
+    public function realisasi(string $uuid)
+    {
+        $bbm = Bbm::where('uuid', $uuid)->firstOrFail(); // Temukan BBM berdasarkan UUID
+
+        if ($bbm->status !== 'Disetujui Pimpinan') {
+            return redirect()->back()->with('error', 'Realisasi hanya bisa dilakukan setelah disetujui pimpinan.');
+        }
+        return view('bbm.realisasi', compact('bbm'));
+    
+    }
+    public function submitRealisasi(Request $request, string $uuid)
+    {
+        $request->validate([
+            'nominal_realisasi' => 'required|numeric|min:0',
+            'bukti_transaksi' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $bbm = Bbm::where('uuid', $uuid)->firstOrFail();
+
+        // Proses upload bukti transaksi
+        if ($request->hasFile('bukti_transaksi')) {
+            $buktiTransaksi = $request->file('bukti_transaksi')->store('bukti-transaksi', 'public');
+            $bbm->bukti_transaksi = $buktiTransaksi;
+        }
+
+        $bbm->nominal_realisasi = $request->nominal_realisasi;
+        $bbm->realisasi = 'Sudah Direalisasi';
+        $bbm->save();
+
+        // Hitung selisih
+        $selisih = $bbm->nominal - $bbm->nominal_realisasi;
+
+        $kendaraan = Kendaraan::find($bbm->nopol);
+        
+        // Update limit berdasarkan selisih
+        if ($selisih > 0) {
+            $kendaraan->bbm_limit += $selisih; // Jika lebih
+        } else {
+            $kendaraan->bbm_limit -= abs($selisih); // Jika kurang
+        }
+
+        $kendaraan->save();
+
+        return redirect()->route('bbm.index')->with('success', 'Realisasi BBM berhasil dilakukan.');
     }
     public function reject(string $uuid)
     {

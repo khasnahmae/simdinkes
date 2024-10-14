@@ -41,6 +41,47 @@
     </div>
 
     <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="card-title">Kendaraan yang Sedang Dipinjam</div>
+                </div>
+                <div class="card-body">
+                    @if($kendaraanDipinjam->isEmpty())
+                        <p class="card-text">Tidak ada kendaraan yang sedang dipinjam.</p>
+                    @else
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Kendaraan</th>
+                                    <th>Pegawai</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Selesai</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($kendaraanDipinjam as $pinjam)
+                                    <tr>
+                                        <td>{{ $pinjam->kendaraan->nopol }}</td>
+                                        <td>{{ $pinjam->pegawai->nama }}</td>
+                                        <td>{{ $pinjam->mulai }}</td>
+                                        <td>{{ $pinjam->selesai }}</td>
+                                        <td>{{ $pinjam->keterangan }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
@@ -165,7 +206,7 @@
             </div>
         </div>
 
-    <div class="row">
+    {{-- <div class="row">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000"> <!-- 10000 ms = 10 detik -->
             <div class="carousel-inner">
                 <!-- Slide 1 -->
@@ -215,7 +256,7 @@
             </button>
         </div>
     
-    </div>
+    </div> --}}
 
 </div>
 

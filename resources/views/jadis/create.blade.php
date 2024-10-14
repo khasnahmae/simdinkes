@@ -33,7 +33,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-success btn-sm" id="alert_demo_3_3" >Simpan</button>
-            <a href="{{ route('jadis.index') }}" class="btn btn-secondary btn-sm btn-border">Batal</a>
+            <a href="{{ route('jadis.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
         </form>
     </div>
 @endsection

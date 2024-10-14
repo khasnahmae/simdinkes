@@ -57,7 +57,7 @@
                     <td>
                         @if($item->status === 'Disetujui Pimpinan')
                         {{-- @if($item->status === 'Disetujui Kasie' && $item->status === 'Disetujui Pimpinan') --}}
-                            <a href="{{ route('atk.print', $item->uuid) }}" class="btn btn-info btn-sm">
+                            <a href="{{ route('atk.print', $item->uuid) }}" class="btn btn-secondary btn-sm">
                                 </i> Cetak
                             </a>
                         @endif

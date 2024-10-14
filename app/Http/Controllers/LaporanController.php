@@ -9,8 +9,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Log;
-
-
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -40,55 +38,24 @@ class LaporanController extends Controller
         $year = $request->input('year', date('Y'));
 
         // Ambil data permintaan BBM yang disetujui
-        $rekapBbm = Bbm::select('nopol', DB::raw('count(*) as total_transaksi'), DB::raw('sum(nominal) as total_nominal'))
+        $rekapBbm = Bbm::select('nopol',
+                                 DB::raw('count(*) as total_transaksi'), 
+                                 DB::raw('sum(nominal_realisasi) as total_nominal_realisasi'),
+                                 DB::raw('sum(nominal) as total_nominal'),
+                                 DB::raw('sum(nominal) - sum(nominal_realisasi) as total_selisih'))                   
                         ->where('status', 'Disetujui Pimpinan')
+                        ->where('realisasi', 'Sudah Direalisasi')
                         ->whereMonth('tanggal', $month)
                         ->whereYear('tanggal', $year)
                         ->groupBy('nopol')
                         ->get();
 
-                        // foreach ($rekapBbm as $item) {
-                        //     // Ambil kendaraan berdasarkan ID yang tersimpan di database
-                        //     $kendaraan = Kendaraan::find($item->nopol); // Menggunakan ID yang tersimpan
-                    
-                        //     if ($kendaraan) {
-                        //         if ($kendaraan->bbm_limit && $item->total_nominal >= $kendaraan->bbm_limit) {
-                        //             // Log kondisi untuk memastikan kondisi terpenuhi
-                        //             Log::info("Mengirim notifikasi untuk kendaraan: " . $kendaraan->nopol);
-                        //             $this->sendWhatsappNotification($kendaraan);
-                        //         } else {
-                        //             Log::info("Kendaraan " . $kendaraan->nopol . " belum mencapai batas anggaran.");
-                        //         }
-                        //     } else {
-                        //         Log::warning("Kendaraan dengan ID " . $item->nopol . " tidak ditemukan.");
-                        //     }
-                        // }
+                       
                     
         return view('rekap.bbm', compact('rekapBbm', 'month', 'year'));
     }
 
-    // public function sendWhatsappNotification($kendaraan)
-    // {
-    //     try {
-    //         $sid = env('TWILIO_SID');
-    //         $token = env('TWILIO_AUTH_TOKEN');
-    //         $twilio = new Client($sid, $token);
-            
-    //         $message = "Kendaraan dengan nomor polisi " . $kendaraan->nopol . " telah mencapai batas maksimal anggaran BBM.";
-            
-    //         $twilio->messages->create(
-    //             'whatsapp:+6288706608471', // Nomor tujuan (format: whatsapp:+62...)
-    //             [
-    //                 'from' => 'whatsapp:' .  env('TWILIO_PHONE_NUMBER'),
-    //                 'body' => $message
-    //             ]
-    //         );
-    //     } catch (\Exception $e) {
-    //         Log::error("Gagal mengirim pesan WhatsApp: " . $e->getMessage());
-    //     }
-    // }
-
-
+   
     public function downloadatk(Request $request)
     {
         $month = $request->input('month', date('m'));
@@ -152,6 +119,7 @@ class LaporanController extends Controller
 
         // Ambil data yang sama untuk diunduh
         $rekapBbm = Bbm::where('status', 'Disetujui Pimpinan')
+                        ->where('realisasi', 'Sudah Direalisasi')
                         ->whereMonth('tanggal', $month)
                         ->whereYear('tanggal', $year)
                         ->get();
@@ -167,11 +135,11 @@ class LaporanController extends Controller
         $output = fopen('php://output', 'w');
         
         // Menambahkan header kolom
-        fputcsv($output, ['ID','Tanggal','Nomor Polisi', 'Kendaraan', 'Nominal', 'Pegawai']);
+        fputcsv($output, ['ID','Tanggal','Nomor Polisi', 'Kendaraan', 'Nominal','Nominal Realisasi' , 'Selisih', 'Pegawai']);
 
         // Menambahkan data
         foreach ($rekapBbm as $bbm) {
-            fputcsv($output, [$bbm->id, $bbm->tanggal, $bbm->kendaraan->nopol, $bbm->kendaraan->nama_kendaraan, $bbm->nominal, $bbm->pegawai->nama]);
+            fputcsv($output, [$bbm->id, $bbm->tanggal, $bbm->kendaraan->nopol, $bbm->kendaraan->nama_kendaraan, $bbm->nominal, $bbm->nominal_realisasi, $bbm->nominal - $bbm->nominal_realisasi, $bbm->pegawai->nama]);
         }
 
         fclose($output);
@@ -189,6 +157,7 @@ class LaporanController extends Controller
         $monthName = date('F', mktime(0, 0, 0, $month, 1)); // Contoh: Januari
 
         $rekapBbm = Bbm::where('status', 'Disetujui Pimpinan')
+                        ->where('realisasi', 'Sudah Direalisasi')
                         ->whereMonth('tanggal', $month)
                         ->whereYear('tanggal', $year)
                         ->get();
@@ -212,6 +181,7 @@ class LaporanController extends Controller
     {
         $bbmDetails = Bbm::where('nopol', $uuid)
                         ->where('status', 'Disetujui Pimpinan')
+                        ->where('realisasi', 'Sudah Direalisasi')
                         ->get();
 
         return view('rekap.detailbbm', compact('bbmDetails'));

@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group position-relative">
-                        <label for="password">Password (Kosongkan jika tidak ingin mengubah)</label>
+                        <label for="password">Password (Kosongkan jika tidak diubah)</label>
                         <input type="password" name="password" class="form-control" id="password">
                         <i class="fas fa-eye position-absolute d-none" id="togglePassword" style="right: 20px; top: 50px; cursor: pointer;"></i>
                     </div>
@@ -33,7 +33,7 @@
             </div>
         </div>
         <button type="submit" class="btn btn-success btn-sm" id="alert_demo_3_4">Update</button>
-        <a href="{{ route('user.index') }}" class="btn btn-secondary btn-sm btn-border">Batal</a>
+        <a href="{{ route('user.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
     </form>
 </div>
 @endsection

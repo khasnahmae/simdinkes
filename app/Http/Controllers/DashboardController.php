@@ -7,6 +7,7 @@ use App\Models\Barang;
 use App\Models\Bbm;
 use App\Models\Atk;
 use App\Models\JadwalKadis;
+use App\Models\PeminjamanKendaraan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,7 @@ class DashboardController extends Controller
         $currentMonth = Carbon::now()->month;
         $totalBbm = Bbm::whereMonth('tanggal', $currentMonth)
                         ->where('status', 'Disetujui Pimpinan')  // Sesuaikan dengan field 'status'
+                        ->where('realisasi', 'Sudah Direalisasi')  // Sesuaikan dengan field 'status'
                         ->sum('nominal');
 
         // Total permintaan ATK yang disetujui di bulan ini
@@ -34,7 +36,7 @@ class DashboardController extends Controller
             ->select(
                 DB::raw('MONTH(tanggal) as bulan'),
                 'nama_kendaraan',
-                DB::raw('SUM(nominal) as total_nominal')
+                DB::raw('SUM(nominal_realisasi) as total_nominal')
             )
             ->where('status', 'Disetujui Pimpinan')
             ->groupBy('bulan', 'nama_kendaraan')
@@ -142,12 +144,18 @@ class DashboardController extends Controller
             $colorIndex++;  // Naikkan index warna
         }
 
+        $currentTime = now();
+        $kendaraanDipinjam = PeminjamanKendaraan::where('mulai', '<=', $currentTime)
+                            ->where('selesai', '>=', $currentTime)
+                            ->get();
+
         return view('dashboard', compact(
             'jadwalKadis',
             'jumlahPegawai',
             'totalBbm',
             'totalAtk',
             'datasets', // Mengirim datasets ke view
+            'kendaraanDipinjam',
             'datasetsatk' // Mengirim datasetsatk ke view
         ));
     }

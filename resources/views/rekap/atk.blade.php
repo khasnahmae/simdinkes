@@ -25,8 +25,8 @@
                 </div>
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary btn-sm">Tampilkan</button>
-                    <a href="{{ route('rekap.downloadatk', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-info btn-sm"><i class="bi bi-filetype-pdf me-1"></i>PDF</a>
-                    <a href="{{ route('rekap.excelatk', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel-fill me-1"></i>Excel</a>
+                    <a href="{{ route('rekap.downloadatk', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-outline-info btn-sm"><i class="bi bi-filetype-pdf me-1"></i>PDF</a>
+                    <a href="{{ route('rekap.excelatk', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-outline-success btn-sm"><i class="bi bi-file-earmark-excel-fill me-1"></i>Excel</a>
                 </div>
             </div>
         </form>

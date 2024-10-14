@@ -23,7 +23,7 @@
         </div>
         <div class="form-group justify-content-start">
             <button type="submit" class="btn btn-success btn-sm" id="alert_demo_3_4">Update</button>
-            <a href="{{ route('barang.index') }}" class="btn btn-secondary btn-sm btn-border">Batal</a>
+            <a href="{{ route('barang.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
         </div>
     </form>
 </div>

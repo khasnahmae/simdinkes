@@ -32,6 +32,8 @@
                 <th>Nomor Polisi</th>
                 <th>Kendaraan</th>
                 <th>Nominal</th>
+                <th>Nominal Realisasi</th>
+                <th>Selisih</th>
             </tr>
         </thead>
         <tbody>
@@ -43,6 +45,8 @@
                 <td>{{ $bbm->kendaraan->nopol }}</td>
                 <td>{{ $bbm->nama_kendaraan }}</td>
                 <td>Rp {{ number_format($bbm->nominal, 2) }}</td>
+                <td>Rp {{ number_format($bbm->nominal_realisasi, 2) }}</td>
+                <td>Rp {{ number_format($bbm->nominal - $bbm->nominal_realisasi, 2) }}</td>
             </tr>
             @endforeach
         </tbody>

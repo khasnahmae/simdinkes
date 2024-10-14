@@ -52,10 +52,15 @@
                         @endif
                     </td>
                     <td>
-                        @if($item->status === 'Disetujui Pimpinan')
-                            <a href="{{ route('bbm.print', $item->uuid) }}" class="btn btn-info btn-sm">
+                        @if($item->status === 'Disetujui Pimpinan' && $item->realisasi === 'Menunggu Realisasi')
+                            <a href="{{ route('bbm.print', $item->uuid) }}" class="btn btn-secondary btn-sm">
                                 Cetak
                             </a>
+                            <!-- Tombol untuk melakukan realisasi -->
+                            <form action="{{ route('bbm.realisasi', $item->uuid) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-primary btn-sm">Realisasi</button>
+                            </form>
                         @endif
                         @if($item->status === 'Pengajuan')
                             <a href="{{ route('bbm.edit', $item->uuid) }}" class="btn btn-warning btn-sm">Edit</a>

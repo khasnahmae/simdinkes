@@ -69,11 +69,11 @@
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="white">
             <a href="#" class="logo">
-              {{-- <img
-                src="{{ asset('images/siola2.png') }}"
+              <img
+                src="{{ asset('images/siola.png') }}"
                 alt="navbar brand"
-                class="navbar-brand" style="width: 100px; height: auto;"/> --}}
-                <h4 class="logo-text">DINKES TEGAL</h4>
+                class="navbar-brand" style="width: 80px; height: auto;"/>
+                {{-- <h4 class="logo-text">DINKES TEGAL</h4> --}}
             </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
@@ -192,7 +192,7 @@
                     <li class="nav-item {{ request()->is('rekap/atk') || request()->is('rekap/bbm') ? 'active' : '' }}">
                       <a data-bs-toggle="collapse" href="#sidebarLayouts">
                           <i class="fas fa-file-alt"></i>
-                          <p>Rekap Permintaan</p>
+                          <p>Rekapitulasi</p>
                           <span class="caret"></span>
                       </a>
                       <div class="collapse {{ request()->is('rekap/atk') || request()->is('rekap/bbm') ? 'show' : '' }}" id="sidebarLayouts">
@@ -210,22 +210,27 @@
                           </ul>
                       </div>
                     </li>
-                    <li class="nav-item {{ request()->is('atk') || request()->is('bbm') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('atk') || request()->is('bbm') || request()->is('peminjaman-kendaraan') ? 'active' : '' }}">
                       <a data-bs-toggle="collapse" href="#formsTransaksi">
                           <i class="fas fa-cart-plus"></i>
                           <p>Transaksi</p>
                           <span class="caret"></span>
                       </a>
-                      <div class="collapse {{ request()->is('atk') || request()->is('bbm') ? 'show' : '' }}" id="formsTransaksi">
+                      <div class="collapse {{ request()->is('atk') || request()->is('bbm') || request()->is('peminjaman-kendaraan') ? 'show' : '' }}" id="formsTransaksi">
                           <ul class="nav nav-collapse">
                               <li class="{{ request()->is('atk') ? 'active' : '' }}">
                                   <a href="/atk">
-                                      <span class="sub-item">ATK</span>
+                                      <span class="sub-item">Permintaan ATK</span>
                                   </a>
                               </li>
                               <li class="{{ request()->is('bbm') ? 'active' : '' }}">
                                   <a href="/bbm">
-                                      <span class="sub-item">BBM</span>
+                                      <span class="sub-item">Permintaan BBM</span>
+                                  </a>
+                              </li>
+                              <li class="{{ request()->is('peminjaman-kendaraan') ? 'active' : '' }}">
+                                  <a href="/peminjaman-kendaraan">
+                                      <span class="sub-item">Peminjaman Kendaraaan</span>
                                   </a>
                               </li>
                           </ul>

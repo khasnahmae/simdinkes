@@ -25,8 +25,8 @@
                 </div>
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary btn-sm">Tampilkan</button>
-                    <a href="{{ route('rekap.downloadbbm', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-info btn-sm"><i class="bi bi-filetype-pdf me-1"></i>PDF</a>
-                    <a href="{{ route('rekap.excelbbm', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel-fill me-1"></i>Excel</a>
+                    <a href="{{ route('rekap.downloadbbm', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-outline-info btn-sm"><i class="bi bi-filetype-pdf me-1"></i>PDF</a>
+                    <a href="{{ route('rekap.excelbbm', ['month' => request('month'), 'year' => request('year')]) }}" class="btn btn-outline-success btn-sm"><i class="bi bi-file-earmark-excel-fill me-1"></i>Excel</a>
                 </div>
             </div>
         </form>
@@ -39,6 +39,8 @@
                 <th>Nomor Polisi</th>
                 <th>Jumlah Transaksi</th>
                 <th>Total Nominal</th>
+                <th>Total Nominal Realisasi</th>
+                <th>Total Selisih</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -48,6 +50,8 @@
                     <td>{{ $item->kendaraan->nopol }}</td>
                     <td>{{ $item->total_transaksi }}</td>
                     <td>Rp {{ number_format($item->total_nominal, 2) }}</td>
+                    <td>Rp {{ number_format($item->total_nominal_realisasi, 2) }}</td>
+                    <td>Rp {{ number_format($item->total_selisih, 2) }}</td>
                     <td>
                         <a href="{{ route('rekap.detailbbm', ['uuid' => $item->nopol]) }}" class="btn btn-info btn-sm">Detail</a>
                     </td>

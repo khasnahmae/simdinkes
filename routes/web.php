@@ -13,9 +13,11 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PeminjamanKendaraanController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Tr_AtkController;
 use App\Http\Controllers\Tr_BbmController;
+use App\Models\PeminjamanKendaraan;
 use App\Models\Siswa;
 
 // Route::middleware(['guest'])->get('/', function () {
@@ -42,6 +44,8 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::resource('barang', BarangController::class);
     Route::resource('kendaraan', KendaraanController::class);
     Route::resource('siswa', SiswaController::class);
+    Route::resource('peminjaman-kendaraan', PeminjamanKendaraanController::class)->parameters(['peminjaman-kendaraan' => 'uuid']);;
+    Route::get('/peminjaman-kendaraan/{uuid}/detail', [PeminjamanKendaraanController::class, 'detail'])->name('peminjaman-kendaraan.detail');
 
 
     Route::resource('atk', AtkController::class)->parameters(['atk' => 'uuid']);
@@ -52,6 +56,8 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
 
     Route::resource('bbm', BbmController::class)->parameters(['bbm' => 'uuid']);
     Route::get('/bbm/{uuid}/print', [BbmController::class, 'print'])->name('bbm.print');
+    Route::post('/bbm/{uuid}/realisasi', [BbmController::class, 'realisasi'])->name('bbm.realisasi');
+    Route::post('/bbm/{uuid}/submit-realisasi', [BbmController::class, 'submitRealisasi'])->name('bbm.submitRealisasi');
     Route::get('/pengajuan/bbm', [BbmController::class, 'pengajuan'])->name('bbm.pengajuan');
     Route::post('/bbm/{uuid}/approve', [BbmController::class, 'approveByKasie'])->name('bbm.approve');
     Route::post('/bbm/reject/{uuid}', [BbmController::class, 'reject'])->name('bbm.reject');

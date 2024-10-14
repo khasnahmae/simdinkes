@@ -169,7 +169,7 @@ class AtkController extends Controller
             }
 
             // return redirect()->route('atk.pengajuan2')->with('success', 'Permintaan ATK disetujui oleh Pimpinan.');
-            session()->flash('success', "Stok  {$barang->nama_barang} mencapai batas minimum yaitu Tersisa {$barang->stok} !");
+            session()->flash('warning', "Stok  {$barang->nama_barang} mencapai batas minimum yaitu Tersisa {$barang->stok} !");
         }
 
         return redirect()->back()->with('error', 'Permintaan belum disetujui oleh Kasie.');

@@ -27,7 +27,7 @@
             @endforeach
         </tbody>
         </table>
-        <a href="{{ route('rekap.atk') }}" class="btn btn-primary btn-sm mt-3">Kembali</a>
+        <a href="{{ route('rekap.atk') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
     </div>
 </div>
 </div>
