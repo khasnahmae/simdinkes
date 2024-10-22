@@ -20,6 +20,8 @@
                     <th>No</th>
                     <th>Nama</th>
                     <th>Sekolah</th>
+                    <th>Mulai PKL</th>
+                    <th>Selesai PKL</th>
                     <th>Aksi</th>
                 </tr>
               </thead>
@@ -29,6 +31,8 @@
                     <td>{{  $loop->iteration  }}</td>
                     <td>{{ $ssw->nama }}</td>
                     <td>{{ $ssw->sekolah }}</td>
+                    <td>{{ $ssw->tgl_mulai_pkl }}</td>
+                    <td>{{ $ssw->tgl_selesai_pkl }}</td>
                     <td>
                         <a href="{{ route('siswa.edit', $ssw->uuid) }}" class="btn btn-warning btn-sm">Edit</a>
                         <a href="{{ route('siswa.show', $ssw->uuid) }}" class="btn btn-info btn-sm">Detail</a>

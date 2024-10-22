@@ -11,12 +11,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BelanjaController;
+use App\Http\Controllers\DetailbelanjaController;
+use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PeminjamanKendaraanController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\SuratmagangController;
 use App\Http\Controllers\Tr_AtkController;
 use App\Http\Controllers\Tr_BbmController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\TtdController;
 use App\Models\PeminjamanKendaraan;
 use App\Models\Siswa;
 
@@ -44,6 +50,13 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::resource('barang', BarangController::class);
     Route::resource('kendaraan', KendaraanController::class);
     Route::resource('siswa', SiswaController::class);
+    Route::resource('suratmagang', SuratmagangController::class);
+    Route::resource('ttd', TtdController::class);
+    Route::resource('kegiatan', KegiatanController::class);
+    Route::resource('belanja', BelanjaController::class);
+    Route::resource('detail_belanja', DetailbelanjaController::class);
+    Route::resource('transaksi', TransaksiController::class);
+
     Route::resource('peminjaman-kendaraan', PeminjamanKendaraanController::class)->parameters(['peminjaman-kendaraan' => 'uuid']);;
     Route::get('/peminjaman-kendaraan/{uuid}/detail', [PeminjamanKendaraanController::class, 'detail'])->name('peminjaman-kendaraan.detail');
 
@@ -58,6 +71,8 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::get('/bbm/{uuid}/print', [BbmController::class, 'print'])->name('bbm.print');
     Route::post('/bbm/{uuid}/realisasi', [BbmController::class, 'realisasi'])->name('bbm.realisasi');
     Route::post('/bbm/{uuid}/submit-realisasi', [BbmController::class, 'submitRealisasi'])->name('bbm.submitRealisasi');
+    Route::post('/bbm/{uuid}/editrealisasi', [BbmController::class, 'editrealisasi'])->name('bbm.editrealisasi');
+    Route::post('/bbm/{uuid}/update-realisasi', [BbmController::class, 'updateRealisasi'])->name('bbm.updateRealisasi');
     Route::get('/pengajuan/bbm', [BbmController::class, 'pengajuan'])->name('bbm.pengajuan');
     Route::post('/bbm/{uuid}/approve', [BbmController::class, 'approveByKasie'])->name('bbm.approve');
     Route::post('/bbm/reject/{uuid}', [BbmController::class, 'reject'])->name('bbm.reject');
@@ -73,6 +88,7 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
    // Rute untuk laporan detail
     Route::get('/rekap/detailatk/{uuid}', [LaporanController::class, 'detailatk'])->name('rekap.detailatk');
     Route::get('/rekap/detailbbm/{uuid}', [LaporanController::class, 'detailbbm'])->name('rekap.detailbbm');
+
 
 });
 // Rute untuk operator

@@ -135,11 +135,11 @@ class LaporanController extends Controller
         $output = fopen('php://output', 'w');
         
         // Menambahkan header kolom
-        fputcsv($output, ['ID','Tanggal','Nomor Polisi', 'Kendaraan', 'Nominal','Nominal Realisasi' , 'Selisih', 'Pegawai']);
+        fputcsv($output, ['ID','Tanggal','Nomor Polisi', 'Kendaraan', 'Nominal','Tanggal Realisasi','Nominal Realisasi' , 'Selisih', 'Pegawai']);
 
         // Menambahkan data
         foreach ($rekapBbm as $bbm) {
-            fputcsv($output, [$bbm->id, $bbm->tanggal, $bbm->kendaraan->nopol, $bbm->kendaraan->nama_kendaraan, $bbm->nominal, $bbm->nominal_realisasi, $bbm->nominal - $bbm->nominal_realisasi, $bbm->pegawai->nama]);
+            fputcsv($output, [$bbm->id, $bbm->tanggal, $bbm->kendaraan->nopol, $bbm->kendaraan->nama_kendaraan, $bbm->nominal,$bbm->tanggal_realisasi, $bbm->nominal_realisasi, $bbm->nominal - $bbm->nominal_realisasi, $bbm->pegawai->nama]);
         }
 
         fclose($output);
@@ -162,10 +162,14 @@ class LaporanController extends Controller
                         ->whereYear('tanggal', $year)
                         ->get();
 
+        $totalNominal = $rekapBbm->sum('nominal');
+        $totalRealisasi = $rekapBbm->sum('nominal_realisasi');
+                        
+
         // Mengatur nama file PDF
         $fileName = "rekap_bulanan_bbm_{$monthName}_{$year}.pdf";
 
-        $pdf = PDF::loadView('rekap.pdfbbm', compact('rekapBbm' , 'monthName', 'year'));
+        $pdf = PDF::loadView('rekap.pdfbbm', compact('rekapBbm' , 'monthName', 'year', 'totalNominal', 'totalRealisasi'));
         return $pdf->download($fileName);
     }
 

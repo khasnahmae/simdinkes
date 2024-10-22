@@ -17,9 +17,7 @@
     @endif
     <div class="card-body">
     <div class="table-responsive">
-        <table
-          id="basic-datatables"
-          class="display table table-striped table-hover">
+        <table id="basic-datatables"class="display table table-striped table-hover">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -27,7 +25,7 @@
                     <th>Pegawai</th>
                     <th>Barang</th>
                     <th>Jumlah</th>
-                    <th>Stok Barang</th>
+                    {{-- <th>Stok Barang</th> --}}
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
@@ -35,12 +33,12 @@
             <tbody>
                 @foreach($atk as $item)
                 <tr>
-                    <td>{{  $loop->iteration  }}</td>
+                    <td>{{  $item->id  }}</td>
                     <td>{{ $item->tanggal }}</td>
                     <td>{{ $item->pegawai->nama }}</td>
                     <td>{{ $item->barang->nama_barang }}</td>
                     <td>{{ $item->jumlah_barang }}</td>
-                    <td>{{ $item->barang->stok }}</td>
+                    {{-- <td>{{ $item->barang->stok }}</td> --}}
                     <td>
                         @if($item->status === 'Disetujui Kasie')
                             <span class="badge bg-primary">Disetujui Kasie</span>

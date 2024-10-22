@@ -19,6 +19,9 @@
             padding: 8px;
             text-align: left;
         }
+        tfoot td {
+        border-top: 2px solid black; /* Untuk menegaskan garis di bagian bawah */
+        }
     </style>
 </head>
 <body>
@@ -32,8 +35,9 @@
                 <th>Nomor Polisi</th>
                 <th>Kendaraan</th>
                 <th>Nominal</th>
+                <th>Tanggal Realisasi</th>
                 <th>Nominal Realisasi</th>
-                <th>Selisih</th>
+                {{-- <th>Selisih</th> --}}
             </tr>
         </thead>
         <tbody>
@@ -45,11 +49,21 @@
                 <td>{{ $bbm->kendaraan->nopol }}</td>
                 <td>{{ $bbm->nama_kendaraan }}</td>
                 <td>Rp {{ number_format($bbm->nominal, 2) }}</td>
+                <td>{{ $bbm->tanggal_realisasi }}</td>
                 <td>Rp {{ number_format($bbm->nominal_realisasi, 2) }}</td>
-                <td>Rp {{ number_format($bbm->nominal - $bbm->nominal_realisasi, 2) }}</td>
+                {{-- <td>Rp {{ number_format($bbm->nominal - $bbm->nominal_realisasi, 2) }}</td> --}}
             </tr>
             @endforeach
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5"><strong>Total</strong></td>
+                <td><strong>{{ number_format($totalNominal, 0, ',', '.') }}</strong></td> <!-- Total Nominal -->
+                <td colspan="1"><strong>Total</strong></td>
+                <td><strong>{{ number_format($totalRealisasi, 0, ',', '.') }}</strong></td> <!-- Total Nominal Realisasi -->
+                {{-- <td><strong>{{ number_format($totalNominal - $totalRealisasi, 0, ',', '.') }}</strong></td> <!-- Total selisih --> --}}
+            </tr>
+        </tfoot>
     </table>
 </body>
 </html>

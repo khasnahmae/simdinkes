@@ -31,7 +31,7 @@
             <tbody>
                 @foreach($bbm as $item)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->id }}</td>
                     <td>{{ $item->tanggal }}</td>
                     <td>{{ $item->pegawai->nama }}</td>
                     <td>{{ $item->kendaraan->nopol }}</td>
@@ -61,6 +61,12 @@
                                 @csrf
                                 <button type="submit" class="btn btn-outline-primary btn-sm">Realisasi</button>
                             </form>
+                        @endif
+                        @if($item->realisasi === 'Sudah Direalisasi')
+                        <form action="{{ route('bbm.editrealisasi', $item->uuid) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-warning btn-sm"> Edit Realisasi</button>
+                        </form>
                         @endif
                         @if($item->status === 'Pengajuan')
                             <a href="{{ route('bbm.edit', $item->uuid) }}" class="btn btn-warning btn-sm">Edit</a>

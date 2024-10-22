@@ -6,6 +6,7 @@ use App\Models\Atk;
 use App\Models\Barang;
 use App\Models\Notification;
 use App\Models\Pegawai;
+use App\Models\Ttd;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -203,8 +204,9 @@ class AtkController extends Controller
     public function print(string $uuid)
     {
         $atk = Atk::where('uuid', $uuid)->firstOrFail(); // Menggunakan UUID
+        $ttd = Ttd::first();
 
-        $pdf = Pdf::loadView('atk.print', compact('atk'));
+        $pdf = Pdf::loadView('atk.print', compact('atk','ttd'));
 
         return $pdf->download('permintaan_atk_' . $atk->uuid . '.pdf'); // Anda bisa menggunakan uuid untuk nama file
     }

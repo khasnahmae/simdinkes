@@ -128,19 +128,14 @@
                     @endif
                     <!-- Hanya tampil untuk Admin -->
                     @if(Auth::user()->level == 'admin')
-                    <li class="nav-item {{ request()->is('siswa') || request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('barang') || request()->is('kendaraan') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('siswa') || request()->is('suratmagang')|| request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') ? 'active' : '' }}">
                       <a data-bs-toggle="collapse" href="#formsDataMaster">
                         <i class="fas fa-layer-group"></i>
                         <p>Data Master</p>
                         <span class="caret"></span>
                       </a>
-                      <div class="collapse {{ request()->is('siswa') || request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('barang') || request()->is('kendaraan') ? 'show' : '' }}" id="formsDataMaster">
+                      <div class="collapse {{ request()->is('siswa') || request()->is('suratmagang')|| request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') ? 'show' : '' }}" id="formsDataMaster">
                         <ul class="nav nav-collapse">
-                          <li class="{{ request()->is('siswa') ? 'active' : '' }}">
-                            <a href="/siswa">
-                              <span class="sub-item">Siswa</span>
-                            </a>
-                          </li>
                           <li class="{{ request()->is('user') ? 'active' : '' }}">
                             <a href="/user">
                               <span class="sub-item">User</span>
@@ -151,11 +146,6 @@
                               <span class="sub-item">Pegawai</span>
                             </a>
                           </li>
-                          <li class="{{ request()->is('jadis') ? 'active' : '' }}">
-                            <a href="/jadis">
-                              <span class="sub-item">Jadwal Kadis</span>
-                            </a>
-                          </li>
                           <li class="{{ request()->is('barang') ? 'active' : '' }}">
                             <a href="/barang">
                               <span class="sub-item">Barang</span>
@@ -164,6 +154,26 @@
                           <li class="{{ request()->is('kendaraan') ? 'active' : '' }}">
                             <a href="/kendaraan">
                               <span class="sub-item">Kendaraan</span>
+                            </a>
+                          </li>
+                          <li class="{{ request()->is('jadis') ? 'active' : '' }}">
+                            <a href="/jadis">
+                              <span class="sub-item">Jadwal Kadis</span>
+                            </a>
+                          </li>
+                          <li class="{{ request()->is('siswa') ? 'active' : '' }}">
+                            <a href="/siswa">
+                              <span class="sub-item">Siswa Magang</span>
+                            </a>
+                          </li>
+                          <li class="{{ request()->is('suratmagang') ? 'active' : '' }}">
+                            <a href="/suratmagang">
+                              <span class="sub-item">Surat Magang</span>
+                            </a>
+                          </li>
+                          <li class="{{ request()->is('ttd') ? 'active' : '' }}">
+                            <a href="/ttd">
+                              <span class="sub-item">Tanda Tangan</span>
                             </a>
                           </li>
                         </ul>
@@ -316,7 +326,7 @@
                       @endif
                     </div>
                     <span class="profile-username">
-                      <span class="op-7" style="font-size: 18px">Hi,</span>
+                      {{-- <span class="op-7" style="font-size: 18px">Hi,</span> --}}
                       <span class="fw-bold" style="font-size: 20px">{{ Auth::user()->username }}</span>
                     </span>
                   </a>

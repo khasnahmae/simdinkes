@@ -89,7 +89,13 @@
                     <tr>
                         <td>{{ $bbm->kendaraan->nopol }}</td>
                         <td>{{ $bbm->kendaraan->jenis_bbm }}</td>
-                        <td>Rp {{ number_format($bbm->nominal, 2) }}</td>
+                        <td>
+                            @if($bbm->nominal == 0)
+                                Full
+                            @else
+                                Rp {{ number_format($bbm->nominal, 2) }}
+                            @endif
+                        </td>
                         <td>{{ $bbm->pegawai->nama }}</td>
                     </tr>
                 </tbody>
@@ -101,19 +107,27 @@
                     <h5>{{ $bbm->pegawai->nama }} <br> ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )</h5>
                 </div>
                 <div class="col">
-                    <h5>Mengetahui <br> Kassubag/Kasie <br> 
-                        <img src="{{ public_path('storage/img/ttd1.png') }}" alt="Tanda Tangan" style="width: auto; height: 80px; display: block; "> <br>
-                        Sandi <br>
+                    <h5>Mengetahui <br> Kassubag/Kasie <br>
+                        @if ($ttd && $ttd->ttd_kasie)
+                            <img src="{{ public_path('storage/' . str_replace('public/', '', $ttd->ttd_kasie)) }}" alt="Tanda Tangan Kasie" style="width: auto; height: 80px; display: block;"> <br>
+                        @else
+                            <p>Tanda Tangan Kasie tidak tersedia.</p>
+                        @endif
+                        {{ $ttd->nama_kasie ?? 'Nama Kasie tidak tersedia.' }} <br>
                         ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )
                     </h5>
                 </div>
                 <div class="col">
                     <h5>Tegal, {{ $bbm->tanggal }} <br> Disetujui <br> 
-                        <img src="{{ public_path('storage/img/foto4.jpeg') }}" alt="Tanda Tangan" style="width: 120px; height: auto; display: block; "> <br>
-                        Windi <br>
+                        @if ($ttd && $ttd->ttd_pimpinan)
+                            <img src="{{ public_path('storage/' . str_replace('public/', '', $ttd->ttd_pimpinan)) }}" alt="Tanda Tangan Pimpinan" style="width: auto; height: 80px; display: block;"> <br>
+                        @else
+                            <p>Tanda Tangan Pimpinan tidak tersedia.</p>
+                        @endif
+                        {{ $ttd->nama_pimpinan ?? 'Nama Pimpinan tidak tersedia.' }} <br>
                         ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )
                     </h5>
-                </div>
+                </div>                         
             </div> 
         </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

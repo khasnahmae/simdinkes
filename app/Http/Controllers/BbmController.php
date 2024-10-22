@@ -6,6 +6,7 @@ use App\Models\Bbm;
 use App\Models\Pegawai;
 use App\Models\Kendaraan;
 use App\Models\Notification;
+use App\Models\Ttd;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Twilio\Rest\Client;
@@ -128,7 +129,7 @@ class BbmController extends Controller
             // Hitung total nominal untuk kendaraan ini yang disetujui oleh pimpinan
             $totalNominal = Bbm::where('nopol', $bbm->nopol)
                 ->where('status', 'Disetujui Pimpinan')
-                ->where('created_at', '>=', now()->subMonths(1)) // Data dalam 6 bulan terakhir
+                ->where('created_at', '>=', now()->subMonths(1)) // Data dalam 1 bulan terakhir
                 ->sum('nominal');
 
             // Ambil kendaraan berdasarkan ID
@@ -237,11 +238,15 @@ class BbmController extends Controller
     public function print(string $uuid)
     {
         $bbm = Bbm::where('uuid', $uuid)->firstOrFail(); // Temukan BBM berdasarkan UUID
+        $ttd = Ttd::first();
 
-        $pdf = Pdf::loadView('bbm.print', compact('bbm'));
+        // Debugging untuk memastikan data yang diambil
+        // dd($bbm, $ttd);
 
+        $pdf = Pdf::loadView('bbm.print', compact('bbm', 'ttd'));
         return $pdf->download('permintaan_bbm_' . $bbm->id . '.pdf');
     }
+
     public function realisasi(string $uuid)
     {
         $bbm = Bbm::where('uuid', $uuid)->firstOrFail(); // Temukan BBM berdasarkan UUID
@@ -256,19 +261,14 @@ class BbmController extends Controller
     {
         $request->validate([
             'nominal_realisasi' => 'required|numeric|min:0',
-            'bukti_transaksi' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $bbm = Bbm::where('uuid', $uuid)->firstOrFail();
 
-        // Proses upload bukti transaksi
-        if ($request->hasFile('bukti_transaksi')) {
-            $buktiTransaksi = $request->file('bukti_transaksi')->store('bukti-transaksi', 'public');
-            $bbm->bukti_transaksi = $buktiTransaksi;
-        }
 
         $bbm->nominal_realisasi = $request->nominal_realisasi;
         $bbm->realisasi = 'Sudah Direalisasi';
+        $bbm->tanggal_realisasi = now(); 
         $bbm->save();
 
         // Hitung selisih
@@ -284,6 +284,46 @@ class BbmController extends Controller
         }
 
         $kendaraan->save();
+
+        return redirect()->route('bbm.index')->with('success', 'Realisasi BBM berhasil dilakukan.');
+    }
+    public function editrealisasi(string $uuid)
+    {
+        $bbm = Bbm::where('uuid', $uuid)->firstOrFail(); // Temukan BBM berdasarkan UUID
+
+        if ($bbm->realisasi !== 'Sudah Direalisasi') {
+            return redirect()->back()->with('error', 'Realisasi hanya bisa dilakukan setelah disetujui pimpinan.');
+        }
+        return view('bbm.editrealisasi', compact('bbm'));
+    
+    }
+    public function updateRealisasi(Request $request, string $uuid)
+    {
+        $request->validate([
+            'nominal_realisasi' => 'required|numeric|min:0',
+        ]);
+
+        $bbm = Bbm::where('uuid', $uuid)->firstOrFail();
+
+
+        $bbm->nominal_realisasi = $request->nominal_realisasi;
+        $bbm->realisasi = 'Sudah Direalisasi';
+        $bbm->tanggal_realisasi = now(); 
+        $bbm->update();
+
+        // Hitung selisih
+        $selisih = $bbm->nominal - $bbm->nominal_realisasi;
+
+        $kendaraan = Kendaraan::find($bbm->nopol);
+        
+        // Update limit berdasarkan selisih
+        if ($selisih > 0) {
+            $kendaraan->bbm_limit += $selisih; // Jika lebih
+        } else {
+            $kendaraan->bbm_limit -= abs($selisih); // Jika kurang
+        }
+
+        $kendaraan->update();
 
         return redirect()->route('bbm.index')->with('success', 'Realisasi BBM berhasil dilakukan.');
     }

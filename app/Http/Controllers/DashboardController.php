@@ -23,7 +23,7 @@ class DashboardController extends Controller
         $totalBbm = Bbm::whereMonth('tanggal', $currentMonth)
                         ->where('status', 'Disetujui Pimpinan')  // Sesuaikan dengan field 'status'
                         ->where('realisasi', 'Sudah Direalisasi')  // Sesuaikan dengan field 'status'
-                        ->sum('nominal');
+                        ->sum('nominal_realisasi');
 
         // Total permintaan ATK yang disetujui di bulan ini
         $totalAtk = Atk::whereMonth('tanggal', $currentMonth)
