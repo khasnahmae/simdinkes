@@ -63,7 +63,11 @@ class User extends Authenticatable
     {
         return 'uuid';
     }
-    
+    // Relasi ke Pegawai
+    public function pegawai()
+    {
+        return $this->hasOne(Pegawai::class);
+    }
 
     /**
      * The attributes that should be cast.

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pegawai_id');
             $table->dateTime('mulai');
             $table->dateTime('selesai');
-            $table->dateTime('keterangan');
+            $table->string('keterangan');
             $table->enum('status', ['booked','available'])->default('available');
             $table->foreign('pegawai_id')->references('id')->on('pegawai'); 
             $table->foreign('kendaraan_id')->references('id')->on('kendaraan'); 

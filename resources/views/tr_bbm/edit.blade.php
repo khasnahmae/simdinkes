@@ -2,18 +2,12 @@
 @section('content')
 <div class="container py-3">
     <h4 class="card-title">Edit Permintaan BBM</h4>
-    <form action="{{ route('tr_bbm.update', $bbm->id) }}" method="POST">
+    <form action="{{ route('tr_bbm.update', $bbm->uuid) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="container-fluid py-3">
             <div class="row">
                 {{-- <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="tanggal">Tanggal</label>
-                        <input type="datetime-local" name="tanggal" class="form-control" id="tanggal" value="{{ $bbm->tanggal }}" required>
-                    </div>
-                </div> --}}
-                <div class="col-md-4">
                     <div class="form-group">
                         <label for="pegawai_id">Pegawai</label>
                         <select name="pegawai_id" class="form-control" id="pegawai_id" required>
@@ -22,7 +16,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="nopol">Kendaraan</label>

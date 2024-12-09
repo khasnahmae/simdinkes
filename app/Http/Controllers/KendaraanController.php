@@ -40,6 +40,7 @@ class KendaraanController extends Controller
             'no_mesin' => 'required',
             'jenis_bbm' => 'required|string',
             'bbm_limit' => 'required|numeric',
+            'uuid' => (string) \Illuminate\Support\Str::uuid(), // Tambahkan UUID
         ]);
 
         Kendaraan::create($request->all());

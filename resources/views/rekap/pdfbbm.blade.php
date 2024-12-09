@@ -48,7 +48,13 @@
                 <td>{{ $bbm->pegawai->nama }}</td>
                 <td>{{ $bbm->kendaraan->nopol }}</td>
                 <td>{{ $bbm->nama_kendaraan }}</td>
-                <td>Rp {{ number_format($bbm->nominal, 2) }}</td>
+                <td>
+                    @if($bbm->nominal == 0)
+                        Full
+                    @else
+                        Rp {{ number_format($bbm->nominal, 2) }}
+                    @endif
+                </td>
                 <td>{{ $bbm->tanggal_realisasi }}</td>
                 <td>Rp {{ number_format($bbm->nominal_realisasi, 2) }}</td>
                 {{-- <td>Rp {{ number_format($bbm->nominal - $bbm->nominal_realisasi, 2) }}</td> --}}

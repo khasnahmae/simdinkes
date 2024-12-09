@@ -2,18 +2,12 @@
 @section('content')
 <div class="container py-3">
     <h4 class="card-title">Edit Permintaan ATK</h4>
-    <form action="{{ route('tr_atk.update', $atk->id) }}" method="POST">
+    <form action="{{ route('tr_atk.update', $atk->uuid) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="container-fluid py-3">
             <div class="row">
                 {{-- <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="tanggal" class="form-label">Tanggal</label>
-                        <input type="datetime-local" name="tanggal" class="form-control" value="{{ $atk->tanggal }}" required>
-                    </div>
-                </div> --}}
-                <div class="col-md-4">
                     <div class="form-group">
                         <label for="pegawai_id" class="form-label">Pegawai</label>
                         <select name="pegawai_id" class="form-control" required>
@@ -24,7 +18,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="barang_id" class="form-label">Barang</label>

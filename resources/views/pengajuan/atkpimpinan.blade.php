@@ -62,8 +62,21 @@
                         <td>{{ $item->pegawai->nama }}</td>
                         <td>{{ $item->barang->nama_barang }}</td>
                         <td>{{ $item->jumlah_barang }}</td>
-                        <td>{{ $item->status }}</td>
                         <td>
+                            @if($item->status === 'Disetujui Kasie')
+                                <span class="badge bg-primary">Disetujui Kasie</span>
+                            @elseif ($item->status == 'Disetujui Pimpinan')
+                                <span class="badge bg-success">Disetujui Pimpinan</span>
+                            @elseif ($item->status == 'Ditolak')
+                                <span class="badge bg-danger">Ditolak</span>
+                            @elseif ($item->status == 'Ditolak oleh Pimpinan')
+                                <span class="badge bg-danger">Ditolak Pimpinan</span>
+                            @else
+                                <span class="badge bg-warning">Pengajuan</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->status === 'Disetujui Kasie')
                             <!-- Tombol untuk menyetujui pengajuan -->
                             <form action="{{ route('atk.approve2', $item->uuid) }}" method="POST" style="display: inline-block;">
                                 @csrf
@@ -74,6 +87,9 @@
                                 @csrf
                                 <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
                             </form>
+                            @else
+                                <button class="btn btn-sm btn-secondary" disabled>Sudah Disetujui</button>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

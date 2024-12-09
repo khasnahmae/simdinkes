@@ -31,13 +31,19 @@
             <tbody>
                 @foreach($bbm as $item)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->id }}</td>
                     <td>{{ $item->tanggal }}</td>
                     <td>{{ $item->pegawai->nama }}</td>
                     <td>{{ $item->kendaraan->nopol }}</td>
                     <td>{{ $item->nama_kendaraan }}</td>
                     <td>{{ $item->jenis_bbm }}</td>
-                    <td>Rp {{ number_format($item->nominal, 2) }}</td>
+                    <td>
+                        @if($item->nominal == 0)
+                            Full
+                        @else
+                            Rp {{ number_format($item->nominal, 2) }}
+                        @endif
+                    </td>
                     <td>
                         @if($item->status === 'Disetujui Kasie')
                             <span class="badge bg-primary">Disetujui Kasie</span>

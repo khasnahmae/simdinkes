@@ -6,13 +6,7 @@
         @csrf
         <div class="container-fluid py-3">
             <div class="row">
-                {{-- <div class="col-md-4"> --}}
-                    {{-- <div class="form-group">
-                        <label for="tanggal" class="form-label">Tanggal</label>
-                        <input type="datetime-local" name="tanggal" class="form-control" required>
-                    </div> --}}
-                {{-- </div> --}}
-                <div class="col-md-4">
+                {{-- <div class="col-md-4">
                     <div class="form-group">
                         <label for="pegawai_id" class="form-label">Pegawai</label>
                         <select name="pegawai_id" class="form-control" required>
@@ -22,7 +16,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="barang_id" class="form-label">Barang</label>

@@ -12,27 +12,60 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BelanjaController;
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DetailbelanjaController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PeminjamanKendaraanController;
+use App\Http\Controllers\PeminjamanKendaraanOpController;
+use App\Http\Controllers\PeminjamanRuanganController;
+use App\Http\Controllers\PeminjamanRuanganOpController;
+use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SuratmagangController;
 use App\Http\Controllers\Tr_AtkController;
 use App\Http\Controllers\Tr_BbmController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\TtdController;
+use App\Models\Berita;
+use App\Models\JadwalKadis;
+use App\Models\Kegiatan;
 use App\Models\PeminjamanKendaraan;
 use App\Models\Siswa;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 // Route::middleware(['guest'])->get('/', function () {
 //     return redirect()->route('login');
 // });
 
 Route::get('/', function () {
-    return view('auth/login');
+    $currentTime = now();
+    $kendaraanDipinjam = PeminjamanKendaraan::where('mulai', '<=', $currentTime)
+    ->where('selesai', '>=', $currentTime)
+    ->get();
+    $jadwalKadis = JadwalKadis::whereDate('tgl_mulai', '>=', now()->toDateString())->orderBy('tgl_mulai', 'asc')->get();
+    $berita = Berita::orderBy('created_at', 'desc')->take(7)->get(); // Mengambil 7 berita terbaru
+    return view('landing', compact('kendaraanDipinjam', 'jadwalKadis','berita'));
 });
+// Route untuk mengambil data berita berdasarkan ID
+// Route::get('/berita/{id}', function($id) {
+//     $berita = Berita::find($id);
+//     if (!$berita) {
+//         return response()->json(['error' => 'Berita tidak ditemukan'], 404);
+//     }
+
+//     return response()->json([
+//         'judul' => $berita->judul,
+//         'subjudul' => $berita->subjudul,
+//         'isi' => $berita->isi,
+//         'foto' => $berita->foto,
+//     ]);
+// }); 
+
+Route::get('/berita/{id}', [LandingController::class, 'show'])->name('berita-show');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -44,20 +77,29 @@ Route::middleware(['auth'])->group(function () {
 
 // Rute untuk admin
 Route::middleware(['auth', 'check.level:admin'])->group(function () {
-    Route::resource('user', UserController::class);
+    Route::resource('user', UserController::class)->parameters(['user' => 'uuid']);
     Route::resource('pegawai', PegawaiController::class);
     Route::resource('jadis', JadwalKadisController::class);
     Route::resource('barang', BarangController::class);
     Route::resource('kendaraan', KendaraanController::class);
-    Route::resource('siswa', SiswaController::class);
-    Route::resource('suratmagang', SuratmagangController::class);
     Route::resource('ttd', TtdController::class);
     Route::resource('kegiatan', KegiatanController::class);
     Route::resource('belanja', BelanjaController::class);
     Route::resource('detail_belanja', DetailbelanjaController::class);
     Route::resource('transaksi', TransaksiController::class);
+    Route::resource('ruangan', RuanganController::class);
+    Route::resource('berita', BeritaController::class);
+    Route::resource('peminjaman-ruangan', PeminjamanRuanganController::class);
+    Route::get('/dashboardrka', [KegiatanController::class, 'dashboard'])->name('dashboard.index');
+    Route::get('/dashboard/belanja/{id}/detail', [KegiatanController::class, 'showDetail'])->name('dashboard.belanja.detail');
 
-    Route::resource('peminjaman-kendaraan', PeminjamanKendaraanController::class)->parameters(['peminjaman-kendaraan' => 'uuid']);;
+
+
+    // Tambahkan route ini
+    Route::get('/get-detail-belanja/{id}', [DetailBelanjaController::class, 'getDetailBelanja']);
+
+
+    Route::resource('peminjaman-kendaraan', PeminjamanKendaraanController::class)->parameters(['peminjaman-kendaraan' => 'uuid']);
     Route::get('/peminjaman-kendaraan/{uuid}/detail', [PeminjamanKendaraanController::class, 'detail'])->name('peminjaman-kendaraan.detail');
 
 
@@ -97,6 +139,10 @@ Route::middleware(['auth', 'check.level:operator'])->group(function () {
     Route::resource('tr_bbm', Tr_BbmController::class);
     Route::get('/tr_atk/{uuid}/print', [Tr_AtkController::class, 'print'])->name('tr_atk.print');
     Route::get('/tr_bbm/{uuid}/print', [Tr_BbmController::class, 'print'])->name('tr_bbm.print');
+    Route::resource('peminjaman-kendaraanop', PeminjamanKendaraanOpController::class)->parameters(['peminjaman-kendaraan' => 'uuid']);
+    Route::get('/peminjaman-kendaraanop/{uuid}/detail', [PeminjamanKendaraanOpController::class, 'detail'])->name('peminjaman-kendaraanop.detail');
+    Route::resource('peminjaman-ruanganop', PeminjamanRuanganOpController::class);
+
 
 });
 Route::middleware(['auth', 'check.level:pemimpin'])->group(function () {

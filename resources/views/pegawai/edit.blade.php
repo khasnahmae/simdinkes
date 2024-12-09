@@ -7,6 +7,16 @@
         @method('PUT')
         <div class="container-fluid py-3">
             <div class="row">
+                {{-- <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="user_id">User Id</label>
+                        <select name="user_id" id="user_id" class="form-control" required>
+                            @foreach($users as $user)
+                                <option value="{{ $user->id }}" {{ $user->id == $pegawai->user_id ? 'selected' : '' }}>{{ $user->username }}</option>
+                            @endforeach
+                        </select>
+                    </div>   
+                </div>  --}}
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="nama">Nama</label>

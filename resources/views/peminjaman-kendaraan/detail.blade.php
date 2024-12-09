@@ -55,6 +55,7 @@
                 @endforeach
             </tbody>
         </table>
+        <a href="{{ route('peminjaman-kendaraan.index') }}" class="btn btn-outline-secondary btn-sm">Kembali</a>
     </div>
 </div>
 @endif

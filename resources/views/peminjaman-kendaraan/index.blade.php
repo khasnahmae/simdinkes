@@ -40,9 +40,9 @@
                             <td>{{ $kendaraan->nopol }}</td>
                             <td>
                                 @if($status === 'Booked')
-                                    <span class="badge bg-danger">Booked</span>
+                                    <span class="badge bg-danger">Sedang Dipinjam</span>
                                 @else
-                                    <span class="badge bg-success">Available</span>
+                                    <span class="badge bg-success">Tersedia</span>
                                 @endif
                             </td>
                             <td>

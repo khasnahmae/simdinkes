@@ -11,11 +11,5 @@ class Notification extends Model
 
     protected $fillable = ['title', 'message', 'is_read'];
 
-    // public static function createNotification($userId, $message)
-    // {
-    //     return self::create([
-    //         'user_id' => $userId,
-    //         'message' => $message,
-    //     ]);
-    // }
+    
 }

@@ -44,7 +44,11 @@ class BarangController extends Controller
             'stok' => 'required|integer',
         ]);
 
-        Barang::create($request->all());
+        Barang::create([
+            'nama_barang' => $request->nama_barang,
+            'stok' => $request->stok,
+            'uuid' => (string) \Illuminate\Support\Str::uuid(), // Tambahkan UUID
+        ]);
 
         return redirect()->route('barang.index')->with('success', 'Data Barang berhasil ditambahkan.');
     }

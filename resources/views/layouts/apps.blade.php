@@ -60,6 +60,9 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/css/kaiadmin.min.css') }}" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/demo.css') }}" />
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
+
   </head>
   <body>
     <div class="wrapper">
@@ -128,13 +131,13 @@
                     @endif
                     <!-- Hanya tampil untuk Admin -->
                     @if(Auth::user()->level == 'admin')
-                    <li class="nav-item {{ request()->is('siswa') || request()->is('suratmagang')|| request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') ? 'active' : '' }}">
-                      <a data-bs-toggle="collapse" href="#formsDataMaster">
+                    <li class="nav-item {{ request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('ruangan') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') ? 'active' : '' }}">
+                      <a data-bs-toggle="collapse" href="#forms">
                         <i class="fas fa-layer-group"></i>
                         <p>Data Master</p>
                         <span class="caret"></span>
                       </a>
-                      <div class="collapse {{ request()->is('siswa') || request()->is('suratmagang')|| request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') ? 'show' : '' }}" id="formsDataMaster">
+                      <div class="collapse {{ request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('ruangan') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') ? 'show' : '' }}" id="forms">
                         <ul class="nav nav-collapse">
                           <li class="{{ request()->is('user') ? 'active' : '' }}">
                             <a href="/user">
@@ -156,19 +159,14 @@
                               <span class="sub-item">Kendaraan</span>
                             </a>
                           </li>
+                          <li class="{{ request()->is('ruangan') ? 'active' : '' }}">
+                            <a href="/ruangan">
+                              <span class="sub-item">Ruangan</span>
+                            </a>
+                          </li>
                           <li class="{{ request()->is('jadis') ? 'active' : '' }}">
                             <a href="/jadis">
                               <span class="sub-item">Jadwal Kadis</span>
-                            </a>
-                          </li>
-                          <li class="{{ request()->is('siswa') ? 'active' : '' }}">
-                            <a href="/siswa">
-                              <span class="sub-item">Siswa Magang</span>
-                            </a>
-                          </li>
-                          <li class="{{ request()->is('suratmagang') ? 'active' : '' }}">
-                            <a href="/suratmagang">
-                              <span class="sub-item">Surat Magang</span>
                             </a>
                           </li>
                           <li class="{{ request()->is('ttd') ? 'active' : '' }}">
@@ -178,6 +176,12 @@
                           </li>
                         </ul>
                       </div>
+                    </li>
+                    <li class="nav-item {{ request()->is('berita') ? 'active' : '' }}">
+                      <a href="/berita">
+                        <i class="far fa-newspaper"></i>
+                          <p>Berita</p>
+                      </a>
                     </li>
                     <li class="nav-item {{ request()->is('pengajuan/atk') ? 'active' : '' }}">
                       <a href="/pengajuan/atk">
@@ -199,13 +203,44 @@
                           </p>
                       </a>
                     </li>
-                    <li class="nav-item {{ request()->is('rekap/atk') || request()->is('rekap/bbm') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('kegiatan') || request()->is('belanja') || request()->is('detail_belanja') || request()->is('transaksi') ? 'active' : '' }}">
+                      <a data-bs-toggle="collapse" href="#formsRka">
+                          <i class="fas fa-chart-pie"></i>
+                          <p>RKA</p>
+                          <span class="caret"></span>
+                      </a>
+                      <div class="collapse {{ request()->is('kegiatan') || request()->is('belanja') || request()->is('detail_belanja') || request()->is('transaksi') ? 'show' : '' }}" id="formsRka">
+                          <ul class="nav nav-collapse">
+                              <li class="{{ request()->is('kegiatan') ? 'active' : '' }}">
+                                  <a href="/kegiatan">
+                                      <span class="sub-item">Kegiatan</span>
+                                  </a>
+                              </li>
+                              <li class="{{ request()->is('belanja') ? 'active' : '' }}">
+                                  <a href="/belanja">
+                                      <span class="sub-item">Belanja</span>
+                                  </a>
+                              </li>
+                              <li class="{{ request()->is('detail_belanja') ? 'active' : '' }}">
+                                  <a href="/detail_belanja">
+                                      <span class="sub-item">Detail Belanja</span>
+                                  </a>
+                              </li>
+                              <li class="{{ request()->is('transaksi') ? 'active' : '' }}">
+                                <a href="/transaksi">
+                                    <span class="sub-item">Transaksi</span>
+                                </a>
+                            </li>
+                          </ul>
+                      </div>
+                    </li>
+                    <li class="nav-item {{ request()->is('rekap/atk') || request()->is('rekap/bbm') || request()->is('dashboardrka') ? 'active' : '' }}">
                       <a data-bs-toggle="collapse" href="#sidebarLayouts">
                           <i class="fas fa-file-alt"></i>
                           <p>Rekapitulasi</p>
                           <span class="caret"></span>
                       </a>
-                      <div class="collapse {{ request()->is('rekap/atk') || request()->is('rekap/bbm') ? 'show' : '' }}" id="sidebarLayouts">
+                      <div class="collapse {{ request()->is('rekap/atk') || request()->is('rekap/bbm') || request()->is('dashboardrka') ? 'show' : '' }}" id="sidebarLayouts">
                           <ul class="nav nav-collapse">
                               <li class="{{ request()->is('rekap/atk') ? 'active' : '' }}">
                                   <a href="/rekap/atk">
@@ -217,16 +252,21 @@
                                       <span class="sub-item">BBM</span>
                                   </a>
                               </li>
+                              <li class="{{ request()->is('dashboardrka') ? 'active' : '' }}">
+                                  <a href="{{ route('dashboard.index') }}">
+                                      <span class="sub-item">RKA</span>
+                                  </a>
+                              </li>
                           </ul>
                       </div>
                     </li>
-                    <li class="nav-item {{ request()->is('atk') || request()->is('bbm') || request()->is('peminjaman-kendaraan') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('atk') || request()->is('bbm') || request()->is('peminjaman-kendaraan') || request()->is('peminjaman-ruangan') ? 'active' : '' }}">
                       <a data-bs-toggle="collapse" href="#formsTransaksi">
                           <i class="fas fa-cart-plus"></i>
-                          <p>Transaksi</p>
+                          <p>Permintaan</p>
                           <span class="caret"></span>
                       </a>
-                      <div class="collapse {{ request()->is('atk') || request()->is('bbm') || request()->is('peminjaman-kendaraan') ? 'show' : '' }}" id="formsTransaksi">
+                      <div class="collapse {{ request()->is('atk') || request()->is('bbm') || request()->is('peminjaman-kendaraan') || request()->is('peminjaman-ruangan') ? 'show' : '' }}" id="formsTransaksi">
                           <ul class="nav nav-collapse">
                               <li class="{{ request()->is('atk') ? 'active' : '' }}">
                                   <a href="/atk">
@@ -243,6 +283,11 @@
                                       <span class="sub-item">Peminjaman Kendaraaan</span>
                                   </a>
                               </li>
+                              <li class="{{ request()->is('peminjaman-ruangan') ? 'active' : '' }}">
+                                  <a href="/peminjaman-ruangan">
+                                      <span class="sub-item">Peminjaman Ruang</span>
+                                  </a>
+                              </li>
                           </ul>
                       </div>
                     </li>
@@ -250,27 +295,30 @@
                     <!-- Menu Transaksi untuk Operator -->
                     {{-- @if(Auth::user()->level == 'operator') --}}
                     @if(Auth::user()->level == 'operator')
-                    <li class="nav-item {{ request()->is('tr_atk') || request()->is('tr_bbm') ? 'active' : '' }}">
-                      <a data-bs-toggle="collapse" href="#base">
-                          <i class="fas fa-cart-plus"></i>
-                          <p>Transaksi</p>
-                          <span class="caret"></span>
-                      </a>
-                      <div class="collapse {{ request()->is('tr_atk') || request()->is('tr_bbm') ? 'show' : '' }}" id="base">
-                          <ul class="nav nav-collapse">
-                              <li class="{{ request()->is('tr_atk') ? 'active' : '' }}">
-                                  <a href="/tr_atk">
-                                      <span class="sub-item">ATK</span>
-                                  </a>
-                              </li>
-                              <li class="{{ request()->is('tr_bbm') ? 'active' : '' }}">
-                                  <a href="/tr_bbm">
-                                      <span class="sub-item">BBM</span>
-                                  </a>
-                              </li>
-                          </ul>
-                      </div>
-                    </li>
+                      <li class="nav-item {{ request()->is('tr_atk')  ? 'active' : '' }}">
+                        <a href="/tr_atk">
+                          <i class="fas fa-box-open"></i>
+                            <span class="sub-item">ATK</span>
+                        </a>
+                      </li>
+                      <li class="nav-item {{ request()->is('tr_bbm')  ? 'active' : '' }}">
+                        <a href="/tr_bbm">
+                          <i class="fas fa-car-side"></i>
+                            <span class="sub-item">BBM</span>
+                        </a>
+                      </li>
+                      <li class="nav-item {{ request()->is('peminjaman-kendaraanop')  ? 'active' : '' }}">
+                        <a href="/peminjaman-kendaraanop">
+                          <i class="fas fa-check"></i>
+                            <span class="sub-item">Peminjaman Kendaraan</span>
+                        </a>
+                      </li>
+                      <li class="nav-item {{ request()->is('peminjaman-ruanganop') ? 'active' : '' }}">
+                        <a href="/peminjaman-ruanganop">
+                          <i class="fas fa-sign-in-alt"></i>
+                            <span class="sub-item">Peminjaman Ruangan</span>
+                        </a>
+                      </li>
                     @endif
                 </ul>
             </div>
@@ -309,7 +357,7 @@
               <nav class="navbar navbar-header-left navbar-expand-lg navbar-form p-0 d-none d-lg-flex">
                 <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                   <li>
-                    <img src="{{ asset('images/siola2.png') }}" alt="navbar brand" class="navbar-brand" style="width: 150px; height: auto;"/>
+                    {{-- <img src="{{ asset('images/siola2.png') }}" alt="navbar brand" class="navbar-brand" style="width: 150px; height: auto;"/> --}}
                   </li>
                 </ul>
               </nav>
@@ -327,7 +375,7 @@
                     </div>
                     <span class="profile-username">
                       {{-- <span class="op-7" style="font-size: 18px">Hi,</span> --}}
-                      <span class="fw-bold" style="font-size: 20px">{{ Auth::user()->username }}</span>
+                      <span class="fw-bold" style="font-size: 20px; text-transform: uppercase;">{{ Auth::user()->username }}</span>
                     </span>
                   </a>
                 </li>
@@ -340,7 +388,7 @@
                   <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                     <li>
                       <div class="dropdown-title">
-                        You have {{ $notifications->where('is_read', false)->count() }} new notifications
+                        Kamu memiliki {{ $notifications->where('is_read', false)->count() }} notifikasi baru.
                       </div>
                     </li>
                     <li>
@@ -369,21 +417,26 @@
                         </div>
                       </div>
                     </li>
-                    <li>
+                    {{-- <li>
                       <a class="see-all" href="javascript:void(0);" >See all notifications<i class="fa fa-angle-right"></i>
                       </a>
-                    </li>
+                    </li> --}}
                   </ul>
                 </li>
                 @endif
                 <li>
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                      <i class="fa fa-sign-out-alt"></i> Logout
+                  </button>
+              </li>              
+                {{-- <li>
                   <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-danger">
                         <i class="fa fa-sign-out-alt"></i> Logout
                     </button>
                   </form>
-                </li>
+                </li> --}}
             </div>
           </div>
           </nav>
@@ -410,12 +463,34 @@
           <div class="container-fluid d-flex justify-content-between">
             <div class="copyright">
               2024, made with <i class="fa fa-heart heart text-danger"></i> by
-              <a href="http://www.themekita.com">Umpeg Dinkes Tegal</a>
+              <a href="#">Umpeg Dinkes Tegal</a>
             </div>
           </div>
         </footer>
       </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  Apakah Anda yakin ingin logout?
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                      @csrf
+                      <button type="submit" class="btn btn-danger">Logout</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--   Core JS Files   -->
     <script src="{{ asset('backend/assets/js/core/jquery-3.7.1.min.js') }}"></script>
@@ -448,6 +523,8 @@
     <script src="{{ asset('backend/assets/js/kaiadmin.min.js') }}"></script>
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <script src="{{ asset('backend/assets/js/setting-demo2.js') }}"></script>
+    {{-- <script src="{{ asset('backend/assets/js/setting-demo.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/demo.js') }}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>

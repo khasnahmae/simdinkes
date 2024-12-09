@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -15,29 +16,28 @@ class UserSeeder extends Seeder
     {
         User::insert([
             [
-                'username' => 'admin',
-                'password' => bcrypt('admin123'),
-                'level' => 'admin',
-            ],
-            [
-                'username' => 'operator',
-                'password' => bcrypt('operator123'),
-                'level' => 'operator',
-            ],
-            [
-                'username' => 'sandi',
+                'username' => 'Sandi',
                 'password' => bcrypt('sandi123'),
                 'level' => 'admin',
+                'uuid' => Str::uuid(), // Generate UUID
             ],
             [
-                'username' => 'lisa',
-                'password' => bcrypt('lisa123'),
-                'level' => 'admin',
-            ],
-            [
-                'username' => 'rahma',
+                'username' => 'Rahma',
                 'password' => bcrypt('rahma123'),
                 'level' => 'admin',
+                'uuid' => Str::uuid(), // Generate UUID
+            ],
+            [
+                'username' => 'Pimpinan',
+                'password' => bcrypt('pimpinan123'),
+                'level' => 'pemimpin',
+                'uuid' => Str::uuid(), // Generate UUID
+            ],
+            [
+                'username' => 'Husni Ari',
+                'password' => bcrypt('operator123'),
+                'level' => 'operator',
+                'uuid' => Str::uuid(), // Generate UUID
             ],
         ]);
     }

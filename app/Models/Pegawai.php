@@ -11,7 +11,7 @@ class Pegawai extends Model
     use HasFactory;
     protected $table = 'pegawai';
 
-    protected $fillable = ['nama', 'nip', 'bidang','uuid']; 
+    protected $fillable = ['nama', 'user_id','nip', 'bidang','uuid']; 
 
     public function atk()
     {
@@ -28,6 +28,11 @@ class Pegawai extends Model
     public function setBidangAttribute($value)
     {
         $this->attributes['bidang'] = ucwords(strtolower($value)); // Ubah huruf pertama menjadi kapital
+    }
+    // Relasi ke User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
     // Memastikan UUID otomatis terisi saat membuat model baru
     protected static function boot()

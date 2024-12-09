@@ -183,7 +183,7 @@ class AtkController extends Controller
             return redirect()->back()->with('error', 'Unauthorized access');
         }
         // Ambil data atk dengan status 'Pengajuan' saja
-        $atk = Atk::where('status', 'Pengajuan')->get();
+        $atk = Atk::whereIn('status', ['Pengajuan', 'Disetujui Kasie', 'Disetujui Pimpinan'])->get();
 
         return view('pengajuan.atk', compact('atk'));
     }
@@ -194,8 +194,7 @@ class AtkController extends Controller
             return redirect()->back()->with('error', 'Unauthorized access');
         }
 
-        // Ambil data ATK yang sudah disetujui oleh Kasie
-        $atk = Atk::where('status', 'Disetujui Kasie')->get();
+        $atk = Atk::whereIn('status', ['Disetujui Kasie', 'Disetujui Pimpinan'])->get();
 
         return view('pengajuan.atkpimpinan', compact('atk'));
     }

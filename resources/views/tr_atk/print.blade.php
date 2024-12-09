@@ -98,15 +98,23 @@
             </div>
             <div class="col">
                 <h5>Mengetahui <br> Kassubag/Kasie <br> 
-                    <img src="{{ public_path('storage/img/ttd1.png') }}" alt="Tanda Tangan" style="width: auto; height: 80px; display: block; "> <br>
-                        Sandi <br>
+                    @if ($ttd && $ttd->ttd_kasie)
+                        <img src="{{ public_path('storage/' . str_replace('public/', '', $ttd->ttd_kasie)) }}" alt="Tanda Tangan Kasie" style="width: auto; height: 80px; display: block;"> <br>
+                    @else
+                        <p>Tanda Tangan Kasie tidak terseda.</p>
+                    @endif
+                    {{ $ttd->nama_kasie ?? 'Nama Kasie tidak tersedia.' }} <br>
                     ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )
                 </h5>
             </div>
             <div class="col">
                 <h5>Tegal, {{ $atk->tanggal }} <br> Disetujui <br> 
-                    <img src="{{ public_path('storage/img/foto4.jpeg') }}" alt="Tanda Tangan" style="width: 120px; height: auto; display: block; "> <br>
-                        Windi <br>
+                    @if ($ttd && $ttd->ttd_pimpinan)
+                        <img src="{{ public_path('storage/' . str_replace('public/', '', $ttd->ttd_pimpinan)) }}" alt="Tanda Tangan Pimpinan" style="width: auto; height: 80px; display: block;"> <br>
+                    @else
+                        <p>Tanda Tangan Pimpinan tidak tersedia.</p>
+                    @endif
+                    {{ $ttd->nama_pimpinan ?? 'Nama Pimpinan tidak tersedia.' }} <br>
                     ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )
                 </h5>
             </div>

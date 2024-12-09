@@ -27,7 +27,7 @@
                     <th>Pegawai</th>
                     <th>Barang</th>
                     <th>Jumlah</th>
-                    <th>Stok Barang</th>
+                    {{-- <th>Stok Barang</th> --}}
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
@@ -40,7 +40,7 @@
                     <td>{{ $item->pegawai->nama }}</td>
                     <td>{{ $item->barang->nama_barang }}</td>
                     <td>{{ $item->jumlah_barang }}</td>
-                    <td>{{ $item->barang->stok }}</td>
+                    {{-- <td>{{ $item->barang->stok }}</td> --}}
                     <td>
                         @if($item->status === 'Disetujui Kasie')
                             <span class="badge bg-primary">Disetujui Kasie</span>

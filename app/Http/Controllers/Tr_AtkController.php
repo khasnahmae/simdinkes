@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Atk;
 use App\Models\Barang;
 use App\Models\Pegawai;
+use App\Models\Ttd;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -16,8 +17,10 @@ class Tr_AtkController extends Controller
     public function index()
     {
         $atk = Atk::with(['pegawai', 'barang'])
-            ->where('pegawai_id', auth()->id()) // Menampilkan hanya data yang dibuat oleh user yang sedang login
-            ->orderBy('created_at', 'desc') // Mengurutkan data berdasarkan tanggal pembuatan, yang terbaru di atas
+            ->whereHas('pegawai', function ($query) { // Menampilkan hanya data yang dibuat oleh user yang sedang login
+                $query->where('user_id', auth()->id()); // Filter berdasarkan user_id yang login
+            })
+            ->orderBy('created_at', 'desc') // Data terbaru di atas
             ->get();
 
         return view('tr_atk.index', compact('atk'));
@@ -36,7 +39,6 @@ class Tr_AtkController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pegawai_id' => 'required|exists:pegawai,id',
             'barang_id' => 'required|exists:barang,id',
             'jumlah_barang' => 'required|integer',
             'status' => 'Pengajuan',
@@ -44,6 +46,12 @@ class Tr_AtkController extends Controller
     
         // Temukan barang berdasarkan ID
         $barang = Barang::find($request->barang_id);
+        // Cari data pegawai yang sesuai dengan user yang sedang login
+        $pegawai = Pegawai::where('user_id', auth()->id())->first();
+
+        if (!$pegawai) {
+            return redirect()->back()->with('error', 'Data pegawai tidak ditemukan.');
+        }
     
         // Cek apakah stok barang mencukupi
         if ($barang->stok < $request->jumlah_barang) {
@@ -56,7 +64,7 @@ class Tr_AtkController extends Controller
     
         // Simpan data permintaan
         Atk::create([
-            'pegawai_id' => $request->pegawai_id,
+            'pegawai_id' => $pegawai->id,
             'barang_id' => $request->barang_id,
             'jumlah_barang' => $request->jumlah_barang,
             'status' => 'Pengajuan',
@@ -75,42 +83,49 @@ class Tr_AtkController extends Controller
         return view('tr_atk.edit', compact('atk', 'pegawai', 'barang'));
     }
 
-    public function update(Request $request, Atk $uuid)
+    public function update(Request $request, string $uuid)
     {
-        $atk = Atk::where('uuid', $uuid)->firstOrFail();
         $request->validate([
-            'pegawai_id' => 'required|exists:pegawai,id',
             'barang_id' => 'required|exists:barang,id',
             'jumlah_barang' => 'required|integer|min:1',
-            'status' => 'Pengajuan',
         ]);
 
-        // Ambil transaksi lama dan barang terkait
-        $transaksi = $atk;
+        // Cari transaksi ATK berdasarkan UUID
+        $transaksi = Atk::where('uuid', $uuid)->firstOrFail();
+
+        // Cari barang berdasarkan ID
         $barang = Barang::findOrFail($request->barang_id);
 
-        // Hitung selisih jumlah barang (transaksi baru - transaksi lama)
+        // Cari pegawai yang sesuai dengan user yang sedang login
+        $pegawai = Pegawai::where('user_id', auth()->id())->first();
+        if (!$pegawai) {
+            return redirect()->back()->with('error', 'Data pegawai tidak ditemukan.');
+        }
+
+        // Hitung selisih jumlah barang
         $selisih = $request->jumlah_barang - $transaksi->jumlah_barang;
 
-        // Periksa apakah stok mencukupi untuk perubahan
+        // Periksa apakah stok mencukupi
         if ($barang->stok >= $selisih) {
-            // Perbarui stok barang
-            $barang->stok -= $selisih; // Kurangi stok dengan selisih jumlah yang diubah
+            // Update stok barang
+            $barang->stok -= $selisih; 
             $barang->save();
 
-            // Perbarui transaksi
-            $transaksi->pegawai_id = $request->pegawai_id;
-            $transaksi->barang_id = $request->barang_id;
-            $transaksi->jumlah_barang = $request->jumlah_barang;
-            $transaksi->tanggal = now(); // Menyimpan tanggal saat ini
-            $transaksi->save();
+            // Update data transaksi
+            $transaksi->update([
+                'pegawai_id' => $pegawai->id, // Tetap menggunakan pegawai yang login
+                'barang_id' => $request->barang_id,
+                'jumlah_barang' => $request->jumlah_barang,
+                'tanggal' => now(), // Tanggal diperbarui ke saat ini
+            ]);
 
-            return redirect()->route('tr_atk.index')->with('success', 'Data permintaan ATK berhasil diupdate, stok barang telah diperbarui.');
+            return redirect()->route('tr_atk.index')->with('success', 'Data permintaan ATK berhasil diperbarui, stok barang telah diubah.');
         } else {
             // Jika stok tidak mencukupi
-            return redirect()->route('tr_atk.index')->with('error', 'Stok barang tidak mencukupi untuk memperbarui transaksi.');
+            return redirect()->back()->with('error', 'Stok barang tidak mencukupi untuk memperbarui transaksi.');
         }
     }
+
 
     public function destroy(string $uuid)
     {
@@ -130,8 +145,9 @@ class Tr_AtkController extends Controller
     public function print($uuid)
     {
         $atk = Atk::where('uuid', $uuid)->firstOrFail();
+        $ttd = Ttd::first();
 
-        $pdf = Pdf::loadView('tr_atk.print', compact('atk'));
+        $pdf = Pdf::loadView('tr_atk.print', compact('atk', 'ttd'));
 
         return $pdf->download('permintaan_atk_' . $atk->id . '.pdf');
     }

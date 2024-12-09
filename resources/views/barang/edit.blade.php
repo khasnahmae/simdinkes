@@ -1,7 +1,7 @@
 @extends('layouts.apps')
 @section('content')
 <div class="container py-3">
-    <h4 class="card-title">Tambah Data Barang</h4>
+    <h4 class="card-title">Edit Data Barang</h4>
     <form action="{{ route('barang.update', $barang->uuid) }}" method="POST">
         @csrf
         @method('PUT')

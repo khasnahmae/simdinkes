@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->string('username');
             $table->string('password');
-            $table->enum('level', ['admin', 'operator'])->default('operator');
+            $table->enum('level', ['admin', 'operator', 'pemimpin'])->default('operator');
             $table->rememberToken();
             $table->timestamps();
         });

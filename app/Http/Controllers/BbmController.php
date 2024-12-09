@@ -53,6 +53,8 @@ class BbmController extends Controller
           // Tambahkan 'tanggal' secara manual
         $data = $request->all();
         $data['tanggal'] = now(); // Menyimpan tanggal saat ini
+        $data['uuid'] = (string) \Illuminate\Support\Str::uuid(); // Tambahkan UUID
+
 
         // Simpan data ke database
         Bbm::create($data);
@@ -126,21 +128,29 @@ class BbmController extends Controller
             $bbm->status = 'Disetujui Pimpinan';
             $bbm->save();
 
-            // Hitung total nominal untuk kendaraan ini yang disetujui oleh pimpinan
-            $totalNominal = Bbm::where('nopol', $bbm->nopol)
-                ->where('status', 'Disetujui Pimpinan')
-                ->where('created_at', '>=', now()->subMonths(1)) // Data dalam 1 bulan terakhir
-                ->sum('nominal');
-
             // Ambil kendaraan berdasarkan ID
             $kendaraan = Kendaraan::find($bbm->nopol);
 
             if ($kendaraan) {
+                // Jika nominal BBM 0, gunakan perkiraan sementara untuk perhitungan limit
+                $nominalSementara = $bbm->nominal > 0 ? $bbm->nominal : $kendaraan->bbm_limit * 0.40; // Estimasi 10% dari limit sebagai contoh
+
+                // Hitung total nominal untuk kendaraan ini yang disetujui oleh pimpinan
+                $totalNominal = Bbm::where('nopol', $bbm->nopol)
+                    ->where('status', 'Disetujui Pimpinan')
+                    ->where('created_at', '>=', now()->subMonths(6)) // Data dalam 1 bulan terakhir
+                    ->sum('nominal');
+
+                // Tambahkan nominal sementara untuk transaksi ini jika nominalnya 0
+                if ($bbm->nominal == 0) {
+                    $totalNominal += $nominalSementara;
+                }
+
                 // Hitung sisa limit
                 $sisaLimit = $kendaraan->bbm_limit - $totalNominal;
 
                 // Buat pesan notifikasi
-                $message = "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sebesar Rp " . number_format($bbm->nominal, 2, ',', '.') . ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.');
+                $message = "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sekitar Rp " . number_format($nominalSementara, 2, ',', '.') . ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.');
 
                 // Simpan notifikasi ke database
                 Notification::create([
@@ -151,7 +161,7 @@ class BbmController extends Controller
 
                 if ($sisaLimit > 0) {
                     // Jika sisa limit masih tersedia
-                    session()->flash('success', "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sebesar Rp " . number_format($bbm->nominal, 2, ',', '.') . ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.'));
+                    session()->flash('success', "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sekitar Rp " . number_format($nominalSementara, 2, ',', '.') . ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.'));
                 } else {
                     // Jika sisa limit sudah habis atau melebihi limit
                     session()->flash('warning', "Kendaraan dengan nopol {$kendaraan->nopol} telah melebihi limit BBM. Sisa limit sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.') . ". Perhatikan penggunaan BBM lebih lanjut.");
@@ -162,9 +172,10 @@ class BbmController extends Controller
         } else {
             return redirect()->back()->with('error', 'Permintaan belum disetujui oleh Kasie.');
         }
-    
+
         return redirect()->back();
     }
+
 
     // public function sendWhatsappNotification($kendaraan)
     // {
@@ -219,8 +230,7 @@ class BbmController extends Controller
         if (auth()->user()->level !== 'admin') {
             return redirect()->back()->with('error', 'Unauthorized access');
         }
-        // Ambil data BBM dengan status 'Pengajuan' saja
-        $bbm = Bbm::where('status', 'Pengajuan')->get();
+        $bbm = Bbm::whereIn('status', ['Pengajuan', 'Disetujui Kasie', 'Disetujui Pimpinan'])->get();
         return view('pengajuan.bbm', compact('bbm'));
 
     }
@@ -229,8 +239,7 @@ class BbmController extends Controller
         if (auth()->user()->level !== 'pemimpin') {
             return redirect()->back()->with('error', 'Unauthorized access');
         }
-        // Ambil data BBM dengan status 'Pengajuan' saja
-        $bbm = Bbm::where('status', 'Disetujui Kasie')->get();
+        $bbm = Bbm::whereIn('status', ['Disetujui Kasie', 'Disetujui Pimpinan'])->get();
         return view('pengajuan.bbmpimpinan', compact('bbm'));
 
     }

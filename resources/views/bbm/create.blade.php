@@ -6,12 +6,6 @@
         @csrf
         <div class="container-fluid py-3">
             <div class="row">
-                {{-- <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="tanggal">Tanggal</label>
-                        <input type="datetime-local" name="tanggal" class="form-control" id="tanggal" required>
-                    </div>
-                </div> --}}
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="pegawai_id">Pegawai</label>
@@ -49,7 +43,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="nominal">Nominal</label>
-                        <input type="number" name="nominal" class="form-control" id="nominal" step="0.01" required>
+                        <input type="number" name="nominal" class="form-control" id="nominal"  placeholder="Isi 0 jika penuh/full" required>
                     </div>
                 </div>
             </div>

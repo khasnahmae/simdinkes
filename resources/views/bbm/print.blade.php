@@ -109,9 +109,9 @@
                 <div class="col">
                     <h5>Mengetahui <br> Kassubag/Kasie <br>
                         @if ($ttd && $ttd->ttd_kasie)
-                            <img src="{{ public_path('storage/' . str_replace('public/', '', $ttd->ttd_kasie)) }}" alt="Tanda Tangan Kasie" style="width: auto; height: 80px; display: block;"> <br>
+                            <img src="{{ public_path('storage/img/' . str_replace('public/', '', $ttd->ttd_kasie)) }}" alt="Tanda Tangan Kasie" style="width: auto; height: 80px; display: block;"> <br>
                         @else
-                            <p>Tanda Tangan Kasie tidak tersedia.</p>
+                            <p>Tanda Tangan Kasie tidak terseda.</p>
                         @endif
                         {{ $ttd->nama_kasie ?? 'Nama Kasie tidak tersedia.' }} <br>
                         ( <span style="display:inline-block; width:150px; border-bottom:1px solid black;">&nbsp;</span> )
@@ -120,7 +120,7 @@
                 <div class="col">
                     <h5>Tegal, {{ $bbm->tanggal }} <br> Disetujui <br> 
                         @if ($ttd && $ttd->ttd_pimpinan)
-                            <img src="{{ public_path('storage/' . str_replace('public/', '', $ttd->ttd_pimpinan)) }}" alt="Tanda Tangan Pimpinan" style="width: auto; height: 80px; display: block;"> <br>
+                            <img src="{{ public_path('storage/img/' . str_replace('public/', '', $ttd->ttd_pimpinan)) }}" alt="Tanda Tangan Pimpinan" style="width: auto; height: 80px; display: block;"> <br>
                         @else
                             <p>Tanda Tangan Pimpinan tidak tersedia.</p>
                         @endif
