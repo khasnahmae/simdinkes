@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanController extends Controller
 {
