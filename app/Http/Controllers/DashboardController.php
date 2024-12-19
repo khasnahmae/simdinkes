@@ -8,6 +8,7 @@ use App\Models\Bbm;
 use App\Models\Atk;
 use App\Models\JadwalKadis;
 use App\Models\PeminjamanKendaraan;
+use App\Models\PeminjamanRuangan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,8 +18,6 @@ class DashboardController extends Controller
     public function dashboard()
     {
         $jumlahPegawai = Pegawai::count();
-        $jadwalKadis = JadwalKadis::whereDate('tgl_mulai', '>=', now()->toDateString())->orderBy('tgl_mulai', 'asc')->get();
-
         $currentMonth = Carbon::now()->month;
         $totalBbm = Bbm::whereMonth('tanggal', $currentMonth)
                         ->where('status', 'Disetujui Pimpinan')  // Sesuaikan dengan field 'status'
@@ -145,9 +144,24 @@ class DashboardController extends Controller
         }
 
         $currentTime = now();
-        $kendaraanDipinjam = PeminjamanKendaraan::where('mulai', '<=', $currentTime)
-                            ->where('selesai', '>=', $currentTime)
-                            ->get();
+        // $kendaraanDipinjam = PeminjamanKendaraan::where('mulai', '<=', $currentTime)
+        //                     ->where('selesai', '>=', $currentTime)
+        //                     ->get();
+
+        // $ruanganDipinjam = PeminjamanRuangan::where('mulai', '<=', $currentTime)->where('selesai', '>=', $currentTime)->get();
+        $kendaraanDipinjam = PeminjamanKendaraan::whereDate('mulai', '>=', now()->toDateString())
+        ->where('selesai', '>=', $currentTime)
+        ->orderBy('mulai', 'asc')
+        ->get();
+        $ruanganDipinjam = PeminjamanRuangan::whereDate('mulai', '>=', now()->toDateString())
+        ->where('selesai', '>=', $currentTime)
+        ->orderBy('mulai', 'asc')
+        ->get();
+        $jadwalKadis = JadwalKadis::whereDate('tgl_selesai', '>=', now()->toDateString())
+        ->orderBy('tgl_mulai', 'asc')
+        ->get();
+
+
 
         return view('dashboard', compact(
             'jadwalKadis',
@@ -155,6 +169,7 @@ class DashboardController extends Controller
             'totalBbm',
             'totalAtk',
             'datasets', // Mengirim datasets ke view
+            'ruanganDipinjam',
             'kendaraanDipinjam',
             'datasetsatk' // Mengirim datasetsatk ke view
         ));

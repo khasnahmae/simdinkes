@@ -4,6 +4,7 @@
     <div class="container-fluid d-flex justify-content-between card-header">
         <h4 class="card-title">Daftar Peminjaman Ruangan</h4>
         <a href="{{ route('peminjaman-ruangan.create') }}" class="btn btn-primary">Buat Peminjaman Baru</a>
+        <a href="{{ route('peminjaman-ruangan.show') }}" class="btn btn-info">Lihat Detail</a>
     </div>
     @if(session('success'))
         <div class="alert alert-success">
@@ -15,38 +16,29 @@
             <table id="basic-datatables" class="display table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Nama Ruangan</th>
-                        <th>Status</th>
+                        <th>Ruangan</th>
+                        <th>Tanggal Mulai</th>
+                        <th>Tanggal Selesai</th>
+                        <th>Keterangan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($ruangan as $rg)
-                        @php
-                            // Mencari apakah kendaraan ini sedang dipinjam (berdasarkan waktu sekarang)
-                            $status = 'Available';
-                            $peminjamanId = null; // Menyimpan ID peminjaman untuk edit dan hapus
-                            foreach($peminjamanAktif as $peminjaman) {
-                                if ($peminjaman->ruangan_id == $rg->id) {
-                                    $status = 'Booked';
-                                    $peminjamanId = $peminjaman->uuid; // Simpan UUID peminjaman
-                                    break;
-                                }
-                            }
-                        @endphp
+                    @foreach($peminjamanAktif as $pinjam)
                         <tr>
-                            <td>{{ $rg->id }}</td>
-                            <td>{{ $rg->nama }}</td>
+                            <td>{{ $pinjam->ruangan->nama }}</td>
+                            <td>{{ $pinjam->mulai }}</td>
+                            <td>{{ $pinjam->selesai }}</td>
+                            <td>{{ $pinjam->keterangan }}</td>
                             <td>
-                                @if($status === 'Booked')
-                                    <span class="badge bg-danger">Sedang Dipinjam</span>
-                                @else
-                                    <span class="badge bg-success">Tersedia</span>
+                                @if($pinjam->mulai > $currentTime)
+                                    <a href="{{ route('peminjaman-ruangan.edit',  $pinjam->uuid) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('peminjaman-ruangan.destroy',  $pinjam->uuid) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm delete-button">Hapus</button>
+                                    </form>
                                 @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('peminjaman-ruangan.show', $rg->uuid) }}" class="btn btn-info btn-sm">Detail</a> <!-- Tombol Detail -->                                      
                             </td>
                         </tr>
                     @endforeach

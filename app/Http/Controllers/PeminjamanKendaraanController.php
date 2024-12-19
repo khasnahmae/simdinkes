@@ -11,15 +11,16 @@ class PeminjamanKendaraanController extends Controller
 {
     public function index()
     {
-        $kendaraans = Kendaraan::all();
+        // $kendaraans = Kendaraan::all();
 
         // Mengambil semua peminjaman untuk waktu saat ini
         $currentTime = now();
-        $peminjamanAktif = PeminjamanKendaraan::where('mulai', '<=', $currentTime)
-            ->where('selesai', '>=', $currentTime)
-            ->get();
-
-        return view('peminjaman-kendaraan.index', compact('kendaraans', 'peminjamanAktif'));
+        
+        $peminjamanAktif = PeminjamanKendaraan::whereDate('mulai', '>=', now()->toDateString())
+        ->where('selesai', '>=', $currentTime)
+        ->orderBy('mulai', 'asc')
+        ->get();
+        return view('peminjaman-kendaraan.index', compact('peminjamanAktif','currentTime'));
     }
 
     public function create()
@@ -75,7 +76,7 @@ class PeminjamanKendaraanController extends Controller
         return redirect()->route('peminjaman-kendaraan.index')->with('success', 'Kendaraan berhasil dipesan.');
     }
 
-    public function detail($uuid)
+    public function show()
     {
         // Debug: Tampilkan UUID kendaraan
         // dd($uuid);
@@ -83,23 +84,11 @@ class PeminjamanKendaraanController extends Controller
         // Mendapatkan waktu saat ini
         $currentTime = now();
 
-        // Ambil data kendaraan berdasarkan UUID
-        $kendaraan = Kendaraan::where('uuid', $uuid)->firstOrFail();
-
         // Ambil semua peminjaman untuk kendaraan tertentu
-        $peminjaman = PeminjamanKendaraan::where('kendaraan_id', $kendaraan->id) // Pastikan ini menggunakan ID kendaraan
-                        ->orderByRaw("CASE 
-                            WHEN mulai <= '$currentTime' AND selesai >= '$currentTime' THEN 0 
-                            WHEN mulai > '$currentTime' THEN 1 
-                            ELSE 2 
-                        END, mulai ASC")
-                        ->get();
+        $peminjaman = PeminjamanKendaraan::all();
 
-        return view('peminjaman-kendaraan.detail', compact('peminjaman', 'kendaraan', 'currentTime'));
+        return view('peminjaman-kendaraan.detail', compact('peminjaman', 'currentTime'));
     }
-
-
-
 
     public function edit(string $uuid)
     {

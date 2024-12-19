@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="container-fluid  justify-content-between card-header">
-        <h4 class="card-title">Detail Peminjaman Kendaraan: {{ $kendaraan->nopol }}</h4>
+        <h4 class="card-title">Detail Peminjaman Kendaraan</h4>
     </div>
     @if($peminjaman->isEmpty())
         <!-- Jika tidak ada peminjaman -->
@@ -15,7 +15,7 @@
         <table id="basic-datatables" class="display table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <th>Kendaraan</th>
                     <th>Pegawai</th>
                     <th>Mulai</th>
                     <th>Selesai</th>
@@ -27,7 +27,7 @@
             <tbody>
                 @foreach($peminjaman as $pinjam)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $pinjam->kendaraan->nopol }}</td>
                     <td>{{ $pinjam->pegawai->nama }}</td>
                     <td>{{ $pinjam->mulai }}</td>
                     <td>{{ $pinjam->selesai }}</td>

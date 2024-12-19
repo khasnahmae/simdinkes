@@ -43,7 +43,7 @@
             font-weight: bold;
             margin-bottom: 20px;
             text-align: center;
-            color: #2e7d32; /* Warna hijau */
+            color: #2e537d; /* Warna hijau */
         }
 
         .login-left p {
@@ -60,23 +60,23 @@
             font-size: 16px;
         }
 
-        .login-left .btn-success {
+        .login-left .btn-primary {
             width: 100%;
             padding: 12px;
             border-radius: 25px;
-            background-color: #388e3c; /* Hijau lebih gelap untuk tombol */
+            background-color: #384c8e; /* Hijau lebih gelap untuk tombol */
             font-size: 18px;
             font-weight: bold;
             color: white;
         }
 
         .login-left .forgot-password a {
-            color: #388e3c;
+            color: #38698e;
         }
 
         .login-right {
             width: 50%;
-            background-color: #66bb6a; /* Hijau cerah untuk kesan segar */
+            background-color: #6690bb; /* Hijau cerah untuk kesan segar */
             color: white;
             display: flex;
             justify-content: center;
@@ -93,6 +93,7 @@
 
         .login-right h3 {
             font-size: 28px;
+            text-align: center;
             margin-bottom: 20px;
         }
 
@@ -157,7 +158,7 @@
                     <a href="/forgot-password">Lupa Password?</a>
                 </div>
 
-                <button type="submit" class="btn btn-success mt-3">Login</button>
+                <button type="submit" class="btn btn-primary mt-3">Login</button>
             </form>
         </div>
 

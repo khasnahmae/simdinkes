@@ -131,13 +131,13 @@
                     @endif
                     <!-- Hanya tampil untuk Admin -->
                     @if(Auth::user()->level == 'admin')
-                    <li class="nav-item {{ request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('ruangan') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') ? 'active' : '' }}">
+                    <li class="nav-item {{ request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('ruangan') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') || request()->is('feedback') ? 'active' : '' }}">
                       <a data-bs-toggle="collapse" href="#forms">
                         <i class="fas fa-layer-group"></i>
                         <p>Data Master</p>
                         <span class="caret"></span>
                       </a>
-                      <div class="collapse {{ request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('ruangan') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') ? 'show' : '' }}" id="forms">
+                      <div class="collapse {{ request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('ruangan') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') || request()->is('feedback') ? 'show' : '' }}" id="forms">
                         <ul class="nav nav-collapse">
                           <li class="{{ request()->is('user') ? 'active' : '' }}">
                             <a href="/user">
@@ -172,6 +172,11 @@
                           <li class="{{ request()->is('ttd') ? 'active' : '' }}">
                             <a href="/ttd">
                               <span class="sub-item">Tanda Tangan</span>
+                            </a>
+                          </li>
+                          <li class="{{ request()->is('feedback') ? 'active' : '' }}">
+                            <a href="/feedback/index">
+                              <span class="sub-item">Feedback</span>
                             </a>
                           </li>
                         </ul>

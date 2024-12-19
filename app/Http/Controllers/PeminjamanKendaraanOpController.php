@@ -11,15 +11,15 @@ class PeminjamanKendaraanOpController extends Controller
 {
     public function index()
     {
-        $kendaraans = Kendaraan::all();
 
         // Mengambil semua peminjaman untuk waktu saat ini
         $currentTime = now();
-        $peminjamanAktif = PeminjamanKendaraan::where('mulai', '<=', $currentTime)
-            ->where('selesai', '>=', $currentTime)
-            ->get();
-
-        return view('peminjaman-kendaraanop.index', compact('kendaraans', 'peminjamanAktif'));
+        
+        $peminjamanAktif = PeminjamanKendaraan::whereDate('mulai', '>=', now()->toDateString())
+        ->where('selesai', '>=', $currentTime)
+        ->orderBy('mulai', 'asc')
+        ->get();
+        return view('peminjaman-kendaraanop.index', compact('currentTime', 'peminjamanAktif'));
     }
 
     public function create()
@@ -82,25 +82,15 @@ class PeminjamanKendaraanOpController extends Controller
     }
 
 
-    public function detail($uuid)
+    public function show()
     {
 
         // Mendapatkan waktu saat ini
         $currentTime = now();
+        $peminjaman = PeminjamanKendaraan::all();
 
-        // Ambil data kendaraan berdasarkan UUID
-        $kendaraan = Kendaraan::where('uuid', $uuid)->firstOrFail();
 
-        // Ambil semua peminjaman untuk kendaraan tertentu
-        $peminjaman = PeminjamanKendaraan::where('kendaraan_id', $kendaraan->id) // Pastikan ini menggunakan ID kendaraan
-                        ->orderByRaw("CASE 
-                            WHEN mulai <= '$currentTime' AND selesai >= '$currentTime' THEN 0 
-                            WHEN mulai > '$currentTime' THEN 1 
-                            ELSE 2 
-                        END, mulai ASC")
-                        ->get();
-
-        return view('peminjaman-kendaraanop.detail', compact('peminjaman', 'kendaraan', 'currentTime'));
+        return view('peminjaman-kendaraanop.detail', compact('peminjaman', 'currentTime'));
     }
 
 

@@ -4,6 +4,8 @@
     <div class="container-fluid d-flex justify-content-between card-header">
         <h4 class="card-title">Daftar Peminjaman Kendaraan</h4>
         <a href="{{ route('peminjaman-kendaraanop.create') }}" class="btn btn-primary">Buat Peminjaman Baru</a>
+        <a href="{{ route('peminjaman-kendaraanop.detail') }}" class="btn btn-info">Lihat Detail</a>
+
     </div>
     @if(session('success'))
         <div class="alert alert-success">
@@ -15,38 +17,43 @@
             <table id="basic-datatables" class="display table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Nomor Polisi</th>
-                        <th>Status</th>
+                        <th>Kendaraan</th>
+                        <th>Pegawai</th>
+                        <th>Tanggal Mulai</th>
+                        <th>Tanggal Selesai</th>
+                        <th>Keterangan</th>
+                        {{-- <th>Status</th> --}}
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($kendaraans as $kendaraan)
-                        @php
-                            // Mencari apakah kendaraan ini sedang dipinjam (berdasarkan waktu sekarang)
-                            $status = 'Available';
-                            $peminjamanId = null; // Menyimpan ID peminjaman untuk edit dan hapus
-                            foreach($peminjamanAktif as $peminjaman) {
-                                if ($peminjaman->kendaraan_id == $kendaraan->id) {
-                                    $status = 'Booked';
-                                    $peminjamanId = $peminjaman->uuid; // Simpan UUID peminjaman
-                                    break;
-                                }
-                            }
-                        @endphp
+                    @foreach($peminjamanAktif as $pinjam)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $kendaraan->nopol }}</td>
-                            <td>
-                                @if($status === 'Booked')
-                                    <span class="badge bg-danger">Sedang Dipinjam</span>
+                            <td>{{ $pinjam->kendaraan->nopol }}</td>
+                            <td>{{ $pinjam->pegawai->nama }}</td>
+                            <td>{{ $pinjam->mulai }}</td>
+                            <td>{{ $pinjam->selesai }}</td>
+                            <td>{{ $pinjam->keterangan }}</td>
+                            {{-- <td>
+                                @if($pinjam->mulai <= $currentTime && $pinjam->selesai >= $currentTime)
+                                    <span class="badge bg-danger">Sedang dipinjam oleh {{ $pinjam->pegawai->nama }}</span>
+                                @elseif($pinjam->mulai > $currentTime)
+                                    <span class="badge bg-warning">Belum dimulai</span>
                                 @else
-                                    <span class="badge bg-success">Tersedia</span>
+                                    <span class="badge bg-success">Selesai</span>
                                 @endif
-                            </td>
+                            </td> --}}
                             <td>
-                                <a href="{{ route('peminjaman-kendaraanop.detail', $kendaraan->uuid) }}" class="btn btn-info btn-sm">Detail</a> <!-- Tombol Detail -->                                      
+                                @if($pinjam->pegawai->user->id === Auth::id()) 
+                                    @if($pinjam->mulai > $currentTime)
+                                        <a href="{{ route('peminjaman-kendaraanop.edit',  $pinjam->uuid) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <form action="{{ route('peminjaman-kendaraanop.destroy',  $pinjam->uuid) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm delete-button">Hapus</button>
+                                        </form>
+                                    @endif
+                                @endif
                             </td>
                         </tr>
                     @endforeach

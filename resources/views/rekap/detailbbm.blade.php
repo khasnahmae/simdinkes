@@ -27,7 +27,13 @@
                     <td>{{ $detail->tanggal }}</td>
                     <td>{{ $detail->pegawai->nama }}</td>
                     <td>{{ $detail->kendaraan->nopol }}</td>
-                    <td>Rp {{ number_format($detail->nominal, 2) }}</td>
+                    <td>
+                        @if($detail->nominal == 0)
+                            Full
+                        @else
+                            Rp {{ number_format($detail->nominal, 2) }}
+                        @endif
+                    </td>
                     <td>{{ $detail->tanggal_realisasi }}</td>
                     <td>Rp {{ number_format($detail->nominal_realisasi, 2) }}</td>
                     {{-- <td>Rp {{ number_format($detail->nominal - $detail->nominal_realisasi, 2) }}</td> --}}

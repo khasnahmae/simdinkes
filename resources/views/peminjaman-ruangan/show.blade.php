@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="container-fluid  justify-content-between card-header">
-        <h4 class="card-title">Detail Peminjaman Ruangan: {{ $ruangan->nama }}</h4>
+        <h4 class="card-title">Detail Peminjaman Ruangan</h4>
     </div>
     @if($peminjaman->isEmpty())
         <!-- Jika tidak ada peminjaman -->

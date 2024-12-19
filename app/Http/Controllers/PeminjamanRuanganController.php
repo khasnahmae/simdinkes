@@ -14,15 +14,15 @@ class PeminjamanRuanganController extends Controller
      */
     public function index()
     {
-        $ruangan = Ruangan::all();
 
         // Mengambil semua peminjaman untuk waktu saat ini
         $currentTime = now();
-        $peminjamanAktif = PeminjamanRuangan::where('mulai', '<=', $currentTime)
-            ->where('selesai', '>=', $currentTime)
-            ->get();
+        $peminjamanAktif = PeminjamanRuangan::whereDate('mulai', '>=', now()->toDateString())
+        ->where('selesai', '>=', $currentTime)
+        ->orderBy('mulai', 'asc')
+        ->get();
 
-        return view('peminjaman-ruangan.index', compact('ruangan', 'peminjamanAktif'));
+        return view('peminjaman-ruangan.index', compact('currentTime', 'peminjamanAktif'));
     }
 
     /**
@@ -85,23 +85,14 @@ class PeminjamanRuanganController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $uuid)
+    public function show()
     {
         $currentTime = now();
 
-        // Ambil data kendaraan berdasarkan UUID
-        $ruangan = Ruangan::where('uuid', $uuid)->firstOrFail();
-
         // Ambil semua peminjaman untuk kendaraan tertentu
-        $peminjaman = PeminjamanRuangan::where('ruangan_id', $ruangan->id) // Pastikan ini menggunakan ID kendaraan
-                        ->orderByRaw("CASE 
-                            WHEN mulai <= '$currentTime' AND selesai >= '$currentTime' THEN 0 
-                            WHEN mulai > '$currentTime' THEN 1 
-                            ELSE 2 
-                        END, mulai ASC")
-                        ->get();
+        $peminjaman = PeminjamanRuangan::all();
 
-        return view('peminjaman-ruangan.show', compact('peminjaman', 'ruangan', 'currentTime'));
+        return view('peminjaman-ruangan.show', compact('peminjaman', 'currentTime'));
     }
 
     /**
@@ -133,7 +124,7 @@ class PeminjamanRuanganController extends Controller
         $selesai = $request->selesai;
         $keterangan = $request->keterangan;
 
-        // Cek apakah kendaraan sudah dibooking untuk waktu yang dipilih
+        // Cek apakah ruangan sudah dibooking untuk waktu yang dipilih
         $peminjamanExist = PeminjamanRuangan::where('ruangan_id', $ruangan_id)
             ->where(function ($query) use ($mulai, $selesai) {
                 $query->whereBetween('mulai', [$mulai, $selesai])
@@ -146,7 +137,7 @@ class PeminjamanRuanganController extends Controller
             ->exists();
 
         if ($peminjamanExist) {
-            return redirect()->back()->with('error', 'Kendaraan sudah dibooking untuk waktu tersebut.');
+            return redirect()->back()->with('error', 'ruangan sudah dibooking untuk waktu tersebut.');
         }
 
         $peminjaman->update([
@@ -157,8 +148,6 @@ class PeminjamanRuanganController extends Controller
         ]);
 
         return redirect()->route('peminjaman-ruangan.index')->with('success', 'Ruangan berhasil dipinjam.');
-  
-
     }
 
     /**

@@ -14,15 +14,16 @@ class PeminjamanRuanganOpController extends Controller
      */
     public function index()
     {
-        $ruangan = Ruangan::all();
 
         // Mengambil semua peminjaman untuk waktu saat ini
         $currentTime = now();
-        $peminjamanAktif = PeminjamanRuangan::where('mulai', '<=', $currentTime)
-            ->where('selesai', '>=', $currentTime)
-            ->get();
+        $peminjamanAktif = PeminjamanRuangan::whereDate('mulai', '>=', now()->toDateString())
+        ->where('selesai', '>=', $currentTime)
+        ->orderBy('mulai', 'asc')
+        ->get();
 
-        return view('peminjaman-ruanganop.index', compact('ruangan', 'peminjamanAktif'));
+
+        return view('peminjaman-ruanganop.index', compact('currentTime', 'peminjamanAktif'));
     }
 
     /**
@@ -89,19 +90,9 @@ class PeminjamanRuanganOpController extends Controller
     {
         $currentTime = now();
 
-        // Ambil data kendaraan berdasarkan UUID
-        $ruangan = Ruangan::where('uuid', $uuid)->firstOrFail();
+        $peminjaman = PeminjamanRuangan::all();
 
-        // Ambil semua peminjaman untuk kendaraan tertentu
-        $peminjaman = PeminjamanRuangan::where('ruangan_id', $ruangan->id) // Pastikan ini menggunakan ID kendaraan
-                        ->orderByRaw("CASE 
-                            WHEN mulai <= '$currentTime' AND selesai >= '$currentTime' THEN 0 
-                            WHEN mulai > '$currentTime' THEN 1 
-                            ELSE 2 
-                        END, mulai ASC")
-                        ->get();
-
-        return view('peminjaman-ruanganop.show', compact('peminjaman', 'ruangan', 'currentTime'));
+        return view('peminjaman-ruanganop.show', compact('peminjaman', 'currentTime'));
     }
 
     /**
@@ -146,7 +137,7 @@ class PeminjamanRuanganOpController extends Controller
             ->exists();
 
         if ($peminjamanExist) {
-            return redirect()->back()->with('error', 'Kendaraan sudah dibooking untuk waktu tersebut.');
+            return redirect()->back()->with('error', 'Ruangan sudah dibooking untuk waktu tersebut.');
         }
 
         $peminjaman->update([

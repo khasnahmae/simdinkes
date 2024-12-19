@@ -59,9 +59,7 @@
                     </td>
                     <td>
                         @if($item->status === 'Disetujui Pimpinan')
-                            <a href="{{ route('tr_bbm.print', $item->uuid) }}" class="btn btn-info btn-sm">
-                                Cetak
-                            </a>
+                            <span class="badge bg-success">Selesai</span>
                         @endif
                         @if($item->status === 'Pengajuan')
                             <a href="{{ route('tr_bbm.edit', $item->uuid) }}" class="btn btn-warning btn-sm">Edit</a>

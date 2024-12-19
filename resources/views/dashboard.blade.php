@@ -49,7 +49,7 @@
         <div class="col-md-12">
             <div class="card mb-3">
                 <div class="card-header">
-                    <div class="card-title">Kendaraan yang Sedang Dipinjam</div>
+                    <div class="card-title">Jadwal Peminjaman Kendaraan</div>
                 </div>
                 <div class="card-body">
                     @if($kendaraanDipinjam->isEmpty())
@@ -85,7 +85,44 @@
         </div>
     </div>
     
-
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="card-title"><strong>Jadwal Penggunaan Ruangan</strong></div>
+                </div>
+                <div class="card-body">
+                    @if($ruanganDipinjam->isEmpty())
+                        <p class="card-text">Belum ada data ruangan yang sedang dipinjam.</p>
+                    @else
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Ruangan</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Selesai</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($ruanganDipinjam as $pinjam)
+                                    <tr>
+                                        <td>{{ $pinjam->ruangan->nama }}</td>
+                                        <td>{{ $pinjam->mulai }}</td>
+                                        <td>{{ $pinjam->selesai }}</td>
+                                        <td>{{ $pinjam->keterangan }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(Auth::user()->level == 'admin')
     <div class="row">
         <div class="col-md-8">
             <div class="card">
@@ -211,57 +248,8 @@
             </div>
         </div>
 
-    {{-- <div class="row">
-        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000"> <!-- 10000 ms = 10 detik -->
-            <div class="carousel-inner">
-                <!-- Slide 1 -->
-                <div class="carousel-item active">
-                    <img src="{{ asset('images/foto1.jpg') }}" class="d-block w-100" alt="Peringatan Hari Kesehatan Dunia">
-                    <div class="carousel-caption d-none d-md-block">
-                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
-                        <h5 style=" font-size: 18px;">Peringatan Hari Kesehatan Dunia</h5>
-                        <p style=" font-size: 12px;">Ikuti acara peringatan Hari Kesehatan Dunia pada 7 April 2024. Tema tahun ini adalah 'Kesehatan Mental untuk Semua'.</p>
-                    </div>
-                </div>
-                <!-- Slide 2 -->
-                <div class="carousel-item">
-                    <img src="{{ asset('images/foto2.jpg') }}" class="d-block w-100" alt="Pelatihan Kesehatan Masyarakat">
-                    <div class="carousel-caption d-none d-md-block">
-                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
-                        <h5 style=" font-size: 18px;">Pelatihan Kesehatan Masyarakat</h5>
-                        <p style=" font-size: 12px;">Pelatihan untuk tenaga medis pada 15 Mei 2024. Pendaftaran masih dibuka!</p>
-                    </div>
-                </div>
-                <!-- Slide 3 -->
-                <div class="carousel-item">
-                    <img src="{{ asset('images/foto3.webp') }}" class="d-block w-100" alt="Pemeriksaan Kesehatan Gratis">
-                    <div class="carousel-caption d-none d-md-block">
-                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
-                        <h5 style=" font-size: 18px;">Pemeriksaan Kesehatan Gratis</h5>
-                        <p style=" font-size: 12px;">Jangan lewatkan pemeriksaan kesehatan gratis di Puskesmas Tegal pada 22 Juni 2024.</p>
-                    </div>
-                </div>
-                <!-- Slide 4 -->
-                <div class="carousel-item">
-                    <img src="{{ asset('images/foto4.jpeg') }}" class="d-block w-100" alt="Sosialisasi Vaksinasi">
-                    <div class="carousel-caption d-none d-md-block">
-                        <div class="carousel-overlay"></div> <!-- Overlay Gelap -->
-                        <h5 style=" font-size: 18px;">Sosialisasi Vaksinasi</h5>
-                        <p style=" font-size: 12px;">Sosialisasi mengenai pentingnya vaksinasi untuk anak-anak pada 30 Juli 2024.</p>
-                    </div>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    
-    </div> --}}
+    </div>
+    @endif
 
 </div>
 

@@ -38,9 +38,9 @@
             <tr>
                 <th>Nomor Polisi</th>
                 <th>Jumlah Transaksi</th>
-                <th>Total Nominal</th>
+                {{-- <th>Total Nominal</th> --}}
                 <th>Total Nominal Realisasi</th>
-                <th>Total Selisih</th>
+                {{-- <th>Total Selisih</th> --}}
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -49,9 +49,9 @@
                 <tr>
                     <td>{{ $item->kendaraan->nopol }}</td>
                     <td>{{ $item->total_transaksi }}</td>
-                    <td>Rp {{ number_format($item->total_nominal, 2) }}</td>
+                    {{-- <td>Rp {{ number_format($item->total_nominal, 2) }}</td> --}}
                     <td>Rp {{ number_format($item->total_nominal_realisasi, 2) }}</td>
-                    <td>Rp {{ number_format($item->total_selisih, 2) }}</td>
+                    {{-- <td>Rp {{ number_format($item->total_selisih, 2) }}</td> --}}
                     <td>
                         <a href="{{ route('rekap.detailbbm', ['uuid' => $item->nopol]) }}" class="btn btn-info btn-sm">Detail</a>
                     </td>
