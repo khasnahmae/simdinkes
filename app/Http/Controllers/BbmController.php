@@ -19,8 +19,8 @@ class BbmController extends Controller
     public function index()
     {
         $bbm = Bbm::with(['pegawai', 'kendaraan'])
-        ->orderBy('created_at', 'desc') // Mengurutkan data berdasarkan tanggal pembuatan, yang terbaru di atas
-        ->get();
+            ->orderBy('created_at', 'desc') // Mengurutkan data berdasarkan tanggal pembuatan, yang terbaru di atas
+            ->get();
         return view('bbm.index', compact('bbm'));
     }
 
@@ -50,7 +50,6 @@ class BbmController extends Controller
             'status' => 'Pengajuan',
         ]);
 
-          // Tambahkan 'tanggal' secara manual
         $data = $request->all();
         $data['tanggal'] = now(); // Menyimpan tanggal saat ini
         $data['uuid'] = (string) \Illuminate\Support\Str::uuid(); // Tambahkan UUID
@@ -108,13 +107,13 @@ class BbmController extends Controller
         if (auth()->user()->level !== 'admin') {
             return redirect()->back()->with('error', 'Unauthorized access');
         }
-        $bbm = Bbm::where('uuid', $uuid)->firstOrFail(); // Temukan BBM berdasarkan UUID
+        $bbm = Bbm::where('uuid', $uuid)->firstOrFail(); //Temukan BBM berdasarkan UUID
         $bbm->status = 'Disetujui Kasie';
         $bbm->save();
 
         return redirect()->route('bbm.pengajuan')->with('success', 'Permintaan BBM disetujui');
     }
-    
+
 
     public function approveByPimpinan(string $uuid)
     {
@@ -128,20 +127,20 @@ class BbmController extends Controller
             $bbm->status = 'Disetujui Pimpinan';
             $bbm->save();
 
-            // Ambil kendaraan berdasarkan ID
+            // Ambil kendaraan berdasarkan nopol
             $kendaraan = Kendaraan::find($bbm->nopol);
 
             if ($kendaraan) {
-                // Jika nominal BBM 0, gunakan perkiraan sementara untuk perhitungan limit
+                // Jika nominal BBM 0 alias penuh, gunakan perkiraan sementara untuk perhitungan limit
                 $nominalSementara = $bbm->nominal > 0 ? $bbm->nominal : $kendaraan->bbm_limit * 0.40; // Estimasi 10% dari limit sebagai contoh
 
                 // Hitung total nominal untuk kendaraan ini yang disetujui oleh pimpinan
                 $totalNominal = Bbm::where('nopol', $bbm->nopol)
                     ->where('status', 'Disetujui Pimpinan')
-                    ->where('created_at', '>=', now()->subMonths(6)) // Data dalam 1 bulan terakhir
+                    ->where('created_at', '>=', now()->subMonths(6)) // Data dalam 6 bulan terakhir
                     ->sum('nominal');
 
-                // Tambahkan nominal sementara untuk transaksi ini jika nominalnya 0
+                // Tambahkan nominal sementara untuk transaksi ini jika nominalnya 0/penuh
                 if ($bbm->nominal == 0) {
                     $totalNominal += $nominalSementara;
                 }
@@ -150,7 +149,8 @@ class BbmController extends Controller
                 $sisaLimit = $kendaraan->bbm_limit - $totalNominal;
 
                 // Buat pesan notifikasi
-                $message = "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sekitar Rp " . number_format($nominalSementara, 2, ',', '.') . ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.');
+                $message = "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sekitar Rp " . number_format($nominalSementara, 2, ',', '.') .
+                    ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.');
 
                 // Simpan notifikasi ke database
                 Notification::create([
@@ -161,10 +161,12 @@ class BbmController extends Controller
 
                 if ($sisaLimit > 0) {
                     // Jika sisa limit masih tersedia
-                    session()->flash('success', "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sekitar Rp " . number_format($nominalSementara, 2, ',', '.') . ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.'));
+                    session()->flash('success', "Kendaraan dengan nopol {$kendaraan->nopol} telah meminta BBM sekitar Rp " . number_format($nominalSementara, 2, ',', '.') .
+                        ". Sisa limit BBM untuk kendaraan tersebut sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.'));
                 } else {
                     // Jika sisa limit sudah habis atau melebihi limit
-                    session()->flash('warning', "Kendaraan dengan nopol {$kendaraan->nopol} telah melebihi limit BBM. Sisa limit sekarang adalah Rp " . number_format($sisaLimit, 2, ',', '.') . ". Perhatikan penggunaan BBM lebih lanjut.");
+                    session()->flash('warning', "Kendaraan dengan nopol {$kendaraan->nopol} telah melebihi limit BBM. Sisa limit sekarang adalah Rp " .
+                        number_format($sisaLimit, 2, ',', '.') . ". Perhatikan penggunaan BBM lebih lanjut.");
                 }
             } else {
                 Log::warning("Kendaraan dengan ID {$bbm->nopol} tidak ditemukan.");
@@ -183,9 +185,9 @@ class BbmController extends Controller
     //         $sid = env('TWILIO_SID');
     //         $token = env('TWILIO_AUTH_TOKEN');
     //         $twilio = new Client($sid, $token);
-            
+
     //         $message = "Kendaraan dengan nomor polisi " . $kendaraan->nopol . " telah mencapai batas maksimal anggaran BBM.";
-            
+
     //         $twilio->messages->create(
     //             'whatsapp:+6288706608471', // Nomor tujuan (format: whatsapp:+62...)
     //             [
@@ -203,7 +205,7 @@ class BbmController extends Controller
     // {
     //     try {
     //         $recipientEmail = 'khasnahm@gmail.com'; // Ganti dengan email tujuan
-            
+
     //         $data = [
     //             'subject' => 'Peringatan Batas Anggaran BBM Tercapai',
     //             'kendaraan' => $kendaraan->nopol,
@@ -232,7 +234,6 @@ class BbmController extends Controller
         }
         $bbm = Bbm::whereIn('status', ['Pengajuan', 'Disetujui Kasie', 'Disetujui Pimpinan'])->get();
         return view('pengajuan.bbm', compact('bbm'));
-
     }
     public function pengajuanPimpinan()
     {
@@ -241,7 +242,6 @@ class BbmController extends Controller
         }
         $bbm = Bbm::whereIn('status', ['Disetujui Kasie', 'Disetujui Pimpinan'])->get();
         return view('pengajuan.bbmpimpinan', compact('bbm'));
-
     }
 
     public function print(string $uuid)
@@ -264,7 +264,6 @@ class BbmController extends Controller
             return redirect()->back()->with('error', 'Realisasi hanya bisa dilakukan setelah disetujui pimpinan.');
         }
         return view('bbm.realisasi', compact('bbm'));
-    
     }
     public function submitRealisasi(Request $request, string $uuid)
     {
@@ -277,14 +276,14 @@ class BbmController extends Controller
 
         $bbm->nominal_realisasi = $request->nominal_realisasi;
         $bbm->realisasi = 'Sudah Direalisasi';
-        $bbm->tanggal_realisasi = now(); 
+        $bbm->tanggal_realisasi = now();
         $bbm->save();
 
         // Hitung selisih
         $selisih = $bbm->nominal - $bbm->nominal_realisasi;
 
         $kendaraan = Kendaraan::find($bbm->nopol);
-        
+
         // Update limit berdasarkan selisih
         if ($selisih > 0) {
             $kendaraan->bbm_limit += $selisih; // Jika lebih
@@ -304,7 +303,6 @@ class BbmController extends Controller
             return redirect()->back()->with('error', 'Realisasi hanya bisa dilakukan setelah disetujui pimpinan.');
         }
         return view('bbm.editrealisasi', compact('bbm'));
-    
     }
     public function updateRealisasi(Request $request, string $uuid)
     {
@@ -317,14 +315,14 @@ class BbmController extends Controller
 
         $bbm->nominal_realisasi = $request->nominal_realisasi;
         $bbm->realisasi = 'Sudah Direalisasi';
-        $bbm->tanggal_realisasi = now(); 
+        $bbm->tanggal_realisasi = now();
         $bbm->update();
 
         // Hitung selisih
         $selisih = $bbm->nominal - $bbm->nominal_realisasi;
 
         $kendaraan = Kendaraan::find($bbm->nopol);
-        
+
         // Update limit berdasarkan selisih
         if ($selisih > 0) {
             $kendaraan->bbm_limit += $selisih; // Jika lebih
@@ -362,5 +360,4 @@ class BbmController extends Controller
 
         return redirect()->back()->with('success', 'Permintaan BBM telah ditolak.');
     }
-
 }

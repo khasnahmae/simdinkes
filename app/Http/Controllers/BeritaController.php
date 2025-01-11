@@ -13,7 +13,7 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        $berita = Berita::orderBy('created_at' , 'asc')->get();
+        $berita = Berita::orderBy('created_at', 'asc')->get();
         return view('berita.index', compact('berita'));
     }
 
@@ -49,7 +49,7 @@ class BeritaController extends Controller
             'foto' => $filename,
         ]);
 
-        return redirect()->route('berita.index')->with('success' , 'Data berita telah disimpan');
+        return redirect()->route('berita.index')->with('success', 'Data berita telah disimpan');
     }
 
     /**
@@ -65,7 +65,7 @@ class BeritaController extends Controller
      */
     public function edit(string $id)
     {
-        $berita = Berita::where('id' , $id)->firstOrFail();
+        $berita = Berita::where('id', $id)->firstOrFail();
         return view('berita.edit', compact('berita'));
     }
 
@@ -78,10 +78,9 @@ class BeritaController extends Controller
             'judul' => 'required',
             'subjudul' => 'required',
             'isi' => 'required',
-            'foto' => 'required|image|mimes:jpeg,jpg,png|max:1024',
         ]);
 
-        $berita = Berita::where('id' , $id)->firstOrFail();
+        $berita = Berita::where('id', $id)->firstOrFail();
 
         // Jika ada file foto baru, hapus foto lama dan simpan yang baru
         if ($request->hasFile('foto')) {
@@ -98,7 +97,6 @@ class BeritaController extends Controller
             'judul' => $request->judul,
             'subjudul' => $request->subjudul,
             'isi' => $request->isi,
-            'foto' => $filename,
         ]);
 
         return redirect()->route('berita.index')->with('success', 'Data berita berhasil diupdate');
@@ -109,7 +107,7 @@ class BeritaController extends Controller
      */
     public function destroy(string $id)
     {
-        $berita = Berita::where('id' , $id)->firstOrFail();
+        $berita = Berita::where('id', $id)->firstOrFail();
 
         // Hapus foto jika ada
         if ($berita->foto) {

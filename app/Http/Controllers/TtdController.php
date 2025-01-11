@@ -34,7 +34,7 @@ class TtdController extends Controller
         // Simpan tanda tangan Kasie
         if ($request->hasFile('ttd_kasie')) {
             $ttdKasiePath = $request->file('ttd_kasie')->store('public/img');
-            $ttd->ttd_kasie = $ttdKasiePath;
+            $ttd->ttd_kasie = str_replace('public/', '', $ttdKasiePath);
         }
 
         $ttd->nama_pimpinan = $request->nama_pimpinan;
@@ -42,10 +42,11 @@ class TtdController extends Controller
         // Simpan tanda tangan Pimpinan
         if ($request->hasFile('ttd_pimpinan')) {
             $ttdPimpinanPath = $request->file('ttd_pimpinan')->store('public/img');
-            $ttd->ttd_pimpinan = $ttdPimpinanPath;
+            $ttd->ttd_pimpinan = str_replace('public/', '', $ttdPimpinanPath);
         }
 
         $ttd->save();
+
 
         return redirect()->route('ttd.index')->with('success', 'Tanda tangan berhasil ditambahkan.');
     }
@@ -75,7 +76,7 @@ class TtdController extends Controller
 
             // Simpan tanda tangan baru
             $ttdKasiePath = $request->file('ttd_kasie')->store('public/img');
-            $ttd->ttd_kasie = $ttdKasiePath;
+            $ttd->ttd_kasie = str_replace('public/', '', $ttdKasiePath);
         }
 
         $ttd->nama_pimpinan = $request->nama_pimpinan;
@@ -89,7 +90,7 @@ class TtdController extends Controller
 
             // Simpan tanda tangan baru
             $ttdPimpinanPath = $request->file('ttd_pimpinan')->store('public/img');
-            $ttd->ttd_pimpinan = $ttdPimpinanPath;
+            $ttd->ttd_pimpinan = str_replace('public/', '', $ttdPimpinanPath);
         }
 
         $ttd->save();

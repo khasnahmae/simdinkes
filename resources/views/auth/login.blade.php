@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #e8f5e9; /* Warna latar belakang lebih segar */
+            background-color: #e8eef5; /* Warna latar belakang lebih segar */
             display: flex;
             justify-content: center;
             align-items: center;

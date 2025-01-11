@@ -24,48 +24,15 @@ use App\Http\Controllers\PeminjamanKendaraanOpController;
 use App\Http\Controllers\PeminjamanRuanganController;
 use App\Http\Controllers\PeminjamanRuanganOpController;
 use App\Http\Controllers\RuanganController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\SuratmagangController;
 use App\Http\Controllers\Tr_AtkController;
 use App\Http\Controllers\Tr_BbmController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\TtdController;
-use App\Models\Berita;
-use App\Models\Feedback;
-use App\Models\JadwalKadis;
-use App\Models\Kegiatan;
-use App\Models\PeminjamanKendaraan;
-use App\Models\PeminjamanRuangan;
-use App\Models\Ruangan;
-use App\Models\Siswa;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
-// Route::middleware(['guest'])->get('/', function () {
-//     return redirect()->route('login');
-// });
-
-Route::get('/', function () {
-    $currentTime = now();
-
-    $kendaraanDipinjam = PeminjamanKendaraan::whereDate('mulai', '>=', now()->toDateString())
-    ->where('selesai', '>=', $currentTime)
-    ->orderBy('mulai', 'asc')
-    ->get();
-    $ruanganDipinjam = PeminjamanRuangan::whereDate('mulai', '>=', now()->toDateString())
-    ->where('selesai', '>=', $currentTime)
-    ->orderBy('mulai', 'asc')
-    ->get();
-    $jadwalKadis = JadwalKadis::whereDate('tgl_selesai', '>=', now()->toDateString())
-    ->orderBy('tgl_mulai', 'asc')
-    ->get();
-    $berita = Berita::orderBy('created_at', 'desc')->take(7)->get(); // Mengambil 7 berita terbaru
-    $totalPenilai = Feedback::count(); // Hitung jumlah data di tabel feedback
-    return view('landing', compact('kendaraanDipinjam','ruanganDipinjam', 'jadwalKadis','berita','totalPenilai'));
-});
-
-Route::get('/berita/{id}', [LandingController::class, 'show'])->name('berita-show');
+Route::get('/', [LandingController::class, 'landing'])->name('landing');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -75,20 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 });
 
-Route::post('/validate-admin-code', function (Request $request) {
-    $validCode = 'DINAS123'; // Kode rahasia
-
-    if ($request->input('code') === $validCode) {
-        return response()->json(['status' => 'success'], 200);
-    }
-    return response()->json(['status' => 'error', 'message' => 'Kode salah'], 403);
-})->name('validate.admin');
-
-
-Route::post('/submit-feedback', [FeedbackController::class, 'store'])->name('feedback.store');
-// Route::get('/feedback/count', function () {
-//     return response()->json(['count' => Feedback::count()]);
-// });
+Route::get('/berita-show/{id}', [LandingController::class, 'show'])->name('berita-show');
 
 
 // Rute untuk admin
@@ -110,7 +64,7 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::get('/dashboard/belanja/{id}/detail', [KegiatanController::class, 'showDetail'])->name('dashboard.belanja.detail');
     Route::get('/peminjaman-ruangan/show', [PeminjamanRuanganController::class, 'show'])->name('peminjaman-ruangan.show');
 
-    Route::get('/feedback/index', [FeedbackController::class, 'index'])->name('feedback.index');
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
     // Tambahkan route ini
     Route::get('/get-detail-belanja/{id}', [DetailBelanjaController::class, 'getDetailBelanja']);
 
@@ -143,11 +97,9 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::get('/rekap/bbm/download', [LaporanController::class, 'downloadbbm'])->name('rekap.downloadbbm');
     Route::get('rekap/bbm/excelatk', [LaporanController::class, 'excelbbm'])->name('rekap.excelbbm');
 
-   // Rute untuk laporan detail
+    // Rute untuk laporan detail
     Route::get('/rekap/detailatk/{uuid}', [LaporanController::class, 'detailatk'])->name('rekap.detailatk');
     Route::get('/rekap/detailbbm/{uuid}', [LaporanController::class, 'detailbbm'])->name('rekap.detailbbm');
-
-
 });
 // Rute untuk operator
 Route::middleware(['auth', 'check.level:operator'])->group(function () {
@@ -159,9 +111,6 @@ Route::middleware(['auth', 'check.level:operator'])->group(function () {
     Route::get('/peminjaman-kendaraanop/show', [PeminjamanKendaraanOpController::class, 'show'])->name('peminjaman-kendaraanop.detail');
     Route::resource('peminjaman-ruanganop', PeminjamanRuanganOpController::class);
     Route::get('/peminjaman-ruanganop/show', [PeminjamanRuanganController::class, 'show'])->name('peminjaman-ruanganop.show');
-
-
-
 });
 Route::middleware(['auth', 'check.level:pemimpin'])->group(function () {
     Route::post('/atk/{uuid}/approve2', [AtkController::class, 'approveByPimpinan'])->name('atk.approve2');
@@ -173,4 +122,13 @@ Route::middleware(['auth', 'check.level:pemimpin'])->group(function () {
 });
 
 
+Route::post('/validate-admin-code', function (Request $request) {
+    $validCode = 'DINAS123'; // Kode rahasia
+
+    if ($request->input('code') === $validCode) {
+        return response()->json(['status' => 'success'], 200);
+    }
+    return response()->json(['status' => 'error', 'message' => 'Kode salah'], 403);
+})->name('validate.admin');
+Route::post('/submit-feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
