@@ -16,11 +16,11 @@ return new class extends Migration
             $table->integer('kepuasan');
             $table->integer('kecepatan');
             $table->integer('kerapihan');
+            $table->string('deskripsi');
             $table->string('nama');
             $table->string('telepon');
             $table->timestamps();
         });
-        
     }
 
     /**

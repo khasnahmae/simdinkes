@@ -15,12 +15,12 @@ class TtdSeeder extends Seeder
     {
         Ttd::insert([
             [
-                'nama_kasie' => 'Sandi',
-                'ttd_kasie' => 'kasie.png',
-                'nama_pimpinan' => 'Windi',
-                'ttd_pimpinan' => 'pimpinan.png',
+                'nama_kasie' => 'Sandi Saputro, S.Kom',
+                'ttd_kasie' => 'ttd1.png',
+                'nama_pimpinan' => 'Windi Prasetyo, SE., M.Si',
+                'ttd_pimpinan' => 'ttd2.png',
             ],
-            
+
         ]);
     }
 }

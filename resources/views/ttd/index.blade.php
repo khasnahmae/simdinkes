@@ -15,12 +15,12 @@
                 @if ($ttd)
                     <div class="col">
                         <p class="h6"><strong>Nama Kasie: {{ $ttd->nama_kasie }}</strong></p>
-                        <img src="{{ asset('storage/' . $ttd->ttd_kasie) }}" alt="Tanda Tangan Kasie"
+                        <img src="{{ asset('storage/img/' . $ttd->ttd_kasie) }}" alt="Tanda Tangan Kasie"
                             style="width: auto; height: 80px;">
                     </div>
                     <div class="col">
                         <p class="h6"><strong>Nama Pimpinan: {{ $ttd->nama_pimpinan }}</strong></p>
-                        <img src="{{ asset('storage/' . $ttd->ttd_pimpinan) }}" alt="Tanda Tangan Pimpinan"
+                        <img src="{{ asset('storage/img/' . $ttd->ttd_pimpinan) }}" alt="Tanda Tangan Pimpinan"
                             style="width: auto; height: 80px;">
                     </div>
                     <a href="{{ route('ttd.edit', $ttd->id) }}" class="btn btn-primary mt-5">Edit Tanda Tangan</a>

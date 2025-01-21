@@ -13,10 +13,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BelanjaController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DetailbelanjaController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\LanggananController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PeminjamanKendaraanController;
@@ -32,7 +35,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
-Route::get('/', [LandingController::class, 'landing'])->name('landing');
+Route::get('/', [LandingController::class, 'landing'])->name('landingnew');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -41,9 +44,22 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 });
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+Route::get('/tentangkami', function () {
+    return view('tentangkami');
+});
+Route::get('/kontak', function () {
+    return view('kontak');
+});
+Route::get('/galeri-all', [LandingController::class, 'showGallery'])->name('galeri-all');
+Route::get('/berita-all', [LandingController::class, 'news'])->name('berita-all');
 Route::get('/berita-show/{id}', [LandingController::class, 'show'])->name('berita-show');
-
+Route::get('/berita/search', [LandingController::class, 'search'])->name('search');
+Route::post('/contact', [ContactController::class, 'processContactForm'])->name('contact');
+Route::post('/langganan', [LanggananController::class, 'store'])->name('landingnew');
 
 // Rute untuk admin
 Route::middleware(['auth', 'check.level:admin'])->group(function () {
@@ -59,6 +75,7 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::resource('transaksi', TransaksiController::class);
     Route::resource('ruangan', RuanganController::class);
     Route::resource('berita', BeritaController::class);
+    Route::resource('galeri', GaleriController::class);
     Route::resource('peminjaman-ruangan', PeminjamanRuanganController::class);
     Route::get('/dashboardrka', [KegiatanController::class, 'dashboard'])->name('dashboard.index');
     Route::get('/dashboard/belanja/{id}/detail', [KegiatanController::class, 'showDetail'])->name('dashboard.belanja.detail');

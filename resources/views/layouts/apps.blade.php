@@ -15,7 +15,6 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7xA5ef0TfveGkAI9ntgQJcKn7F5I6EG5Q0n" crossorigin="anonymous"> --}}
     <!-- Fonts and icons -->
     <script src="{{ asset('backend/assets/js/plugin/webfont/webfont.min.js') }}"></script>
     <script>
@@ -37,39 +36,12 @@
             },
         });
     </script>
-    <style>
-        .carousel-inner img {
-            height: 300px;
-            /* Sesuaikan dengan tinggi yang diinginkan */
-            object-fit: cover;
-            /* Agar gambar tetap proporsional */
-        }
-
-        .carousel-item img {
-            filter: brightness(50%);
-            /* Mengatur kecerahan gambar agar overlay lebih efektif */
-        }
-
-        .card-stats {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .icon-big {
-            font-size: 3em;
-        }
-    </style>
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/plugins.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/kaiadmin.min.css') }}" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('backend/assets/css/demo.css') }}" />
-    {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
 
 </head>
 
@@ -140,13 +112,13 @@
                         <!-- Hanya tampil untuk Admin -->
                         @if (Auth::user()->level == 'admin')
                             <li
-                                class="nav-item {{ request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('ruangan') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') || request()->is('feedback') ? 'active' : '' }}">
+                                class="nav-item {{ request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('ruangan') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') || request()->is('feedback') || request()->is('galeri') ? 'active' : '' }}">
                                 <a data-bs-toggle="collapse" href="#forms">
                                     <i class="fas fa-layer-group"></i>
                                     <p>Data Master</p>
                                     <span class="caret"></span>
                                 </a>
-                                <div class="collapse {{ request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('ruangan') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') || request()->is('feedback') ? 'show' : '' }}"
+                                <div class="collapse {{ request()->is('user') || request()->is('pegawai') || request()->is('jadis') || request()->is('ruangan') || request()->is('barang') || request()->is('kendaraan') || request()->is('ttd') || request()->is('feedback') || request()->is('galeri') ? 'show' : '' }}"
                                     id="forms">
                                     <ul class="nav nav-collapse">
                                         <li class="{{ request()->is('user') ? 'active' : '' }}">
@@ -187,6 +159,11 @@
                                         <li class="{{ request()->is('feedback') ? 'active' : '' }}">
                                             <a href="/feedback">
                                                 <span class="sub-item">Feedback</span>
+                                            </a>
+                                        </li>
+                                        <li class="{{ request()->is('galeri') ? 'active' : '' }}">
+                                            <a href="/galeri">
+                                                <span class="sub-item">Galeri</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -255,7 +232,7 @@
                                 class="nav-item {{ request()->is('rekap/atk') || request()->is('rekap/bbm') || request()->is('dashboardrka') ? 'active' : '' }}">
                                 <a data-bs-toggle="collapse" href="#sidebarLayouts">
                                     <i class="fas fa-file-alt"></i>
-                                    <p>Rekapitulasi</p>
+                                    <p>Laporan</p>
                                     <span class="caret"></span>
                                 </a>
                                 <div class="collapse {{ request()->is('rekap/atk') || request()->is('rekap/bbm') || request()->is('dashboardrka') ? 'show' : '' }}"

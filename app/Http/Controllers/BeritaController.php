@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BeritaDibuat;
 use App\Models\Berita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,7 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        $berita = Berita::orderBy('created_at', 'asc')->get();
+        $berita = Berita::orderBy('created_at', 'desc')->get();
         return view('berita.index', compact('berita'));
     }
 
@@ -42,12 +43,14 @@ class BeritaController extends Controller
             $filename = 'FB' . uniqid() . '.' . $foto->getClientOriginalExtension();
             $foto->storeAs('public/berita', $filename); // Pastikan path ini benar
         }
-        Berita::create([
+        $berita = Berita::create([
             'judul' => $request->judul,
             'subjudul' => $request->subjudul,
             'isi' => $request->isi,
             'foto' => $filename,
         ]);
+
+        event(new BeritaDibuat($berita));
 
         return redirect()->route('berita.index')->with('success', 'Data berita telah disimpan');
     }

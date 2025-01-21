@@ -16,25 +16,25 @@ class UserSeeder extends Seeder
     {
         User::insert([
             [
-                'username' => 'Sandi',
+                'username' => 'sandi',
                 'password' => bcrypt('sandi123'),
                 'level' => 'admin',
                 'uuid' => Str::uuid(), // Generate UUID
             ],
             [
-                'username' => 'Rahma',
+                'username' => 'rahma',
                 'password' => bcrypt('rahma123'),
                 'level' => 'admin',
                 'uuid' => Str::uuid(), // Generate UUID
             ],
             [
-                'username' => 'Pimpinan',
+                'username' => 'pimpinan',
                 'password' => bcrypt('pimpinan123'),
                 'level' => 'pemimpin',
                 'uuid' => Str::uuid(), // Generate UUID
             ],
             [
-                'username' => 'Husni Ari',
+                'username' => 'husniari',
                 'password' => bcrypt('operator123'),
                 'level' => 'operator',
                 'uuid' => Str::uuid(), // Generate UUID
