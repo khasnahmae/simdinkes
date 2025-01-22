@@ -1,11 +1,16 @@
-# Gunakan base image PHP dengan ekstensi yang dibutuhkan Laravel
 FROM php:8.1-fpm
 
-# Install dependencies
+# Install dependencies sistem dan PHP
 RUN apt-get update && apt-get install -y \
-    zip unzip git curl libpq-dev libonig-dev libjpeg-dev libpng-dev libfreetype6-dev libzip-dev && \
-    docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install gd pdo pdo_mysql zip && \
+    zip unzip git curl libonig-dev libzip-dev libxml2-dev libssl-dev && \
+    docker-php-ext-install \
+    ctype \
+    mbstring \
+    tokenizer \
+    session \
+    pcntl \
+    zip \
+    opcache && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
@@ -17,14 +22,15 @@ WORKDIR /var/www
 # Salin semua file ke dalam container
 COPY . .
 
-# Install dependencies Laravel
-RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --verbose
-
-# Set permissions untuk Laravel
+# Set permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Expose port untuk aplikasi Laravel
+# Debug composer install
+RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --verbose || \
+    (composer diagnose && exit 1)
+
+# Expose port
 EXPOSE 80
 
 # Jalankan server Laravel
