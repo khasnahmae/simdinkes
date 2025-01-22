@@ -12,23 +12,10 @@ services:
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
-      - APP_KEY=base64:YOUR_APP_KEY_HERE
+      - APP_KEY=base64:cs6sSoC/LtksNGqCzBO/JeN5TF4TmlVP2OO9oBOlxlM=
       - DB_CONNECTION=mysql
-      - DB_HOST=dpg-cu86c8bv2p9s73c83lpg-a
-      - DB_PORT=5432
-      - DB_DATABASE=siola
-      - DB_USERNAME=siola_user
-      - DB_PASSWORD=BRXu74efmT6crROMWTaqddSYmMfRC9OM
-
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: siol4
-      MYSQL_DATABASE: dinkes_tegal
-      MYSQL_USER: siola
-      MYSQL_PASSWORD: s10l4apP
-    volumes:
-      - db_data:/var/lib/mysql
-
-volumes:
-  db_data:
+      - DB_HOST=192.168.184.215
+      - DB_PORT=3306
+      - DB_DATABASE=dinkes_tegal
+      - DB_USERNAME=siola
+      - DB_PASSWORD=s10l4apP

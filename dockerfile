@@ -1,33 +1,29 @@
-# Pilih PHP sebagai base image
+# Gunakan base image PHP dengan ekstensi yang dibutuhkan Laravel
 FROM php:8.1-fpm
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    libpq-dev \
-    libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql zip
+    zip unzip git curl libpq-dev libonig-dev libjpeg-dev libpng-dev libfreetype6-dev libzip-dev && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install gd pdo pdo_mysql zip
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
 WORKDIR /var/www
 
-# Copy aplikasi Laravel ke dalam container
-COPY . /var/www
+# Salin semua file ke dalam container
+COPY . .
 
-# Install dependensi aplikasi
-RUN composer install --no-dev --optimize-autoloader
+# Install dependencies Laravel
+# RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --verbose
 
-# Cache konfigurasi Laravel
-RUN php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
+# Set permissions
+RUN chown -R www-data:www-data /var/www
 
-# Ubah izin agar folder storage bisa ditulis
+# Set permission untuk storage dan cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Jalankan Laravel menggunakan PHP-FPM
-CMD ["php-fpm"]
+# Jalankan server
+CMD php artisan serve --host=0.0.0.0 --port=80

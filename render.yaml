@@ -1,31 +1,27 @@
 services:
   - type: web
-    name: simdinkes
+    name: laravel-app
     env: docker
     plan: free
+    buildCommand: ""
+    startCommand: ""
     dockerfilePath: ./Dockerfile
-    buildCommand: |
-      composer install --no-dev --optimize-autoloader
-      php artisan config:cache
-      php artisan route:cache
-      php artisan view:cache
-    startCommand: php artisan serve --host 0.0.0.0 --port $PORT
     envVars:
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
         value: false
       - key: APP_KEY
-        sync: true
+        value: base64:cs6sSoC/LtksNGqCzBO/JeN5TF4TmlVP2OO9oBOlxlM=
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
-        sync: true
+        value: 192.168.184.215
       - key: DB_PORT
         value: 3306
       - key: DB_DATABASE
-        sync: true
+        value: dinkes_tegal
       - key: DB_USERNAME
-        sync: true
+        value: siola
       - key: DB_PASSWORD
-        sync: true
+        value: s10l4apP
