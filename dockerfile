@@ -16,9 +16,6 @@ WORKDIR /var/www
 # Salin semua file ke dalam container
 COPY . .
 
-# Install dependencies Laravel
-# RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --verbose
-
 # Set permissions
 RUN chown -R www-data:www-data /var/www
 
@@ -26,4 +23,4 @@ RUN chown -R www-data:www-data /var/www
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 # Jalankan server
-CMD php artisan serve --host=0.0.0.0 --port=80
+CMD php artisan serve --host=0.0.0.0 --port=${PORT}
