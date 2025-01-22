@@ -59,7 +59,7 @@ Route::get('/berita-all', [LandingController::class, 'news'])->name('berita-all'
 Route::get('/berita-show/{id}', [LandingController::class, 'show'])->name('berita-show');
 Route::get('/berita/search', [LandingController::class, 'search'])->name('search');
 Route::post('/contact', [ContactController::class, 'processContactForm'])->name('contact');
-Route::post('/langganan', [LanggananController::class, 'store'])->name('landingnew');
+Route::post('/langganan', [LanggananController::class, 'store']);
 
 // Rute untuk admin
 Route::middleware(['auth', 'check.level:admin'])->group(function () {
@@ -79,7 +79,7 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::resource('peminjaman-ruangan', PeminjamanRuanganController::class);
     Route::get('/dashboardrka', [KegiatanController::class, 'dashboard'])->name('dashboard.index');
     Route::get('/dashboard/belanja/{id}/detail', [KegiatanController::class, 'showDetail'])->name('dashboard.belanja.detail');
-    Route::get('/peminjaman-ruangan/show', [PeminjamanRuanganController::class, 'show'])->name('peminjaman-ruangan.show');
+    Route::get('/peminjaman-ruangan/detail', [PeminjamanRuanganController::class, 'detail'])->name('peminjaman-ruangan.detail');
 
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
     // Tambahkan route ini
@@ -127,7 +127,7 @@ Route::middleware(['auth', 'check.level:operator'])->group(function () {
     Route::resource('peminjaman-kendaraanop', PeminjamanKendaraanOpController::class)->parameters(['peminjaman-kendaraan' => 'uuid']);
     Route::get('/peminjaman-kendaraanop/show', [PeminjamanKendaraanOpController::class, 'show'])->name('peminjaman-kendaraanop.detail');
     Route::resource('peminjaman-ruanganop', PeminjamanRuanganOpController::class);
-    Route::get('/peminjaman-ruanganop/show', [PeminjamanRuanganController::class, 'show'])->name('peminjaman-ruanganop.show');
+    Route::get('/peminjaman-ruanganop/detail', [PeminjamanRuanganController::class, 'detail'])->name('peminjaman-ruanganop.detail');
 });
 Route::middleware(['auth', 'check.level:pemimpin'])->group(function () {
     Route::post('/atk/{uuid}/approve2', [AtkController::class, 'approveByPimpinan'])->name('atk.approve2');

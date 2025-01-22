@@ -19,3 +19,8 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Deny access to sensitive files
+<FilesMatch "\.(env|log|json|key)$">
+    Require all denied
+</FilesMatch>

@@ -18,9 +18,9 @@ class PeminjamanRuanganOpController extends Controller
         // Mengambil semua peminjaman untuk waktu saat ini
         $currentTime = now();
         $peminjamanAktif = PeminjamanRuangan::whereDate('mulai', '>=', now()->toDateString())
-        ->where('selesai', '>=', $currentTime)
-        ->orderBy('mulai', 'asc')
-        ->get();
+            ->where('selesai', '>=', $currentTime)
+            ->orderBy('mulai', 'asc')
+            ->get();
 
 
         return view('peminjaman-ruanganop.index', compact('currentTime', 'peminjamanAktif'));
@@ -40,7 +40,7 @@ class PeminjamanRuanganOpController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'ruangan_id' => 'required|exists:ruangans,id',
             'mulai' => 'required|date|',
@@ -86,13 +86,13 @@ class PeminjamanRuanganOpController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $uuid)
+    public function show()
     {
         $currentTime = now();
 
         $peminjaman = PeminjamanRuangan::all();
 
-        return view('peminjaman-ruanganop.show', compact('peminjaman', 'currentTime'));
+        return view('peminjaman-ruanganop.detail', compact('peminjaman', 'currentTime'));
     }
 
     /**
@@ -101,9 +101,8 @@ class PeminjamanRuanganOpController extends Controller
     public function edit(string $uuid)
     {
         $ruangan = Ruangan::orderBy('nama', 'asc')->get();
-        $peminjaman = PeminjamanRuangan::where('uuid', $uuid)->firstOrFail();       
+        $peminjaman = PeminjamanRuangan::where('uuid', $uuid)->firstOrFail();
         return view('peminjaman-ruanganop.edit', compact('peminjaman', 'ruangan'));
-   
     }
 
     /**
@@ -111,7 +110,7 @@ class PeminjamanRuanganOpController extends Controller
      */
     public function update(Request $request, string $uuid)
     {
-        $peminjaman = PeminjamanRuangan::where('uuid', $uuid)->firstOrFail();       
+        $peminjaman = PeminjamanRuangan::where('uuid', $uuid)->firstOrFail();
         $request->validate([
             'ruangan_id' => 'required|exists:ruangans,id',
             'mulai' => 'required|date|',
@@ -148,8 +147,6 @@ class PeminjamanRuanganOpController extends Controller
         ]);
 
         return redirect()->route('peminjaman-ruanganop.index')->with('success', 'Ruangan berhasil dipinjam.');
-  
-
     }
 
     /**

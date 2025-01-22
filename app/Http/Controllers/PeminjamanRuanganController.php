@@ -18,9 +18,9 @@ class PeminjamanRuanganController extends Controller
         // Mengambil semua peminjaman untuk waktu saat ini
         $currentTime = now();
         $peminjamanAktif = PeminjamanRuangan::whereDate('mulai', '>=', now()->toDateString())
-        ->where('selesai', '>=', $currentTime)
-        ->orderBy('mulai', 'asc')
-        ->get();
+            ->where('selesai', '>=', $currentTime)
+            ->orderBy('mulai', 'asc')
+            ->get();
 
         return view('peminjaman-ruangan.index', compact('currentTime', 'peminjamanAktif'));
     }
@@ -39,7 +39,7 @@ class PeminjamanRuanganController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'ruangan_id' => 'required|exists:ruangans,id',
             'mulai' => 'required|date|',
@@ -92,7 +92,7 @@ class PeminjamanRuanganController extends Controller
         // Ambil semua peminjaman untuk kendaraan tertentu
         $peminjaman = PeminjamanRuangan::all();
 
-        return view('peminjaman-ruangan.show', compact('peminjaman', 'currentTime'));
+        return view('peminjaman-ruangan.detail', compact('peminjaman', 'currentTime'));
     }
 
     /**
@@ -101,9 +101,8 @@ class PeminjamanRuanganController extends Controller
     public function edit(string $uuid)
     {
         $ruangan = Ruangan::orderBy('nama', 'asc')->get();
-        $peminjaman = PeminjamanRuangan::where('uuid', $uuid)->firstOrFail();       
+        $peminjaman = PeminjamanRuangan::where('uuid', $uuid)->firstOrFail();
         return view('peminjaman-ruangan.edit', compact('peminjaman', 'ruangan'));
-   
     }
 
     /**
@@ -111,7 +110,7 @@ class PeminjamanRuanganController extends Controller
      */
     public function update(Request $request, string $uuid)
     {
-        $peminjaman = PeminjamanRuangan::where('uuid', $uuid)->firstOrFail();       
+        $peminjaman = PeminjamanRuangan::where('uuid', $uuid)->firstOrFail();
         $request->validate([
             'ruangan_id' => 'required|exists:ruangans,id',
             'mulai' => 'required|date|',
