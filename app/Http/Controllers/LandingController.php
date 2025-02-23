@@ -70,7 +70,7 @@ class LandingController extends Controller
         foreach ($berita as $brt) {
             $brt->formatted_views = $this->formatViews($brt->view);
         }
-        return view('/berita-all', compact('berita'));
+        return view('berita-all', compact('berita'));
     }
     public function search(Request $request)
     {

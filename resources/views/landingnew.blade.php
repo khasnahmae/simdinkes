@@ -1,183 +1,5 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="images/favicon.png" type="image/png">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>Dinkes Kota Tegal</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/vendors/linericon/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/vendors/owl-carousel/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/vendors/nice-select/css/nice-select.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/vendors/owl-carousel/owl.carousel.min.css') }}">
-    <!-- main css -->
-    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/responsive.css') }}">
-    <style>
-        @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(calc(-250px * 4));
-            }
-        }
-
-        .slider {
-            background: white;
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
-            height: 100px;
-            margin: auto;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .slider::before,
-        .slider::after {
-            content: "";
-            background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
-            height: 100px;
-            position: absolute;
-            width: 200px;
-            z-index: 2;
-        }
-
-        .slider::after {
-            right: 0;
-            top: 0;
-            transform: rotateZ(180deg);
-        }
-
-        .slider::before {
-            left: 0;
-            top: 0;
-        }
-
-        .slide-track {
-            animation: scroll 40s linear infinite;
-            display: flex;
-            width: calc(250px * 14);
-        }
-
-        .slide {
-            height: 100px;
-            width: 250px;
-        }
-
-        .nav-tabs-custom .nav-link {
-            color: #6c757d;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: 500;
-        }
-
-        .nav-tabs-custom .nav-link.active {
-            color: #5a52f6;
-            position: relative;
-        }
-
-        .nav-tabs-custom .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: #5a52f6;
-        }
-
-        .nav-tabs-custom .nav-link i {
-            font-size: 18px;
-        }
-
-        .table-custom th,
-        .table-custom td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        .rating {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            font-size: 2rem;
-        }
-
-        .rating .emoji {
-            cursor: pointer;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-
-        .rating .emoji:hover {
-            transform: scale(1.3);
-        }
-
-        .rating .emoji.selected {
-            transform: scale(1.3);
-            /* Zoom hanya pada emoji yang dipilih */
-            color: #007bff;
-            /* Ubah warna pada emoji yang dipilih */
-            opacity: 1;
-        }
-
-        .rating .emoji:not(.selected) {
-            opacity: 0.5;
-            /* Kurangi opacity untuk emoji yang tidak dipilih */
-        }
-
-        .popup-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Latar belakang gelap */
-            z-index: 9999;
-            /* Pastikan berada di atas elemen lain */
-        }
-
-        .popup-content {
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: transparent;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        #open-admin-modal {
-            display: none;
-        }
-    </style>
-
-</head>
-
-<body>
+@extends('layouts.frontend')
+@section('content')
     <!--================Header Area =================-->
     <header class="header_area">
         <div class="container">
@@ -187,9 +9,8 @@
                         src="{{ asset('backend/assets/img/kaiadmin/logodinkes.png') }}" alt=""
                         style="width: 40px; height: auto;"></a>
                 <span class="title" style="font-size: 18px; color:black;">Dinas Kesehatan Kota Tegal</span>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -198,19 +19,21 @@
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav ml-auto">
                         <li class="nav-item active"><a class="nav-link" href="/">Beranda</a></li>
+
+                        <li class="nav-item"><a class="nav-link" href="/berita-all">Berita</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#jadwal-section">Jadwal</a></li>
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                 aria-haspopup="true" aria-expanded="false">Profil</a>
                             <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="/tentangkami">Tentang Kami</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/kontak">Kontak</a></li>
+                                <!--<li class="nav-item"><a class="nav-link" href="/tentangkami">Tentang Kami</a></li>-->
+                                <li class="nav-item"><a class="nav-link" href="/kontak">Tentang Kami</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/galeri-all">Galeri</a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="/berita-all">Berita</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Simtik</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="https://simtik.siola.my.id/">Simtik</a></li>
+                        <li class="nav-item"><a class="btn main_btn button_hovermain mt-3" href="/login">Login</a></li>
                     </ul>
                 </div>
             </nav>
@@ -221,21 +44,13 @@
     <!--================Banner Area =================-->
     <section class="banner_area">
         <div class="booking_table d_flex align-items-center">
-            <div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0"
-                data-background=""></div>
+            <div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background="">
+            </div>
             <div class="container">
                 <div class="banner_content text-center">
                     <h2>Melayani dengan IKHLAS</h2>
                     <h6>Menjadi Institusi terdepan dalam mewujudkan masyarakat Kota Tegal yang sehat dan mandiri</h6>
                 </div>
-                @if (session('success'))
-                    <div class="popup-wrapper">
-                        <div class="popup-content alert alert-success">
-                            {{ session('success') }}
-                            <button class="close-btn" onclick="closePopup()">×</button>
-                        </div>
-                    </div>
-                @endif
             </div>
         </div>
     </section>
@@ -284,12 +99,11 @@
             </div>
         </div>
     </section>
-    <!--================ Accomodation Area  =================-->
+    <!--================ Maklumat Pelayanan  =================-->
 
     <!--================ Pelayanan Publik  =================-->
     <section class="facilities_area section_gap">
-        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0"
-            data-background="">
+        <div class="overlay bg-parallax" data-stellar-ratio="0.8" data-stellar-vertical-offset="0" data-background="">
         </div>
         <div class="container">
             <div class="section_title text-center">
@@ -422,9 +236,10 @@
             </div>
         </div>
     </section>
-    <!--================ Info Jadwal  =================-->
+    <!--================ Latest Blog Area  =================-->
 
-    <section class="info_area section_gap">
+    <!--================ Info Jadwal  =================-->
+    <section id="jadwal-section" class="info_area section_gap">
         <div class="container">
             <!-- Nav Tabs -->
             <ul class="nav nav-tabs nav-tabs-custom border-bottom" id="jadwalTab" role="tablist">
@@ -432,20 +247,20 @@
                     <button class="nav-link active" id="jadwal-kadis-tab" data-bs-toggle="tab"
                         data-bs-target="#jadwal-kadis" type="button" role="tab" aria-controls="jadwal-kadis"
                         aria-selected="true">
-                        <i class="bi bi-calendar"></i> Jadwal Kadis
+                        <i class="bi bi-calendar"></i><strong>Jadwal Kadis</strong>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="jadwal-atk-tab" data-bs-toggle="tab" data-bs-target="#jadwal-atk"
                         type="button" role="tab" aria-controls="jadwal-atk" aria-selected="false">
-                        <i class="bi bi-box"></i> Peminjaman Ruangan
+                        <i class="bi bi-box"></i> <strong>Peminjaman Ruangan</strong>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="jadwal-kendaraan-tab" data-bs-toggle="tab"
                         data-bs-target="#jadwal-kendaraan" type="button" role="tab"
                         aria-controls="jadwal-kendaraan" aria-selected="false">
-                        <i class="bi bi-truck"></i> Jadwal Kendaraan
+                        <i class="bi bi-truck"></i> <strong>Jadwal Kendaraan</strong>
                     </button>
                 </li>
             </ul>
@@ -508,8 +323,7 @@
                     </table>
                 </div>
                 <!-- Jadwal Kendaraan -->
-                <div class="tab-pane fade" id="jadwal-kendaraan" role="tabpanel"
-                    aria-labelledby="jadwal-kendaraan-tab">
+                <div class="tab-pane fade" id="jadwal-kendaraan" role="tabpanel" aria-labelledby="jadwal-kendaraan-tab">
                     <table class="table table-bordered table-custom">
                         <thead>
                             <tr>
@@ -534,78 +348,9 @@
             </div>
         </div>
     </section>
-
-    <!--================ start footer Area  =================-->
-    <footer class="footer-area section_gap">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3  col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6 class="footer_title">Dasar Hukum</h6>
-                        <p> UU N0.25 Tahun 2009 Tentang Pelayanan Publik.<br> Peraturan Presiden No.96 Tahun
-                            2012 Tentang Pelayanan Publik.<br> Peraturan Menpan RB No.17 tahun 2017 Tentang Pedoman
-                            Penilaian Penyelenggara Pelayanan Publik.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6 class="footer_title">Navigasi Link</h6>
-                        <div class="row">
-                            <div class="col-4">
-                                <ul class="list_style">
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">Feature</a></li>
-                                    <li><a href="#">Services</a></li>
-                                    <li><a href="#">Team</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6 class="footer_title">Update Berita</h6>
-                        <p>Informasi kesehatan terbaru dan berita terkini dari
-                            Dinas Kesehatan. Bersama, wujudkan masyarakat yang lebih sehat dan sadar kesehatan.</p>
-                        <div>
-                            <form action="/langganan" method="POST" class="subscribe_form relative">
-                                @csrf
-                                <div class="input-group d-flex flex-row">
-                                    <input name="email" placeholder="Alamat Email" onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Alamat Email'" required type="email">
-                                    <button type="submit" class="btn sub-btn"><span
-                                            class="lnr lnr-location"></span></button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="border_line"></div>
-            <div class="row footer-bottom d-flex justify-content-between align-items-center">
-                <p class="col-lg-8 col-sm-12 footer-text m-0">
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;
-                    <script>
-                        document.write(new Date().getFullYear());
-                    </script> All rights reserved | Made with <i class="fa fa-heart-o"
-                        aria-hidden="true"></i> by Umpeg
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
-                <div class="col-lg-4 col-sm-12 footer-social">
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-instagram"></i></a>
-                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--================ End footer Area  =================-->
+    <!--================ Info Jadwal  =================-->
 
     <!--================ Modal Penilaian ==================-->
-
     <!-- Modal Validasi Kode Admin -->
     <div id="admin-access-modal"
         style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1001; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
@@ -635,7 +380,9 @@
 
             <!-- Penilaian Kepuasan -->
             <div class="form-group text-center mb-4">
-                <label class="form-label" for="kepuasan">Kepuasan Pelanggan</label>
+                <label class="form-label" for="kepuasan" style="
+                    font-size: 16px;"><strong>Kepuasan
+                        Pelanggan</strong></label>
                 <div class="rating" data-aspect="kepuasan">
                     <span data-value="1" class="emoji">&#128544;</span>
                     <span data-value="2" class="emoji">&#128542;</span>
@@ -648,7 +395,9 @@
 
             <!-- Penilaian Kecepatan -->
             <div class="form-group text-center mb-4">
-                <label class="form-label" for="kecepatan">Kecepatan Pelayanan</label>
+                <label class="form-label" for="kecepatan" style="
+                    font-size: 16px;"><strong>Kecepatan
+                        Pelayanan</strong></label>
                 <div class="rating" data-aspect="kecepatan">
                     <span data-value="1" class="emoji">&#128544;</span>
                     <span data-value="2" class="emoji">&#128542;</span>
@@ -661,7 +410,9 @@
 
             <!-- Penilaian Kerapihan -->
             <div class="form-group text-center mb-4">
-                <label class="form-label" for="kerapihan">Kerapihan Petugas</label>
+                <label class="form-label" for="kerapihan" style="
+                    font-size: 16px;"><strong>Kerapihan
+                        Petugas</strong></label>
                 <div class="rating" data-aspect="kerapihan">
                     <span data-value="1" class="emoji">&#128544;</span>
                     <span data-value="2" class="emoji">&#128542;</span>
@@ -675,8 +426,8 @@
             <!-- Nama Deskripsi Nomor Telepon -->
             <div class="form-group mb-3">
                 <label class="form-label">Deskripsi:</label>
-                <input type="text" name="deskripsi" class="form-control"
-                    placeholder="Deskripsikan Penilaian Anda" required>
+                <input type="text" name="deskripsi" class="form-control" placeholder="Deskripsikan Penilaian Anda"
+                    required>
             </div>
             <div class="form-group mb-3">
                 <label class="form-label">Nama:</label>
@@ -684,8 +435,7 @@
             </div>
             <div class="form-group mb-4">
                 <label class="form-label">Nomor Telepon:</label>
-                <input type="tel" name="telepon" class="form-control" placeholder="Masukkan No Telepon"
-                    required>
+                <input type="tel" name="telepon" class="form-control" placeholder="Masukkan No Telepon" required>
             </div>
 
             <!-- Submit Button -->
@@ -696,223 +446,4 @@
         </form>
     </div>
     <!--================ Modal Penilaian ==================-->
-
-    <script>
-        const adminModal = document.getElementById('admin-access-modal');
-        const feedbackModal = document.getElementById('feedback-form-modal');
-        const openAdminModalButton = document.getElementById('open-admin-modal');
-        const closeAdminModalButton = document.getElementById('close-admin-modal');
-        const closeFeedbackModalButton = document.getElementById('close-feedback-form');
-        const validateButton = document.getElementById('validate-admin-code');
-        const adminCodeInput = document.getElementById('admin-code');
-
-        // Kode rahasia admin
-        const adminSecretCode = 'DINAS123';
-
-        // Fungsi untuk menampilkan modal
-        function showModal(modal) {
-            modal.style.display = 'block';
-        }
-
-        // Fungsi untuk menyembunyikan modal
-        function hideModal(modal) {
-            modal.style.display = 'none';
-        }
-
-        // Fungsi untuk mereset formulir penilaian
-        function resetFeedbackForm() {
-            // Reset input bintang
-            document.querySelectorAll('.rating').forEach((rating) => {
-                rating.querySelectorAll('span').forEach((star) => {
-                    star.classList.remove('selected');
-                });
-            });
-
-            // Reset input tersembunyi
-            document.getElementById('kepuasan-hidden').value = '';
-            document.getElementById('kecepatan-hidden').value = '';
-            document.getElementById('kerapihan-hidden').value = '';
-
-            // Reset input nama dan nomor telepon
-            document.querySelector('input[name="nama"]').value = '';
-            document.querySelector('input[name="deskripsi"]').value = '';
-            document.querySelector('input[name="telepon"]').value = '';
-        }
-
-        // Buka modal validasi kode admin saat tombol ikon diklik
-        openAdminModalButton.addEventListener('click', () => {
-            showModal(adminModal);
-        });
-
-        // Tutup modal validasi kode admin
-        closeAdminModalButton.addEventListener('click', () => {
-            hideModal(adminModal);
-            adminCodeInput.value = ''; // Reset input kode validasi
-        });
-
-        // Validasi kode admin
-        validateButton.addEventListener('click', () => {
-            const inputCode = adminCodeInput.value;
-
-            if (inputCode === adminSecretCode) {
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: 'Kode valid! Silakan beri penilaian.',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                }).then(() => {
-                    hideModal(adminModal); // Tutup modal validasi kode admin
-                    showModal(feedbackModal); // Tampilkan modal input penilaian
-                    resetFeedbackForm(); // Reset formulir penilaian
-                    adminCodeInput.value = ''; // Reset input kode validasi
-                });
-            } else {
-                Swal.fire({
-                    title: 'Gagal!',
-                    text: 'Kode salah! Coba lagi.',
-                    icon: 'error',
-                    confirmButtonText: 'OK',
-                }).then(() => {
-                    adminCodeInput.value = ''; // Reset input kode validasi
-                });
-            }
-        });
-
-        // Tutup modal saat klik di luar konten
-        window.addEventListener('click', (e) => {
-            if (e.target === adminModal) {
-                hideModal(adminModal);
-                adminCodeInput.value = ''; // Reset input kode validasi
-            }
-            if (e.target === feedbackModal) {
-                hideModal(feedbackModal);
-                resetFeedbackForm(); // Reset formulir penilaian
-            }
-        });
-
-        // Tutup modal input penilaian
-        closeFeedbackModalButton.addEventListener('click', () => {
-            hideModal(feedbackModal);
-            resetFeedbackForm(); // Reset form saat modal ditutup
-        });
-        // Tangani rating
-        document.querySelectorAll('.rating').forEach((rating) => {
-            const emojis = rating.querySelectorAll('span');
-            const aspect = rating.getAttribute('data-aspect');
-            const hiddenInput = document.getElementById(`${aspect}-hidden`);
-
-            emojis.forEach((emoji) => {
-                emoji.addEventListener('click', () => {
-                    const value = emoji.getAttribute('data-value');
-                    hiddenInput.value = value;
-
-                    // Reset semua emoji
-                    emojis.forEach((e) => e.classList.remove('selected'));
-
-                    // Tandai hanya emoji yang dipilih
-                    emoji.classList.add('selected');
-                });
-            });
-        });
-
-        // Tangani pengiriman formulir
-        document.getElementById('feedback-form').addEventListener('submit', function(e) {
-            e.preventDefault(); // Mencegah pengiriman form secara default
-
-            const form = e.target;
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content'),
-                    },
-                    body: formData,
-                })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Gagal mengirim data. Periksa kembali input Anda.');
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    // Tutup modal
-                    hideModal(feedbackModal);
-
-                    // Reset formulir
-                    resetFeedbackForm();
-
-                    // Tampilkan notifikasi pop-up
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: data.message || 'Feedback berhasil dikirim!',
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                    });
-                })
-                .catch((error) => {
-                    // Tampilkan pesan error
-                    Swal.fire({
-                        title: 'Gagal!',
-                        text: error.message || 'Terjadi kesalahan. Coba lagi nanti.',
-                        icon: 'error',
-                        confirmButtonText: 'OK',
-                    });
-                });
-        });
-    </script>
-
-    <script>
-        function closePopup() {
-            const popupWrapper = document.querySelector('.popup-wrapper');
-            if (popupWrapper) {
-                popupWrapper.style.display = 'none';
-            }
-        }
-
-        // Sembunyikan pop-up secara otomatis setelah 3 detik
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(() => {
-                const popupWrapper = document.querySelector('.popup-wrapper');
-                if (popupWrapper) {
-                    popupWrapper.style.display = 'none';
-                }
-            }, 3000); // 3000 ms = 3 detik
-        });
-    </script>
-
-    <script>
-        // Mendengarkan event keydown untuk mendeteksi tombol keyboard
-        document.addEventListener('keydown', function(event) {
-            if (event.ctrlKey && event.altKey && event.key === 'h') {
-                // Tampilkan tombol penilaian
-                document.getElementById('open-admin-modal').style.display = 'inline-block';
-            }
-        });
-    </script>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{{ asset('frontend/js/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/popper.js') }}"></script>
-    <script src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('frontend/vendors/owl-carousel/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/jquery.ajaxchimp.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/mail-script.js') }}"></script>
-    <script src="{{ asset('frontend/vendors/bootstrap-datepicker/bootstrap-datetimepicker.min.js') }}"></script>
-    <script src="{{ asset('frontend/vendors/nice-select/js/jquery.nice-select.js') }}"></script>
-    <script src="{{ asset('frontend/js/mail-script.js') }}"></script>
-    <script src="{{ asset('frontend/js/stellar.js') }}"></script>
-    <script src="{{ asset('frontend/vendors/lightbox/simpleLightbox.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/custom.js') }}"></script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-</body>
-
-</html>
+@endsection

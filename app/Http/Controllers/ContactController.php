@@ -11,11 +11,21 @@ class ContactController extends Controller
     public function processContactForm(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:2|max:255',
             'email' => 'required|email',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
+            'subject' => 'required|string|min:4|max:255',
+            'message' => 'required|string|min:10',
+        ], [
+            'name.required' => 'Ayolah, kamu punya nama, kan?',
+            'name.min' => 'Nama minimal harus 2 karakter.',
+            'email.required' => ' No email, no message.',
+            'email.email' => 'Format email tidak valid.',
+            'subject.required' => 'Subjek wajib diisi.',
+            'subject.min' => 'Subjek minimal harus 4 karakter.',
+            'message.required' => 'Um...yea, kamu harus tulis sesuatu untuk mengirim form ini.',
+            'message.min' => 'Itu saja? Benarkah? Isi pesan minimal 10 karakter.',
         ]);
+
 
         $to = "khasnahm@gmail.com";
         $data = [

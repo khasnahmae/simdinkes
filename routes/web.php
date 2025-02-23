@@ -35,8 +35,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
-Route::get('/', [LandingController::class, 'landing'])->name('landingnew');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+Route::get('/', [LandingController::class, 'landing'])->name('landingnew');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -44,20 +47,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 });
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
-Route::get('/tentangkami', function () {
-    return view('tentangkami');
-});
 Route::get('/kontak', function () {
     return view('kontak');
 });
-Route::get('/galeri-all', [LandingController::class, 'showGallery'])->name('galeri-all');
-Route::get('/berita-all', [LandingController::class, 'news'])->name('berita-all');
-Route::get('/berita-show/{id}', [LandingController::class, 'show'])->name('berita-show');
-Route::get('/berita/search', [LandingController::class, 'search'])->name('search');
+
+Route::get('/galeri-all', [LandingController::class, 'showGallery']);
+Route::get('/berita-all', [LandingController::class, 'news']);
+Route::get('/berita-show/{id}', [LandingController::class, 'show']);
+Route::get('/search', [LandingController::class, 'search'])->name('search');
 Route::post('/contact', [ContactController::class, 'processContactForm'])->name('contact');
 Route::post('/langganan', [LanggananController::class, 'store']);
 
@@ -80,15 +78,10 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::get('/dashboardrka', [KegiatanController::class, 'dashboard'])->name('dashboard.index');
     Route::get('/dashboard/belanja/{id}/detail', [KegiatanController::class, 'showDetail'])->name('dashboard.belanja.detail');
     Route::get('/peminjaman-ruangan/detail', [PeminjamanRuanganController::class, 'detail'])->name('peminjaman-ruangan.detail');
-
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
-    // Tambahkan route ini
     Route::get('/get-detail-belanja/{id}', [DetailBelanjaController::class, 'getDetailBelanja']);
-
-
     Route::resource('peminjaman-kendaraan', PeminjamanKendaraanController::class)->parameters(['peminjaman-kendaraan' => 'uuid']);
     Route::get('/peminjaman-kendaraan/detail', [PeminjamanKendaraanController::class, 'detail'])->name('peminjaman-kendaraan.detail');
-
 
     Route::resource('atk', AtkController::class)->parameters(['atk' => 'uuid']);
     Route::get('/pengajuan/atk', [AtkController::class, 'pengajuan'])->name('atk.pengajuan');
@@ -106,7 +99,6 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::post('/bbm/{uuid}/approve', [BbmController::class, 'approveByKasie'])->name('bbm.approve');
     Route::post('/bbm/reject/{uuid}', [BbmController::class, 'reject'])->name('bbm.reject');
 
-
     Route::get('/rekap/atk', [LaporanController::class, 'atk'])->name('rekap.atk');
     Route::get('/rekap/atk/download', [LaporanController::class, 'downloadatk'])->name('rekap.downloadatk');
     Route::get('rekap/atk/excelatk', [LaporanController::class, 'excelatk'])->name('rekap.excelatk');
@@ -114,10 +106,10 @@ Route::middleware(['auth', 'check.level:admin'])->group(function () {
     Route::get('/rekap/bbm/download', [LaporanController::class, 'downloadbbm'])->name('rekap.downloadbbm');
     Route::get('rekap/bbm/excelatk', [LaporanController::class, 'excelbbm'])->name('rekap.excelbbm');
 
-    // Rute untuk laporan detail
     Route::get('/rekap/detailatk/{uuid}', [LaporanController::class, 'detailatk'])->name('rekap.detailatk');
     Route::get('/rekap/detailbbm/{uuid}', [LaporanController::class, 'detailbbm'])->name('rekap.detailbbm');
 });
+
 // Rute untuk operator
 Route::middleware(['auth', 'check.level:operator'])->group(function () {
     Route::resource('tr_atk', Tr_AtkController::class);
@@ -129,6 +121,8 @@ Route::middleware(['auth', 'check.level:operator'])->group(function () {
     Route::resource('peminjaman-ruanganop', PeminjamanRuanganOpController::class);
     Route::get('/peminjaman-ruanganop/detail', [PeminjamanRuanganController::class, 'detail'])->name('peminjaman-ruanganop.detail');
 });
+
+// Rute untuk pimpinan
 Route::middleware(['auth', 'check.level:pemimpin'])->group(function () {
     Route::post('/atk/{uuid}/approve2', [AtkController::class, 'approveByPimpinan'])->name('atk.approve2');
     Route::post('/atk/reject2/{uuid}', [AtkController::class, 'rejectByPimpinan'])->name('atk.reject2');
@@ -138,14 +132,14 @@ Route::middleware(['auth', 'check.level:pemimpin'])->group(function () {
     Route::post('/bbm/reject2/{uuid}', [BbmController::class, 'rejectByPimpinan'])->name('bbm.reject2');
 });
 
+// Route::post('/validate-admin-code', function (Request $request) {
+//     $validCode = 'DINAS123'; // Kode rahasia
 
-Route::post('/validate-admin-code', function (Request $request) {
-    $validCode = 'DINAS123'; // Kode rahasia
+//     if ($request->input('code') === $validCode) {
+//         return response()->json(['status' => 'success'], 200);
+//     }
+//     return response()->json(['status' => 'error', 'message' => 'Kode salah'], 403);
+// })->name('validate.admin');
 
-    if ($request->input('code') === $validCode) {
-        return response()->json(['status' => 'success'], 200);
-    }
-    return response()->json(['status' => 'error', 'message' => 'Kode salah'], 403);
-})->name('validate.admin');
 Route::post('/submit-feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');

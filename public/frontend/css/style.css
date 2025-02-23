@@ -187,12 +187,12 @@ button:focus {
   text-transform: uppercase;
   color: #fff;
   font-weight: 600;
-  background: #0035f3;
+  background: #006cf8;
   padding: 5px 30px;
 }
 
 .main_btn:before {
-  background: #006cf8;
+  background: #3d91ff;
 }
 
 .main_btn:hover {
@@ -275,7 +275,7 @@ button:focus {
   -ms-transform: translateX(-100%);
   transform: translateX(-100%);
   z-index: -1;
-  background: #243aff;
+  background: #004eb3;
   -webkit-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
