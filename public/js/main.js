@@ -1,3 +1,13 @@
+document.addEventListener("scroll", function () {
+    let scrolled = window.scrollY;
+    document.querySelector(".bg-parallax").style.transform = `translateY(${scrolled * 0.4}px)`;
+});
+
+// Inisialisasi tooltip Bootstrap
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
 
 const adminModal = document.getElementById('admin-access-modal');
 const feedbackModal = document.getElementById('feedback-form-modal');
@@ -133,7 +143,9 @@ document.getElementById('feedback-form').addEventListener('submit', function(e) 
         })
         .then((response) => {
             if (!response.ok) {
-                throw new Error('Gagal mengirim data. Periksa kembali input Anda.');
+                return response.json().then((err) => {
+                    throw err; // Melempar error agar ditangkap di catch()
+                });
             }
             return response.json();
         })
@@ -153,37 +165,23 @@ document.getElementById('feedback-form').addEventListener('submit', function(e) 
             });
         })
         .catch((error) => {
-            // Tampilkan pesan error
+            let errorMessages = 'Terjadi kesalahan. Coba lagi nanti.';
+
+            // Periksa apakah error berasal dari validasi Laravel (422)
+            if (error.errors) {
+                errorMessages = Object.values(error.errors).flat().join('\n'); 
+            }
+
+            // Tampilkan pesan error ke user
             Swal.fire({
                 title: 'Gagal!',
-                text: error.message || 'Terjadi kesalahan. Coba lagi nanti.',
+                text: errorMessages,
                 icon: 'error',
                 confirmButtonText: 'OK',
             });
         });
 });
 
-// Error Popup
-document.addEventListener("DOMContentLoaded", function () {
-    let popup = document.getElementById("errorPopup");
-
-    // Jika popup ada, tampilkan setelah halaman dimuat
-    if (popup) {
-        popup.style.display = "block";
-
-        // Auto close popup setelah 5 detik
-        setTimeout(closePopup, 5000);
-    }
-});
-
-function closePopupError() {
-    let popup = document.getElementById("errorPopup");
-    if (popup) {
-        popup.style.display = "none";
-    }
-}
-
-//Success Popup
 function closePopup() {
     const popupWrapper = document.querySelector('.popup-wrapper');
     if (popupWrapper) {
@@ -198,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (popupWrapper) {
             popupWrapper.style.display = 'none';
         }
-    }, 3000); // 3000 ms = 3 detik
+    }, 5000); // 5000 ms = 5 detik
 });
 
 

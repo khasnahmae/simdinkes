@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,9 +7,13 @@
     <title>SIOLA - DINKES TEGAL</title>
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- SweetAlert2 -->
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+
     <style>
         body {
-            background-color: #e8eef5; /* Warna latar belakang lebih segar */
+            background-color: #e8eef5;
+            /* Warna latar belakang lebih segar */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,7 +23,7 @@
 
         .container-login {
             background-color: white;
-            border-radius: 20px;
+            border-radius: 10px;
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             max-width: 1000px;
@@ -43,7 +46,8 @@
             font-weight: bold;
             margin-bottom: 20px;
             text-align: center;
-            color: #2e537d; /* Warna hijau */
+            color: #2e537d;
+            /* Warna hijau */
         }
 
         .login-left p {
@@ -54,20 +58,38 @@
         }
 
         .login-left .form-control {
-            border-radius: 25px;
+            border-radius: 5px;
             margin-bottom: 20px;
             padding: 15px 20px;
             font-size: 16px;
         }
 
-        .login-left .btn-primary {
+        .main_btn {
             width: 100%;
-            padding: 12px;
-            border-radius: 25px;
-            background-color: #384c8e; /* Hijau lebih gelap untuk tombol */
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
+            font-size: 14px;
+            line-height: 30px;
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: 600;
+            background: #004eb3;
+            padding: 5px 30px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px #003b8b;
+            /* Bayangan bawah untuk efek tombol */
+            transition: all 0.2s ease-in-out;
+        }
+
+        .main_btn:active {
+            box-shadow: 0 2px #003b8b;
+            /* Bayangan lebih kecil saat ditekan */
+            transform: translateY(2px);
+            /* Tombol turun sedikit */
+        }
+
+        .main_btn:hover {
+            color: #fff;
+            background: #0068ef;
         }
 
         .login-left .forgot-password a {
@@ -76,7 +98,8 @@
 
         .login-right {
             width: 50%;
-            background-color: #6690bb; /* Hijau cerah untuk kesan segar */
+            background-color: #6690bb;
+            /* Hijau cerah untuk kesan segar */
             color: white;
             display: flex;
             justify-content: center;
@@ -126,12 +149,6 @@
             </div>
             <!-- Error Message -->
             @if (session()->has('msgError'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session('msgError') }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
             @endif
 
             <form action="{{ url('/login') }}" method="post" onsubmit="return validateForm()">
@@ -154,11 +171,11 @@
                     @enderror
                 </div>
 
-                <div class="forgot-password">
+                {{-- <div class="forgot-password">
                     <a href="/forgot-password">Lupa Password?</a>
-                </div>
+                </div> --}}
 
-                <button type="submit" class="btn btn-primary mt-3">Login</button>
+                <button type="submit" class="btn main_btn">Login</button>
             </form>
         </div>
 
@@ -170,22 +187,6 @@
         </div>
     </div>
 
-    <script>
-        function validateForm() {
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-
-            console.log('Username:', username);
-            console.log('Password:', password);
-
-            if (username === "" || password === "") {
-                alert('Username atau Password tidak boleh kosong.');
-                return false;
-            }
-            return true;
-        }
-
-    </script>
 </body>
 
 </html>

@@ -51,23 +51,16 @@
 
         .footer {
             display: flex;
-            /* Menggunakan flexbox untuk footer */
-            /* justify-content: flex-start; Mengatur agar kolom rata kiri */
             margin-top: 30px;
-            /* Memberikan jarak yang cukup dari konten atas */
             margin-left: 20px;
             margin-right: 20px;
             padding: 20px 0;
-            /* Menambahkan padding pada footer */
         }
 
         .footer .col {
             display: inline-block;
-            /* Membuat kolom hug kontennya */
             text-align: center;
-            /* Mengatur teks di tengah kolom */
             margin-right: 50px;
-            /* Menambahkan margin kanan antar kolom */
         }
 
         .footer .col:last-child {

@@ -111,6 +111,22 @@
     /* Kurangi opacity untuk emoji yang tidak dipilih */
 }
 
+.tooltip .tooltip-inner {
+    font-size: 10px !important; /* Ukuran teks tooltip */
+    padding: 5px 10px; /* Sesuaikan padding agar tidak terlalu besar */
+    bottom: -30px; /* Posisikan tooltip di bawah emoji */
+    background-color: black;
+    color: white;
+    white-space: nowrap;
+    transition: opacity 0.3s;
+}
+
+::placeholder {
+    font-size: 12px; /* Sesuaikan ukuran teks placeholder */
+    color: gray; /* Opsional: Ubah warna agar lebih soft */
+    opacity: 1; /* Pastikan placeholder tetap terlihat jelas */
+}
+
 .popup-wrapper {
     position: fixed;
     top: 0;
@@ -128,7 +144,7 @@
 
 .popup-content {
     padding: 20px;
-    background-color: rgb(245, 255, 239);
+    background-color: rgb(255, 255, 255);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -136,52 +152,52 @@
     width: 90%;
     position: relative;
 }
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: transparent;
+.close_btn {
+    font-size: 12px;
+    line-height: 15px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 300;
+    background: #747474;
+    padding: 5px 20px;
     border: none;
-    font-size: 26px;
-    cursor: pointer;
-}
-
-.popup-wrapper-error {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* Latar belakang gelap */
-    z-index: 9999;
-    /* Pastikan berada di atas elemen lain */
-}
-
-.popup-content-error {
-    padding: 20px;
-    background-color: rgb(255, 238, 238);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    position: relative;
-}
-
-.close-btn-error {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: transparent;
+    border-radius: 5px;
+    box-shadow: 0 4px #4b4b4b; /* Bayangan bawah untuk efek tombol */
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .close_btn:active {
+    box-shadow: 0 2px #515151; /* Bayangan lebih kecil saat ditekan */
+    transform: translateY(2px); /* Tombol turun sedikit */
+  }
+  
+  .close_btn:hover {
+    color: #fff;
+    background: #676767;
+  }
+.submit_btn {
+    font-size: 14px;
+    line-height: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    background: #00b324;
+    padding: 5px 30px;
     border: none;
-    font-size: 26px;
-    cursor: pointer;
-}
-
+    border-radius: 5px;
+    box-shadow: 0 4px #008b13; /* Bayangan bawah untuk efek tombol */
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .submit_btn:active {
+    box-shadow: 0 2px #008b13; /* Bayangan lebih kecil saat ditekan */
+    transform: translateY(2px); /* Tombol turun sedikit */
+  }
+  
+  .submit_btn:hover {
+    color: #fff;
+  background: #00ef24;
+  }
 #open-admin-modal {
     display: none;
 }

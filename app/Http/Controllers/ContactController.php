@@ -16,14 +16,14 @@ class ContactController extends Controller
             'subject' => 'required|string|min:4|max:255',
             'message' => 'required|string|min:10',
         ], [
-            'name.required' => 'Ayolah, kamu punya nama, kan?',
+            'name.required' => 'Nama wajib diisi',
             'name.min' => 'Nama minimal harus 2 karakter.',
             'email.required' => ' No email, no message.',
             'email.email' => 'Format email tidak valid.',
             'subject.required' => 'Subjek wajib diisi.',
             'subject.min' => 'Subjek minimal harus 4 karakter.',
-            'message.required' => 'Um...yea, kamu harus tulis sesuatu untuk mengirim form ini.',
-            'message.min' => 'Itu saja? Benarkah? Isi pesan minimal 10 karakter.',
+            'message.required' => 'Tulis sesuatu yang ingin Anda disampaikan',
+            'message.min' => 'Isi pesan minimal 10 karakter.',
         ]);
 
 

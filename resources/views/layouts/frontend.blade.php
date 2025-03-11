@@ -12,6 +12,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/vendors/linericon/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}">
@@ -30,9 +32,18 @@
     @if (session('success'))
         <div class="popup-wrapper">
             <div class="popup-content alert alert-success">
-                <p style="font-size: 24px;">🎉</p>
+                <p style="font-size: 36px;">🎉</p>
                 <p>{{ session('success') }}</p>
-                <button class="close-btn" onclick="closePopup()">×</button>
+                <button class="btn close_btn" onclick="closePopup()">Tutup</button>
+            </div>
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="popup-wrapper">
+            <div class="popup-content alert alert-success">
+                <p style="font-size: 36px;">🚨</p>
+                <p style="color: red; font-size: 14px;">{{ session('error') }}</p>
+                <button class="btn close_btn" onclick="closePopup()">Tutup</button>
             </div>
         </div>
     @endif
@@ -97,10 +108,10 @@
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </p>
                 <div class="col-lg-4 col-sm-12 footer-social">
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-instagram"></i></a>
-                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                    <a href="https://web.facebook.com/DinkesKotaTegal/"><i class="fa fa-facebook"></i></a>
+                    <a href="https://x.com/dinkeskotategal"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/dinkeskotategal/"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@DinasKesehatanKotaTegal"><i class="fa fa-youtube"></i></a>
                 </div>
             </div>
         </div>

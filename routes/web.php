@@ -132,14 +132,5 @@ Route::middleware(['auth', 'check.level:pemimpin'])->group(function () {
     Route::post('/bbm/reject2/{uuid}', [BbmController::class, 'rejectByPimpinan'])->name('bbm.reject2');
 });
 
-// Route::post('/validate-admin-code', function (Request $request) {
-//     $validCode = 'DINAS123'; // Kode rahasia
-
-//     if ($request->input('code') === $validCode) {
-//         return response()->json(['status' => 'success'], 200);
-//     }
-//     return response()->json(['status' => 'error', 'message' => 'Kode salah'], 403);
-// })->name('validate.admin');
-
 Route::post('/submit-feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');

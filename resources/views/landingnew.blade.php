@@ -33,7 +33,7 @@
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="https://simtik.siola.my.id/">Simtik</a></li>
-                        <li class="nav-item"><a class="btn main_btn button_hovermain mt-3" href="/login">Login</a></li>
+                        <li class="nav-item"><a class="btn main_btn mt-3" href="/login">Login</a></li>
                     </ul>
                 </div>
             </nav>
@@ -44,7 +44,7 @@
     <!--================Banner Area =================-->
     <section class="banner_area">
         <div class="booking_table d_flex align-items-center">
-            <div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background="">
+            <div class="overlay bg-parallax">
             </div>
             <div class="container">
                 <div class="banner_content text-center">
@@ -226,7 +226,7 @@
                                 <h4 class="sec_h4">{{ \Illuminate\Support\Str::limit($item->judul, 30, '...') }}
                                 </h4>
                                 <p>{{ \Illuminate\Support\Str::limit($item->isi, 70, '...') }}</p>
-                                <p>{{ $item->created_at }}</p>
+                                <p style="color: black;">{{ $item->created_at }}</p>
                                 <a href="{{ route('berita-show', ['id' => $item->id]) }}" class="btn-read-more">Baca
                                     Selengkapnya</a>
                             </div>
@@ -368,9 +368,10 @@
 
     <!-- Modal Form Penilaian -->
     <div id="feedback-form-modal"
-        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1001; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); width: 100%; max-width: 500px;">
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1001; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); width: 100%; max-width: 500px; max-height: 90vh; overflow: auto;">
         <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #333;">Beri Penilaian Layanan</h3>
+            <h3 style="margin: 0; font-size: 1rem; font-weight: bold; color: #333;">Penilaian Layanan Dinkes Kota Tegal
+            </h3>
             <button id="close-feedback-form" class="close-button"
                 style="background: none; border: none; font-size: 1.5rem; color: #888; cursor: pointer;">&times;</button>
         </div>
@@ -379,69 +380,88 @@
             @csrf
 
             <!-- Penilaian Kepuasan -->
-            <div class="form-group text-center mb-4">
-                <label class="form-label" for="kepuasan" style="
-                    font-size: 16px;"><strong>Kepuasan
-                        Pelanggan</strong></label>
+            <div class="form-group text-center mb-5">
+                <label class="form-label" for="kepuasan"
+                    style="
+                    font-size: 14px; color:black"><strong>Kualitas Pelayanan</strong></label>
                 <div class="rating" data-aspect="kepuasan">
-                    <span data-value="1" class="emoji">&#128544;</span>
-                    <span data-value="2" class="emoji">&#128542;</span>
-                    <span data-value="3" class="emoji">&#128528;</span>
-                    <span data-value="4" class="emoji">&#128522;</span>
-                    <span data-value="5" class="emoji">&#128525;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kurang Sekali" data-value="1"
+                        class="emoji">&#128544;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kurang" data-value="2"
+                        class="emoji">&#128542;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Biasa" data-value="3"
+                        class="emoji">&#128528;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Baik" data-value="4"
+                        class="emoji">&#128522;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Baik Sekali" data-value="5"
+                        class="emoji">&#128525;</span>
                 </div>
                 <input type="hidden" name="kepuasan" id="kepuasan-hidden">
             </div>
 
             <!-- Penilaian Kecepatan -->
-            <div class="form-group text-center mb-4">
-                <label class="form-label" for="kecepatan" style="
-                    font-size: 16px;"><strong>Kecepatan
+            <div class="form-group text-center mb-5">
+                <label class="form-label" for="kecepatan"
+                    style="
+                    font-size: 14px; color:black"><strong>Kecepatan
                         Pelayanan</strong></label>
                 <div class="rating" data-aspect="kecepatan">
-                    <span data-value="1" class="emoji">&#128544;</span>
-                    <span data-value="2" class="emoji">&#128542;</span>
-                    <span data-value="3" class="emoji">&#128528;</span>
-                    <span data-value="4" class="emoji">&#128522;</span>
-                    <span data-value="5" class="emoji">&#128525;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kurang Sekali" data-value="1"
+                        class="emoji">&#128544;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kurang" data-value="2"
+                        class="emoji">&#128542;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Biasa" data-value="3"
+                        class="emoji">&#128528;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Baik" data-value="4"
+                        class="emoji">&#128522;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Baik Sekali" data-value="5"
+                        class="emoji">&#128525;</span>
                 </div>
                 <input type="hidden" name="kecepatan" id="kecepatan-hidden">
             </div>
 
             <!-- Penilaian Kerapihan -->
-            <div class="form-group text-center mb-4">
-                <label class="form-label" for="kerapihan" style="
-                    font-size: 16px;"><strong>Kerapihan
+            <div class="form-group text-center mb-5">
+                <label class="form-label" for="kerapihan"
+                    style="
+                    font-size: 14px; color:black"><strong>Kerapihan
                         Petugas</strong></label>
                 <div class="rating" data-aspect="kerapihan">
-                    <span data-value="1" class="emoji">&#128544;</span>
-                    <span data-value="2" class="emoji">&#128542;</span>
-                    <span data-value="3" class="emoji">&#128528;</span>
-                    <span data-value="4" class="emoji">&#128522;</span>
-                    <span data-value="5" class="emoji">&#128525;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kurang Sekali" data-value="1"
+                        class="emoji">&#128544;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kurang" data-value="2"
+                        class="emoji">&#128542;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Biasa" data-value="3"
+                        class="emoji">&#128528;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Baik" data-value="4"
+                        class="emoji">&#128522;</span>
+                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Baik Sekali" data-value="5"
+                        class="emoji">&#128525;</span>
                 </div>
                 <input type="hidden" name="kerapihan" id="kerapihan-hidden">
             </div>
 
             <!-- Nama Deskripsi Nomor Telepon -->
             <div class="form-group mb-3">
-                <label class="form-label">Deskripsi:</label>
+                <label class="form-label" style="color:black; font-size: 14px;"><strong>Deskripsi:</strong></label>
                 <input type="text" name="deskripsi" class="form-control" placeholder="Deskripsikan Penilaian Anda"
                     required>
             </div>
-            <div class="form-group mb-3">
-                <label class="form-label">Nama:</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Anda" required>
+            <div class="gap-5" style="display:flex;">
+                <div class="form-group">
+                    <label class="form-label" style="color:black; font-size: 14px;"><strong>Nama:</strong></label>
+                    <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Anda" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" style="color:black; font-size: 14px;"><strong>Nomor
+                            Telepon:</strong></label>
+                    <input type="tel" name="telepon" class="form-control" placeholder="Masukkan No Telepon"
+                        required>
+                </div>
             </div>
-            <div class="form-group mb-4">
-                <label class="form-label">Nomor Telepon:</label>
-                <input type="tel" name="telepon" class="form-control" placeholder="Masukkan No Telepon" required>
-            </div>
-
             <!-- Submit Button -->
-            <div style="text-align: center;">
-                <button type="submit"
-                    style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Kirim</button>
+            <div style="text-align: center; margin-top: auto;">
+                <button type="submit" class="btn submit_btn" style="cursor: pointer;">Kirim</button>
             </div>
         </form>
     </div>

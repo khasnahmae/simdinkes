@@ -50,9 +50,10 @@
                 <div class="search-bar d-flex justify-content-center align-items-center" style="height: 20vh;">
                     <form method="GET" action="{{ route('search') }}" class="w-50">
                         <div class="form-group">
-                            <input type="text" name="search" class="form-control" placeholder="Cari berita..." required>
+                            <input type="text" name="search" class="form-control"
+                                placeholder="Masukkan kata kunci atau judul berita yang ingin dicari ..." required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Cari</button>
+                        <button type="submit" class="btn main_btn">Cari</button>
                     </form>
                 </div>
             </div>

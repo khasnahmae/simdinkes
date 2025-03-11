@@ -2,11 +2,11 @@
 @section('content')
     <!--================ Header Area =================-->
     @if ($errors->any())
-        <div class="popup-wrapper-error" id="errorPopup">
-            <div class="popup-content-error alert alert-errors">
+        <div class="popup-wrapper">
+            <div class="popup-content alert alert-errors">
                 <p style="font-size: 36px;">🚨</p>
-                <p style="color: black; font-size: 16px;"> Gagal mengirim pesan, coba lagi!</p>
-                <button class="close-btn-error" onclick="closePopupError()">×</button>
+                <p style="color: red; font-size: 14px;">Periksa kembali input Anda, kemudian coba lagi!</p>
+                <button class="close_btn" onclick="closePopup()">Tutup</button>
             </div>
         </div>
     @endif
@@ -171,7 +171,7 @@
                             <div id="collapseFive" class="accordion-collapse collapse"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <strong>Kirimkan email aktif Anda dibagian footer website ini.</strong> Jadilah
+                                    <strong>Kirimkan email aktif Anda di bagian footer website ini.</strong> Jadilah
                                     orang pertama yang mengetahui berita terbaru tentang Dinas Kesehatan Kota Tegal.
                                 </div>
                             </div>
@@ -179,7 +179,7 @@
                     </div>
                 </div>
                 <div class="col-md-6" style="padding-inline:32px;">
-                    <h3 class="title_color">Tidak menemukan jawabannya?</h3>
+                    <h3 class="title_color">Buat Pertanyaan atau Saran dan Kritik</h3>
                     <p style="color:black;" class="mb-4"><strong>Hubungi kami :</strong></p>
                     <div class="contact_info">
                         <div class="info_item">
@@ -204,7 +204,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" name="name" placeholder="Masukkan Nama"
+                                    id="name" name="name" placeholder="Masukkan Nama Anda"
                                     value="{{ old('name') }}" required>
                                 @error('name')
                                     <small class="text-danger">{{ $message }}</small>
@@ -212,7 +212,7 @@
                             </div>
                             <div class="form-group">
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email" placeholder="Masukkan Email"
+                                    id="email" name="email" placeholder="Masukkan Email Anda"
                                     value="{{ old('email') }}" required>
                                 @error('email')
                                     <small class="text-danger">{{ $message }}</small>
