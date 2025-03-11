@@ -1515,7 +1515,7 @@
             },
             "conflict": {
                 "illuminate/console": ">=10.17.0 <10.25.0",
-                "laravel/framework": ">=10.17.0 <10.25.0"
+                "laravel/framework": "11.44.1"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
